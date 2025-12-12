@@ -29,7 +29,24 @@ interface SidebarProps {
     handleDrawerToggle: () => void;
 }
 
+const SummaryIcon = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <path d="M12 12L2 22h20L12 12z" />
+    </svg>
+);
+
 const MENU_ITEMS = [
+    { text: 'Summary', icon: <SummaryIcon />, path: '/summary' },
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
     { text: 'Career Plan', icon: <CareerIcon />, path: '/career-plan' },
     { text: 'L&D Plan', icon: <LdIcon />, path: '/ld-plan' },
