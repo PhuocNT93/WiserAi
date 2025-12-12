@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  MEMBER
+  MANAGER
+  HR
+  ADMIN
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  roles     Role[]   @default([MEMBER])
+  
+  skills    UserSkill[]
+  refreshTokens RefreshToken[]
+  courses   Course[] // If users can create courses, or relation logic
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique 
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  revoked   Boolean  @default(false)
+  expiresAt DateTime
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("refresh_tokens")
+}
+
+model UserSkill {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  skillName   String
+  experience  String?  
+  level       String?  
+  careerGoal  String?  
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("user_skills")
+}
+
+model ConfigData {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  value       String   
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("config_data")
+}
+
+model Course {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  category    String?
+  imageUrl    String?
+  authorId    Int?
+  author      User?    @relation(fields: [authorId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("courses")
+}
+
+model MasterData {
+  id          Int      @id @default(autoincrement())
+  category    String   // e.g., "SKILL_CATEGORY", "DEPARTMENT"
+  code        String   @unique
+  name        String
+  value       String?
+  description String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("master_data")
+}

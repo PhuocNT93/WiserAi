@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  wiser-ai-be:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/wiser_ai?schema=public
+      - JWT_SECRET=super-secret-key
+      - JWT_REFRESH_SECRET=super-secret-refresh-key
+    depends_on:
+      - postgres
+    networks:
+      - wiser-network
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: wiser_ai
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - wiser-network
+
+networks:
+  wiser-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
