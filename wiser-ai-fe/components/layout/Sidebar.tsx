@@ -1,0 +1,143 @@
+'use client';
+
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import CareerIcon from '@mui/icons-material/TrendingUp';
+import LdIcon from '@mui/icons-material/School';
+import RewardIcon from '@mui/icons-material/EmojiEvents';
+import ComingSoonIcon from '@mui/icons-material/HourglassEmpty';
+import MasterDataIcon from '@mui/icons-material/Storage';
+import UserIcon from '@mui/icons-material/People';
+import CreateCourseIcon from '@mui/icons-material/AddCircle';
+import { useRouter, usePathname } from 'next/navigation';
+
+const drawerWidth = 240;
+
+interface SidebarProps {
+    mobileOpen: boolean;
+    handleDrawerToggle: () => void;
+}
+
+const MENU_ITEMS = [
+    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
+    { text: 'Career Plan', icon: <CareerIcon />, path: '/career-plan' },
+    { text: 'L&D Plan', icon: <LdIcon />, path: '/ld-plan' },
+    { text: 'Reward Hub', icon: <RewardIcon />, path: '/reward-hub' },
+    { text: 'Coming Soon', icon: <ComingSoonIcon />, path: '/coming-soon' },
+];
+
+const ADMIN_ITEMS = [
+    { text: 'Create Course', icon: <CreateCourseIcon />, path: '/admin/courses' },
+    { text: 'Master Data', icon: <MasterDataIcon />, path: '/admin/master-data' },
+    { text: 'User Management', icon: <UserIcon />, path: '/admin/users' },
+];
+
+export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps) {
+    const router = useRouter();
+    const pathname = usePathname();
+
+    // Mock checking for admin role (should come from auth context)
+    const isAdmin = true;
+
+    const handleNavigation = (path: string) => {
+        router.push(path);
+        // Close drawer on mobile after navigation
+        if (mobileOpen) {
+            handleDrawerToggle();
+        }
+    };
+
+    const drawerContent = (
+        <div>
+            <Toolbar>
+                <Typography variant="h6" noWrap component="div">
+                    WiserAi
+                </Typography>
+            </Toolbar>
+            <Divider />
+            <List>
+                {MENU_ITEMS.map((item) => (
+                    <ListItem key={item.text} disablePadding>
+                        <ListItemButton
+                            selected={pathname === item.path}
+                            onClick={() => handleNavigation(item.path)}
+                        >
+                            <ListItemIcon>
+                                {item.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={item.text} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+            {isAdmin && (
+                <>
+                    <Divider />
+                    <List>
+                        <ListItem>
+                            <ListItemText primary="Admin" primaryTypographyProps={{ style: { fontWeight: 'bold' } }} />
+                        </ListItem>
+                        {ADMIN_ITEMS.map((item) => (
+                            <ListItem key={item.text} disablePadding>
+                                <ListItemButton
+                                    selected={pathname === item.path}
+                                    onClick={() => handleNavigation(item.path)}
+                                >
+                                    <ListItemIcon>
+                                        {item.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={item.text} />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                    </List>
+                </>
+            )}
+        </div>
+    );
+
+    return (
+        <Box
+            component="nav"
+            sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+            aria-label="mailbox folders"
+        >
+            {/* Mobile Drawer */}
+            <Drawer
+                variant="temporary"
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                ModalProps={{
+                    keepMounted: true, // Better open performance on mobile.
+                }}
+                sx={{
+                    display: { xs: 'block', sm: 'none' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                }}
+            >
+                {drawerContent}
+            </Drawer>
+            {/* Desktop Drawer */}
+            <Drawer
+                variant="permanent"
+                sx={{
+                    display: { xs: 'none', sm: 'block' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                }}
+                open
+            >
+                {drawerContent}
+            </Drawer>
+        </Box>
+    );
+}
