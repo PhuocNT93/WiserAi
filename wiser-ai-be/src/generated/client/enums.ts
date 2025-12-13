@@ -19,6 +19,15 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const Position = {
+  DEV: 'DEV',
+  QC: 'QC',
+  BA: 'BA'
+} as const
+
+export type Position = (typeof Position)[keyof typeof Position]
+
+
 export const UserLevel = {
   FRESHER: 'FRESHER',
   JUNIOR: 'JUNIOR',
