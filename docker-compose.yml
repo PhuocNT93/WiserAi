@@ -8,7 +8,6 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - PORT=3000
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/wiser_ai?schema=public
       - JWT_SECRET=super-secret-key
       - JWT_REFRESH_SECRET=super-secret-refresh-key
