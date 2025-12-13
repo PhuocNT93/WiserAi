@@ -3,27 +3,27 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '../generated/client/client';
 
 @Injectable()
-export class MasterDataService {
+export class RoleSkillMappingService {
     constructor(private prisma: PrismaService) { }
 
-    async create(data: Prisma.MasterDataCreateInput) {
-        return this.prisma.masterData.create({ data });
+    async create(data: Prisma.RoleSkillMappingCreateInput) {
+        return this.prisma.roleSkillMapping.create({ data });
     }
 
     async findAll() {
-        return this.prisma.masterData.findMany();
+        return this.prisma.roleSkillMapping.findMany();
     }
 
     async findOne(id: number) {
-        return this.prisma.masterData.findUnique({ where: { id } });
+        return this.prisma.roleSkillMapping.findUnique({ where: { id } });
     }
 
-    async update(id: number, data: Prisma.MasterDataUpdateInput) {
-        return this.prisma.masterData.update({ where: { id }, data });
+    async update(id: number, data: Prisma.RoleSkillMappingUpdateInput) {
+        return this.prisma.roleSkillMapping.update({ where: { id }, data });
     }
 
     async remove(id: number) {
-        return this.prisma.masterData.delete({ where: { id } });
+        return this.prisma.roleSkillMapping.delete({ where: { id } });
     }
 
     async importFromExcel(file: any) {

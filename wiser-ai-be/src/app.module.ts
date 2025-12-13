@@ -5,7 +5,8 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserSkillsModule } from './user-skills/user-skills.module';
 import { ConfigDataModule } from './config-data/config-data.module';
-import { MasterDataModule } from './master-data/master-data.module';
+import { RoleMappingModule } from './role-skill-mapping/role-skill-mapping.module';
+import { EmployeeProfileModule } from './employee-profile/employee-profile.module';
 import { CareerPlanModule } from './career-plan/career-plan.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
@@ -21,10 +22,11 @@ import { join } from 'path';
     }),
     PrismaModule,
     AuthModule,
-    UsersModule,
+    PrismaModule,
     UserSkillsModule,
     ConfigDataModule,
-    MasterDataModule,
+    RoleMappingModule,
+    EmployeeProfileModule,
     CareerPlanModule,
     UsersModule,
   ],

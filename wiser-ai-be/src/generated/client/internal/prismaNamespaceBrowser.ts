@@ -56,7 +56,8 @@ export const ModelName = {
   UserSkill: 'UserSkill',
   ConfigData: 'ConfigData',
   Course: 'Course',
-  MasterData: 'MasterData',
+  RoleSkillMapping: 'RoleSkillMapping',
+  EmployeeProfile: 'EmployeeProfile',
   CareerPlan: 'CareerPlan'
 } as const
 
@@ -144,18 +145,32 @@ export const CourseScalarFieldEnum = {
 export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
 
 
-export const MasterDataScalarFieldEnum = {
+export const RoleSkillMappingScalarFieldEnum = {
   id: 'id',
-  category: 'category',
+  position: 'position',
   code: 'code',
   name: 'name',
-  value: 'value',
+  level: 'level',
   description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type MasterDataScalarFieldEnum = (typeof MasterDataScalarFieldEnum)[keyof typeof MasterDataScalarFieldEnum]
+export type RoleSkillMappingScalarFieldEnum = (typeof RoleSkillMappingScalarFieldEnum)[keyof typeof RoleSkillMappingScalarFieldEnum]
+
+
+export const EmployeeProfileScalarFieldEnum = {
+  id: 'id',
+  userEmail: 'userEmail',
+  engName: 'engName',
+  empCode: 'empCode',
+  busUnit: 'busUnit',
+  jobTitle: 'jobTitle',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EmployeeProfileScalarFieldEnum = (typeof EmployeeProfileScalarFieldEnum)[keyof typeof EmployeeProfileScalarFieldEnum]
 
 
 export const CareerPlanScalarFieldEnum = {

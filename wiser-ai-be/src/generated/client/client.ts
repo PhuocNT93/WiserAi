@@ -63,10 +63,15 @@ export type ConfigData = Prisma.ConfigDataModel
  */
 export type Course = Prisma.CourseModel
 /**
- * Model MasterData
+ * Model RoleSkillMapping
  * 
  */
-export type MasterData = Prisma.MasterDataModel
+export type RoleSkillMapping = Prisma.RoleSkillMappingModel
+/**
+ * Model EmployeeProfile
+ * 
+ */
+export type EmployeeProfile = Prisma.EmployeeProfileModel
 /**
  * Model CareerPlan
  * 
