@@ -20,11 +20,13 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { getUserSkills, createUserSkill, updateUserSkill, deleteUserSkill } from '../../lib/api/userSkills';
 
 interface SkillData {
-    id: string;
+    id: number;
     name: string;
     level: number;
 }
@@ -39,38 +41,31 @@ interface ProfileData {
     manager: string;
 }
 
-// Mock available skills
-const AVAILABLE_SKILLS: SkillData[] = [
-    { id: '1', name: 'Communication', level: 70 },
-    { id: '2', name: 'Strategic Planning', level: 70 },
-    { id: '3', name: 'Employee Relations', level: 70 },
-    { id: '4', name: 'Data Analysis', level: 70 },
-    { id: '5', name: 'Leadership', level: 65 },
-    { id: '6', name: 'Project Management', level: 60 },
-    { id: '7', name: 'Problem Solving', level: 75 },
-    { id: '8', name: 'Time Management', level: 80 },
-    { id: '9', name: 'Teamwork', level: 85 },
-    { id: '10', name: 'Adaptability', level: 55 },
-    { id: '11', name: 'Creativity', level: 50 },
-    { id: '12', name: 'Critical Thinking', level: 68 }
-];
-
 export default function SummaryPage() {
     // All user's skills
-    const [allSkills, setAllSkills] = React.useState<SkillData[]>(AVAILABLE_SKILLS);
+    const [allSkills, setAllSkills] = React.useState<SkillData[]>([]);
+    const [loading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState<string | null>(null);
 
     // Pinned skills (top 4, set on load/refresh)
-    const [pinnedSkillIds, setPinnedSkillIds] = React.useState<string[]>([]);
+    const [pinnedSkillIds, setPinnedSkillIds] = React.useState<number[]>([]);
 
     const [mySkillsOpen, setMySkillsOpen] = React.useState(false);
     const [newSkillName, setNewSkillName] = React.useState('');
     const [newSkillLevel, setNewSkillLevel] = React.useState(50);
-    const [editingSkillId, setEditingSkillId] = React.useState<string | null>(null);
-    const [tempSkillLevels, setTempSkillLevels] = React.useState<Record<string, number>>({});
+    const [editingSkillId, setEditingSkillId] = React.useState<number | null>(null);
+    const [tempSkillLevels, setTempSkillLevels] = React.useState<Record<number, number>>({});
 
     // Toast notification state
     const [toastOpen, setToastOpen] = React.useState(false);
     const [toastMessage, setToastMessage] = React.useState('');
+
+    // Delete confirmation state
+    const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
+    const [skillToDelete, setSkillToDelete] = React.useState<number | null>(null);
+
+    // Debounce timer for auto-save
+    const saveTimerRef = React.useRef<Record<number, NodeJS.Timeout>>({});
 
     const profileData: ProfileData = {
         fullName: 'Logan McNeil',
@@ -82,14 +77,48 @@ export default function SummaryPage() {
         manager: 'Joy Song'
     };
 
-    // Initialize pinned skills on mount (top 4 by level)
+    // Load skills from API on mount
     React.useEffect(() => {
-        const top4Ids = [...allSkills]
-            .sort((a, b) => b.level - a.level)
-            .slice(0, 4)
-            .map(s => s.id);
-        setPinnedSkillIds(top4Ids);
-    }, []); // Only run once on mount
+        loadSkills();
+
+        // Cleanup function to clear all timers on unmount
+        return () => {
+            Object.values(saveTimerRef.current).forEach(timer => clearTimeout(timer));
+        };
+    }, []);
+
+    // Initialize pinned skills only on first load
+    React.useEffect(() => {
+        if (allSkills.length > 0 && pinnedSkillIds.length === 0) {
+            const top4Ids = [...allSkills]
+                .sort((a, b) => b.level - a.level)
+                .slice(0, 4)
+                .map(s => s.id);
+            setPinnedSkillIds(top4Ids);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [allSkills.length]);
+
+    const loadSkills = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const skills = await getUserSkills();
+            // Map backend UserSkill to frontend SkillData
+            const mappedSkills: SkillData[] = skills.map(skill => ({
+                id: skill.id,
+                name: skill.skillName,
+                level: skill.level ? parseInt(skill.level) : 50
+            }));
+            setAllSkills(mappedSkills);
+        } catch (err) {
+            console.error('Failed to load skills:', err);
+            setError('Failed to load skills. Please try again.');
+            showToast('Failed to load skills', 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // Get pinned skills to display
     const displayedSkills = React.useMemo(() => {
@@ -121,8 +150,11 @@ export default function SummaryPage() {
         };
     }, [allSkills]);
 
-    const showToast = (message: string) => {
+    const [toastSeverity, setToastSeverity] = React.useState<'success' | 'error'>('success');
+
+    const showToast = (message: string, severity: 'success' | 'error' = 'success') => {
         setToastMessage(message);
+        setToastSeverity(severity);
         setToastOpen(true);
     };
 
@@ -130,12 +162,39 @@ export default function SummaryPage() {
         setToastOpen(false);
     };
 
-    const handleSkillChange = (id: string, newValue: number | number[]) => {
+    const handleSkillChange = async (id: number, newValue: number | number[]) => {
+        const newLevel = newValue as number;
+        const skill = allSkills.find(s => s.id === id);
+
+        // Optimistically update UI immediately
         setAllSkills(prevSkills =>
             prevSkills.map(skill =>
-                skill.id === id ? { ...skill, level: newValue as number } : skill
+                skill.id === id ? { ...skill, level: newLevel } : skill
             )
         );
+
+        // Clear any existing timer for this skill
+        if (saveTimerRef.current[id]) {
+            clearTimeout(saveTimerRef.current[id]);
+        }
+
+        // Set new timer to auto-save after 1.5 seconds
+        saveTimerRef.current[id] = setTimeout(async () => {
+            try {
+                await updateUserSkill(id, { level: `${newLevel}` });
+                if (skill) {
+                    showToast(`"${skill.name}" updated to ${newLevel}%!`, 'success');
+                }
+            } catch (err) {
+                console.error('Failed to update skill level:', err);
+                showToast('Failed to update skill level', 'error');
+                // Reload skills to ensure consistency
+                loadSkills();
+            } finally {
+                // Clean up the timer reference
+                delete saveTimerRef.current[id];
+            }
+        }, 1500); // 1.5 seconds debounce
     };
 
     const handlePinExistingSkill = (skillToPin: SkillData) => {
@@ -150,66 +209,94 @@ export default function SummaryPage() {
         setMySkillsOpen(false);
     };
 
-    const handleCreateAndPinNewSkill = () => {
+    const handleCreateAndPinNewSkill = async () => {
         if (!newSkillName.trim()) {
             alert('Please enter a skill name');
             return;
         }
 
-        // Create new skill
-        const newSkill: SkillData = {
-            id: Date.now().toString(),
-            name: newSkillName.trim(),
-            level: newSkillLevel
-        };
+        try {
+            const createdSkill = await createUserSkill({
+                skillName: newSkillName.trim(),
+                level: `${newSkillLevel}`
+            });
 
-        // Add to all skills
-        setAllSkills(prev => [...prev, newSkill]);
+            // Add to all skills
+            const newSkill: SkillData = {
+                id: createdSkill.id,
+                name: createdSkill.skillName,
+                level: createdSkill.level ? parseInt(createdSkill.level) : newSkillLevel
+            };
+            setAllSkills(prev => [...prev, newSkill]);
 
-        // Reset form but keep modal open
-        setNewSkillName('');
-        setNewSkillLevel(50);
+            // Reset form but keep modal open
+            setNewSkillName('');
+            setNewSkillLevel(50);
 
-        showToast(`Skill "${newSkill.name}" created successfully!`);
-    };
-
-    const handleUnpinSkill = (id: string) => {
-        if (pinnedSkillIds.length > 1) {
-            const skill = allSkills.find(s => s.id === id);
-            setPinnedSkillIds(prev => prev.filter(skillId => skillId !== id));
-            if (skill) {
-                showToast(`"${skill.name}" unpinned successfully!`);
-            }
+            showToast(`Skill "${newSkill.name}" created successfully!`);
+        } catch (err) {
+            console.error('Failed to create skill:', err);
+            showToast('Failed to create skill. Please try again.', 'error');
         }
     };
 
-    const handleDeleteSkill = (id: string) => {
+    const handleUnpinSkill = (id: number) => {
         const skill = allSkills.find(s => s.id === id);
-        // Remove from all skills
-        setAllSkills(prev => prev.filter(skill => skill.id !== id));
-        // Remove from pinned
         setPinnedSkillIds(prev => prev.filter(skillId => skillId !== id));
         if (skill) {
-            showToast(`Skill "${skill.name}" deleted successfully!`);
+            showToast(`"${skill.name}" unpinned successfully!`);
         }
     };
 
-    const handleStartEditSkill = (skillId: string, currentLevel: number) => {
+    const handleDeleteSkill = (id: number) => {
+        setSkillToDelete(id);
+        setDeleteConfirmOpen(true);
+    };
+
+    const confirmDeleteSkill = async () => {
+        if (skillToDelete === null) return;
+
+        const skill = allSkills.find(s => s.id === skillToDelete);
+        try {
+            await deleteUserSkill(skillToDelete);
+            // Remove from all skills
+            setAllSkills(prev => prev.filter(skill => skill.id !== skillToDelete));
+            // Remove from pinned
+            setPinnedSkillIds(prev => prev.filter(skillId => skillId !== skillToDelete));
+            if (skill) {
+                showToast(`Skill "${skill.name}" deleted successfully!`);
+            }
+        } catch (err) {
+            console.error('Failed to delete skill:', err);
+            showToast('Failed to delete skill. Please try again.', 'error');
+        } finally {
+            setDeleteConfirmOpen(false);
+            setSkillToDelete(null);
+        }
+    };
+
+    const handleStartEditSkill = (skillId: number, currentLevel: number) => {
         setEditingSkillId(skillId);
         setTempSkillLevels(prev => ({ ...prev, [skillId]: currentLevel }));
     };
 
-    const handleSaveEditSkill = (skillId: string) => {
+    const handleSaveEditSkill = async (skillId: number) => {
         const newLevel = tempSkillLevels[skillId];
         const skill = allSkills.find(s => s.id === skillId);
         if (newLevel !== undefined) {
-            setAllSkills(prevSkills =>
-                prevSkills.map(skill =>
-                    skill.id === skillId ? { ...skill, level: newLevel } : skill
-                )
-            );
-            if (skill) {
-                showToast(`"${skill.name}" updated to ${newLevel}%!`);
+            try {
+                await updateUserSkill(skillId, { level: `${newLevel}` });
+                setAllSkills(prevSkills =>
+                    prevSkills.map(skill =>
+                        skill.id === skillId ? { ...skill, level: newLevel } : skill
+                    )
+                );
+                if (skill) {
+                    showToast(`"${skill.name}" updated to ${newLevel}%!`);
+                }
+            } catch (err) {
+                console.error('Failed to update skill:', err);
+                showToast('Failed to update skill. Please try again.', 'error');
             }
         }
         setEditingSkillId(null);
@@ -219,9 +306,30 @@ export default function SummaryPage() {
         setEditingSkillId(null);
     };
 
-    const handleTempLevelChange = (skillId: string, newValue: number | number[]) => {
+    const handleTempLevelChange = (skillId: number, newValue: number | number[]) => {
         setTempSkillLevels(prev => ({ ...prev, [skillId]: newValue as number }));
     };
+
+    if (loading) {
+        return (
+            <Box sx={{ width: '100%', p: { xs: 2, sm: 3, md: 4 }, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    if (error && allSkills.length === 0) {
+        return (
+            <Box sx={{ width: '100%', p: { xs: 2, sm: 3, md: 4 } }}>
+                <Alert severity="error" sx={{ mb: 2 }}>
+                    {error}
+                </Alert>
+                <Button variant="contained" onClick={loadSkills}>
+                    Retry
+                </Button>
+            </Box>
+        );
+    }
 
     return (
         <Box sx={{ width: '100%', p: { xs: 2, sm: 3, md: 4 } }}>
@@ -356,7 +464,6 @@ export default function SummaryPage() {
                                                 size="small"
                                                 color="error"
                                                 onClick={() => handleUnpinSkill(skill.id)}
-                                                disabled={pinnedSkillIds.length <= 1}
                                                 title="Unpin from top 4"
                                             >
                                                 <DeleteIcon fontSize="small" />
@@ -652,6 +759,27 @@ export default function SummaryPage() {
                 </DialogActions>
             </Dialog>
 
+            {/* Delete Confirmation Dialog */}
+            <Dialog
+                open={deleteConfirmOpen}
+                onClose={() => setDeleteConfirmOpen(false)}
+            >
+                <DialogTitle>Confirm Delete</DialogTitle>
+                <DialogContent>
+                    <Typography>
+                        Are you sure you want to delete this skill? This action cannot be undone.
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDeleteConfirmOpen(false)}>
+                        Cancel
+                    </Button>
+                    <Button onClick={confirmDeleteSkill} color="error" variant="contained">
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
             {/* Toast Notification */}
             <Snackbar
                 open={toastOpen}
@@ -659,7 +787,7 @@ export default function SummaryPage() {
                 onClose={handleCloseToast}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-                <Alert onClose={handleCloseToast} severity="success" sx={{ width: '100%' }}>
+                <Alert onClose={handleCloseToast} severity={toastSeverity} sx={{ width: '100%' }}>
                     {toastMessage}
                 </Alert>
             </Snackbar>

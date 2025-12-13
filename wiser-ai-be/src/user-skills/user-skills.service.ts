@@ -43,4 +43,18 @@ export class UserSkillsService {
       data: dto,
     });
   }
+
+  async delete(userId: number, skillId: number) {
+    // Ensure skill belongs to user or user is admin (logic handled in controller or here)
+    // For simplicity, we check ownership here unless we want admins to edit too.
+    // Let's assume user edits their own.
+    const skill = await this.prisma.userSkill.findUnique({ where: { id: skillId } });
+    if (!skill || skill.userId !== userId) {
+      throw new NotFoundException('Skill not found or access denied');
+    }
+
+    return this.prisma.userSkill.delete({
+      where: { id: skillId },
+    });
+  }
 }

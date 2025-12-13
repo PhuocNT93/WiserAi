@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { UserSkillsService } from './user-skills.service';
 import { CreateUserSkillDto } from './dto/create-user-skill.dto';
 import { UpdateUserSkillDto } from './dto/update-user-skill.dto';
@@ -35,6 +35,13 @@ export class UserSkillsController {
   update(@Req() req: Request, @Param('id') id: string, @Body() updateUserSkillDto: UpdateUserSkillDto) {
     const user = req.user as any;
     return this.userSkillsService.update(user.sub, +id, updateUserSkillDto);
+  }
+
+  @ApiOperation({ summary: 'Delete a skill' })
+  @Delete(':id')
+  delete(@Req() req: Request, @Param('id') id: string) {
+    const user = req.user as any;
+    return this.userSkillsService.delete(user.sub, +id);
   }
 
   @ApiOperation({ summary: 'Get all skills (HR/Manager)' })
