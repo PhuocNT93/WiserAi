@@ -32,11 +32,11 @@ export class EmployeeProfileService {
     }
 
     async update(id: number, data: Prisma.EmployeeProfileUpdateInput) {
-        return this.prisma.roleSkillMapping.update({ where: { id }, data });
+        return this.prisma.employeeProfile.update({ where: { id }, data });
     }
 
     async remove(id: number) {
-        return this.prisma.roleSkillMapping.delete({ where: { id } });
+        return this.prisma.employeeProfile.delete({ where: { id } });
     }
 
     async importFromExcel(file: any) {
