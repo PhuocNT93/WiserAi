@@ -52,3 +52,8 @@ export type RoleSkillMapping = Prisma.RoleSkillMappingModel
  * 
  */
 export type EmployeeProfile = Prisma.EmployeeProfileModel
+/**
+ * Model CareerPlan
+ * 
+ */
+export type CareerPlan = Prisma.CareerPlanModel

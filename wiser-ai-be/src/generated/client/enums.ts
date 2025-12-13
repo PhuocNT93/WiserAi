@@ -28,11 +28,29 @@ export const Position = {
 export type Position = (typeof Position)[keyof typeof Position]
 
 
-export const Level = {
-  Fresher: 'Fresher',
-  Junior: 'Junior',
-  Senior: 'Senior',
-  Master: 'Master'
+export const UserLevel = {
+  FRESHER: 'FRESHER',
+  JUNIOR: 'JUNIOR',
+  SENIOR: 'SENIOR',
+  PRINCIPAL: 'PRINCIPAL'
 } as const
 
-export type Level = (typeof Level)[keyof typeof Level]
+export type UserLevel = (typeof UserLevel)[keyof typeof UserLevel]
+
+
+export const ReviewPeriod = {
+  SIX_MONTHS: 'SIX_MONTHS',
+  TWELVE_MONTHS: 'TWELVE_MONTHS'
+} as const
+
+export type ReviewPeriod = (typeof ReviewPeriod)[keyof typeof ReviewPeriod]
+
+
+export const GrowthMapStatus = {
+  DRAFT: 'DRAFT',
+  SUBMITTED: 'SUBMITTED',
+  BACK_TO_SUBMIT: 'BACK_TO_SUBMIT',
+  SUCCESS: 'SUCCESS'
+} as const
+
+export type GrowthMapStatus = (typeof GrowthMapStatus)[keyof typeof GrowthMapStatus]

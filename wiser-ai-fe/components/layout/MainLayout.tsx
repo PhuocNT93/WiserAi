@@ -6,7 +6,12 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import Sidebar from './Sidebar';
 import { useIsMobile } from '@/hooks/useResponsive';
 import Avatar from '@mui/material/Avatar';
@@ -24,6 +29,8 @@ const drawerWidth = 240;
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [logoutDialogOpen, setLogoutDialogOpen] = React.useState(false);
     const isMobile = useIsMobile();
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const [anchorElLang, setAnchorElLang] = React.useState<null | HTMLElement>(null);
@@ -32,6 +39,34 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
+    };
+
+    const handleUserMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleUserMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleLogoutClick = () => {
+        handleUserMenuClose();
+        setLogoutDialogOpen(true);
+    };
+
+    const handleLogoutConfirm = () => {
+        // Implement actual logout logic here
+        // For now, just show a message and redirect
+        console.log('User logged out');
+        setLogoutDialogOpen(false);
+
+        // You can add navigation to login page here
+        // window.location.href = '/login';
+        alert('Logged out successfully!');
+    };
+
+    const handleLogoutCancel = () => {
+        setLogoutDialogOpen(false);
     };
 
     // Close drawer when switching from mobile to desktop
@@ -173,7 +208,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                             </Box>
                         </>
                     ) : (
-                        <Button color="inherit" onClick={() => router.push('/login')}>Login</Button>
+                        <Button color="inherit" onClick={() => router.push('/')}>Login</Button>
                     )}
                 </Toolbar>
             </AppBar>
@@ -192,6 +227,28 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 {/* <Toolbar /> removed inside because we use explicit margin or padding */}
                 {children}
             </Box>
+
+            {/* Logout Confirmation Dialog */}
+            <Dialog
+                open={logoutDialogOpen}
+                onClose={handleLogoutCancel}
+                aria-labelledby="logout-dialog-title"
+            >
+                <DialogTitle id="logout-dialog-title">Confirm Logout</DialogTitle>
+                <DialogContent>
+                    <Typography>
+                        Are you sure you want to logout?
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleLogoutCancel} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleLogoutConfirm} color="primary" variant="contained">
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 }

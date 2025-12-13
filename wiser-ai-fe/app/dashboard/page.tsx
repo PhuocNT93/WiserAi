@@ -12,7 +12,11 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
+import { useTranslations } from 'next-intl';
+
 export default function DashboardPage() {
+    const t = useTranslations('Dashboard');
+
     return (
         <Box>
             {/* Header Section */}
@@ -33,21 +37,21 @@ export default function DashboardPage() {
                 <Grid size={{ xs: 12, md: 3 }}>
                     <Card sx={{ mb: 2 }}>
                         <CardContent>
-                            <Typography variant="h6" gutterBottom>Summary</Typography>
-                            <Button fullWidth variant="outlined" sx={{ mb: 1 }}>Job Details</Button>
-                            <Button fullWidth variant="outlined" sx={{ mb: 1 }}>Personal Info</Button>
-                            <Button fullWidth variant="outlined">Contact</Button>
+                            <Typography variant="h6" gutterBottom>{t('summary')}</Typography>
+                            <Button fullWidth variant="outlined" sx={{ mb: 1 }}>{t('jobDetails')}</Button>
+                            <Button fullWidth variant="outlined" sx={{ mb: 1 }}>{t('personalInfo')}</Button>
+                            <Button fullWidth variant="outlined">{t('contact')}</Button>
                         </CardContent>
                     </Card>
 
                     <Card>
                         <CardContent>
-                            <Typography variant="h6" gutterBottom>Manager</Typography>
+                            <Typography variant="h6" gutterBottom>{t('manager')}</Typography>
                             <Box display="flex" alignItems="center" gap={2}>
                                 <Avatar>JS</Avatar>
                                 <Box>
                                     <Typography variant="body1">Joy Song</Typography>
-                                    <Typography variant="caption">Manager</Typography>
+                                    <Typography variant="caption">{t('manager')}</Typography>
                                 </Box>
                             </Box>
                         </CardContent>
@@ -60,22 +64,22 @@ export default function DashboardPage() {
                         <Grid size={{ xs: 12, md: 6 }}>
                             <Card>
                                 <CardContent>
-                                    <Typography variant="h6" gutterBottom>Job Details</Typography>
+                                    <Typography variant="h6" gutterBottom>{t('jobDetails')}</Typography>
                                     <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
                                         <Box>
-                                            <Typography variant="caption" color="text.secondary">Employee ID</Typography>
+                                            <Typography variant="caption" color="text.secondary">{t('employeeId')}</Typography>
                                             <Typography>21557</Typography>
                                         </Box>
                                         <Box>
-                                            <Typography variant="caption" color="text.secondary">Position</Typography>
+                                            <Typography variant="caption" color="text.secondary">{t('position')}</Typography>
                                             <Typography>Human Resources Service Partner</Typography>
                                         </Box>
                                         <Box>
-                                            <Typography variant="caption" color="text.secondary">Time Type</Typography>
+                                            <Typography variant="caption" color="text.secondary">{t('timeType')}</Typography>
                                             <Typography>Full time</Typography>
                                         </Box>
                                         <Box>
-                                            <Typography variant="caption" color="text.secondary">Location</Typography>
+                                            <Typography variant="caption" color="text.secondary">{t('location')}</Typography>
                                             <Typography>Chicago (Logan McNeil)</Typography>
                                         </Box>
                                     </Box>
@@ -86,9 +90,9 @@ export default function DashboardPage() {
                         <Grid size={{ xs: 12, md: 6 }}>
                             <Card>
                                 <CardContent>
-                                    <Typography variant="h6" gutterBottom>Statements</Typography>
+                                    <Typography variant="h6" gutterBottom>{t('statements')}</Typography>
                                     <Typography variant="body2" color="text.secondary">
-                                        No current statements available.
+                                        {t('noStatements')}
                                     </Typography>
                                 </CardContent>
                             </Card>
@@ -98,7 +102,7 @@ export default function DashboardPage() {
                         <Grid size={{ xs: 12 }}>
                             <Card>
                                 <CardContent>
-                                    <Typography variant="h6" gutterBottom>Job History</Typography>
+                                    <Typography variant="h6" gutterBottom>{t('jobHistory')}</Typography>
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                                         <Box>
                                             <Typography variant="subtitle2">Human Resources Service Partner</Typography>

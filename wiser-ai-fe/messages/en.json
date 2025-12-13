@@ -1,5 +1,6 @@
 {
   "Common": {
+    "summary": "Summary",
     "dashboard": "Dashboard",
     "careerPlan": "Career Plan",
     "ldPlan": "L&D Plan",
@@ -26,6 +27,79 @@
     "register": "Register",
     "sendResetLink": "Send Reset Link",
     "backToLogin": "Back to Login",
-    "resetPasswordTitle": "Reset Password"
+    "resetPasswordTitle": "Reset Password",
+    "rememberMe": "Remember me"
+  },
+  "Dashboard": {
+    "summary": "Summary",
+    "jobDetails": "Job Details",
+    "personalInfo": "Personal Info",
+    "contact": "Contact",
+    "manager": "Manager",
+    "statements": "Statements",
+    "jobHistory": "Job History",
+    "employeeId": "Employee ID",
+    "position": "Position",
+    "timeType": "Time Type",
+    "location": "Location",
+    "noStatements": "No current statements available."
+  },
+  "Profile": {
+    "myProfile": "My Profile",
+    "email": "Email",
+    "fullName": "Full Name",
+    "saveChanges": "Save Changes",
+    "emailHelper": "Email cannot be changed",
+    "successUpdate": "Profile updated successfully",
+    "errorUpdate": "Failed to update profile"
+  },
+  "CareerPlan": {
+    "steps": {
+      "reviewPeriod": "Review Period",
+      "objectives": "Objectives",
+      "achievements": "Achievements",
+      "improvements": "Improvements",
+      "expectations": "Expectations",
+      "review": "Review"
+    },
+    "form": {
+      "selectCareerGoal": "Select Carrer Goal",
+      "selectReviewPeriod": "Select Review Period",
+      "sixMonths": "6 Months",
+      "twelveMonths": "12 Months",
+      "objectives": "Objectives",
+      "enterObjectives": "Enter your objectives...",
+      "achievements": "Achievements",
+      "describeAchievements": "Describe your achievements...",
+      "certificates": "Certificates",
+      "uploadCertificate": "Upload Certificate",
+      "uploaded": "Uploaded",
+      "improvements": "Improvements",
+      "areasForImprovement": "Areas for improvement...",
+      "expectations": "Expectations",
+      "yourExpectations": "Your expectations...",
+      "reviewAndGenerate": "Review & Generate",
+      "reviewPeriodLabel": "Review Period",
+      "objectivesLabel": "Objectives",
+      "achievementsLabel": "Achievements",
+      "certificatesLabel": "Certificates",
+      "improvementsLabel": "Areas for Improvement",
+      "expectationsLabel": "Expectations",
+      "noCertificates": "No certificates uploaded"
+    },
+    "buttons": {
+      "next": "Next",
+      "back": "Back",
+      "generate": "Generate",
+      "submit": "Submit to Manager"
+    },
+    "result": {
+      "title": "Your Growth Map Plan",
+      "careerGoal": "Career Goal",
+      "currentCompetencies": "Current Competencies",
+      "focusAreas": "Focus Areas",
+      "actionPlan": "Action Plan",
+      "supportNeeded": "Support Needed"
+    }
   }
 }

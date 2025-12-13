@@ -57,7 +57,8 @@ export const ModelName = {
   ConfigData: 'ConfigData',
   Course: 'Course',
   RoleSkillMapping: 'RoleSkillMapping',
-  EmployeeProfile: 'EmployeeProfile'
+  EmployeeProfile: 'EmployeeProfile',
+  CareerPlan: 'CareerPlan'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -170,12 +171,48 @@ export const EmployeeProfileScalarFieldEnum = {
 export type EmployeeProfileScalarFieldEnum = (typeof EmployeeProfileScalarFieldEnum)[keyof typeof EmployeeProfileScalarFieldEnum]
 
 
+export const CareerPlanScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  managerId: 'managerId',
+  year: 'year',
+  reviewPeriod: 'reviewPeriod',
+  status: 'status',
+  objectives: 'objectives',
+  achievements: 'achievements',
+  certificates: 'certificates',
+  improvements: 'improvements',
+  expectations: 'expectations',
+  targetLevel: 'targetLevel',
+  careerGoal: 'careerGoal',
+  currentCompetencies: 'currentCompetencies',
+  focusAreas: 'focusAreas',
+  actionPlan: 'actionPlan',
+  supportNeeded: 'supportNeeded',
+  managerComments: 'managerComments',
+  submittedAt: 'submittedAt',
+  confirmedAt: 'confirmedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CareerPlanScalarFieldEnum = (typeof CareerPlanScalarFieldEnum)[keyof typeof CareerPlanScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: 'DbNull',
+  JsonNull: 'JsonNull'
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -192,4 +229,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: 'DbNull',
+  JsonNull: 'JsonNull',
+  AnyNull: 'AnyNull'
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

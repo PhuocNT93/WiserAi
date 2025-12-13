@@ -4,6 +4,7 @@ WiserAi là một nền tảng hỗ trợ lập kế hoạch nghề nghiệp v�
 
 ## 📋 Mục lục
 
+- [Deployment to Render.com](#deployment-to-rendercom) (New)
 - [Tổng quan](#tổng-quan)
 - [Công nghệ sử dụng](#công-nghệ-sử-dụng)
 - [Yêu cầu hệ thống](#yêu-cầu-hệ-thống)
@@ -14,6 +15,30 @@ WiserAi là một nền tảng hỗ trợ lập kế hoạch nghề nghiệp v�
   - [3. Chạy với Docker Compose](#3-chạy-với-docker-compose)
 - [API Documentation](#api-documentation)
 - [Tính năng chính](#tính-năng-chính)
+
+---
+
+## 🚀 Deployment to Render.com
+
+This project includes a `render.yaml` file for automated deployment.
+
+1.  **Push to GitHub**: Ensure this repository is on GitHub.
+2.  **New Blueprint**: Go to [Render](https://render.com), click **New +** -> **Blueprint**, and select this repo.
+3.  **Auto-Discovery**: Render will detect `wiser-ai-be`, `wiser-ai-fe`, and `wiser-ai-db`.
+4.  **Configuration**:
+    *   The `NEXT_PUBLIC_API_URL` for the frontend might default to a placeholder. **After the backend is live**, copy its URL (e.g., `https://wiser-ai-be.onrender.com`) and update the `NEXT_PUBLIC_API_URL` environment variable in the Frontend Service settings on Render. Append `/api` if needed.
+
+### Running Migrations & Seed on Render
+
+After the backend service is deployed and "Healthy":
+
+1.  Go to the **Shell** tab of the `wiser-ai-be` service on Render.
+2.  Run the following commands:
+
+    ```bash
+    yarn prisma migrate deploy
+    yarn seed
+    ```
 
 ---
 
@@ -76,12 +101,15 @@ WiserAi/
 │   ├── Dockerfile         # Docker configuration
 │   └── package.json       # Dependencies
 │
+├── wiser-ai-fe/public/    # Static assets (favicons, logos)
+│   └── logo.svg           # Project Logo
+│
 └── docker-compose.yml     # Docker Compose configuration
 ```
 
 ---
 
-## 🚀 Cài đặt và chạy dự án
+## 🚀 Cài đặt và chạy dự án (Local)
 
 ### 1. Setup Backend (wiser-ai-be)
 
@@ -237,8 +265,8 @@ docker-compose up -d --build
 #### Bước 3.3: Truy cập ứng dụng
 
 - **Frontend**: `http://localhost:3001`
-- **Backend API**: `http://localhost:3000`
-- **Swagger Documentation**: `http://localhost:3000/api`
+- **Backend API**: `http://localhost:8000`
+- **Swagger Documentation**: `http://localhost:8000/api/docs`
 - **PostgreSQL**: `localhost:5432`
 
 #### Bước 3.4: Dừng services
@@ -253,19 +281,16 @@ Xóa cả volumes (database data):
 docker-compose down -v
 ```
 
-#### Bước 3.5: Chạy migrations trong Docker
+#### Bước 3.5: Chạy migrations & Seed trong Docker
 
-Nếu cần chạy migrations khi dùng Docker:
+Sau khi containers đã chạy:
 
 ```bash
-# Truy cập vào container backend
-docker-compose exec wiser-ai-be sh
-
 # Chạy migrations
-npx prisma migrate dev
+docker-compose exec wiser-ai-be yarn prisma migrate deploy
 
-# Thoát container
-exit
+# Seed dữ liệu (Admin user)
+docker-compose exec wiser-ai-be yarn seed
 ```
 
 ---

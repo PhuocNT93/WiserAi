@@ -1,12 +1,44 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, UseInterceptors, UploadedFile, Req, UseGuards } from '@nestjs/common';
 import { CareerPlanService } from './career-plan.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
+import { Request } from 'express';
+
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+@UseGuards(JwtAuthGuard)
 
 @Controller('career-plan')
 export class CareerPlanController {
     constructor(private readonly careerPlanService: CareerPlanService) { }
 
+    @Post('upload')
+    @UseInterceptors(FileInterceptor('file'))
+    uploadFile(@UploadedFile() file: Express.Multer.File) {
+        // Return the path/url to the file
+        // In production, you'd map this to a static serve path or CDN
+        // Here we assume a static serve middleware serves 'uploads' folder or we just return the local path
+        return {
+            filename: file.filename,
+            originalName: file.originalname,
+            path: file.path,
+            url: `/uploads/${file.filename}` // Assuming frontend can access this via a ServeStatic setup
+        };
+    }
+
     @Post('generate-growth-map')
-    generateGrowthMap(@Body() userProfile: any) {
-        return this.careerPlanService.generateGrowthMap(userProfile);
+    async generate(@Body() body: any) {
+        return this.careerPlanService.generateGrowthMap(body);
+    }
+
+    @Post()
+    async create(@Req() req: any, @Body() createCareerPlanDto: any) {
+        const userId = req.user.id;
+        return this.careerPlanService.create(userId, createCareerPlanDto);
+    }
+
+    @Get('my-plans')
+    async findMyPlans(@Req() req: any) {
+        const userId = req.user.id;
+        return this.careerPlanService.findMyPlans(userId);
     }
 }

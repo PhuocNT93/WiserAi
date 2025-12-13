@@ -22,6 +22,8 @@ import CreateCourseIcon from '@mui/icons-material/AddCircle';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 
+import { useTranslations } from 'next-intl';
+
 const drawerWidth = 240;
 
 interface SidebarProps {
@@ -29,7 +31,24 @@ interface SidebarProps {
     handleDrawerToggle: () => void;
 }
 
+const SummaryIcon = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <path d="M12 12L2 22h20L12 12z" />
+    </svg>
+);
+
 const MENU_ITEMS = [
+    { text: 'Summary', icon: <SummaryIcon />, path: '/summary' },
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
     { text: 'Career Plan', icon: <CareerIcon />, path: '/career-plan' },
     { text: 'L&D Plan', icon: <LdIcon />, path: '/ld-plan' },
@@ -46,9 +65,26 @@ const ADMIN_ITEMS = [
 export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps) {
     const router = useRouter();
     const pathname = usePathname();
+    const t = useTranslations('Common');
 
     const { user } = useAuth();
     const isAdminOrManager = user?.role === 'ADMIN' || user?.role === 'MANAGER';
+
+    // Move menu items inside component or use keys
+    const menuItems = [
+        { text: t('summary'), icon: <SummaryIcon />, path: '/summary' },
+        { text: t('dashboard'), icon: <DashboardIcon />, path: '/dashboard' },
+        { text: t('careerPlan'), icon: <CareerIcon />, path: '/career-plan' },
+        { text: t('ldPlan'), icon: <LdIcon />, path: '/ld-plan' },
+        { text: t('rewardHub'), icon: <RewardIcon />, path: '/reward-hub' },
+        { text: t('comingSoon'), icon: <ComingSoonIcon />, path: '/coming-soon' },
+    ];
+
+    const adminItems = [
+        { text: t('createCourse'), icon: <CreateCourseIcon />, path: '/admin/courses' },
+        { text: t('masterData'), icon: <MasterDataIcon />, path: '/admin/master-data' },
+        { text: t('userManagement'), icon: <UserIcon />, path: '/admin/users' },
+    ];
 
     const handleNavigation = (path: string) => {
         router.push(path);
@@ -67,8 +103,8 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps
             </Toolbar>
             <Divider />
             <List>
-                {MENU_ITEMS.map((item) => (
-                    <ListItem key={item.text} disablePadding>
+                {menuItems.map((item) => (
+                    <ListItem key={item.path} disablePadding>
                         <ListItemButton
                             selected={pathname === item.path}
                             onClick={() => handleNavigation(item.path)}
@@ -86,10 +122,10 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps
                     <Divider />
                     <List>
                         <ListItem>
-                            <ListItemText primary="Admin" primaryTypographyProps={{ style: { fontWeight: 'bold' } }} />
+                            <ListItemText primary={t('admin')} primaryTypographyProps={{ style: { fontWeight: 'bold' } }} />
                         </ListItem>
-                        {ADMIN_ITEMS.map((item) => (
-                            <ListItem key={item.text} disablePadding>
+                        {adminItems.map((item) => (
+                            <ListItem key={item.path} disablePadding>
                                 <ListItemButton
                                     selected={pathname === item.path}
                                     onClick={() => handleNavigation(item.path)}

@@ -26,6 +26,30 @@
         "register": "등록",
         "sendResetLink": "재설정 링크 보내기",
         "backToLogin": "로그인으로 돌아가기",
-        "resetPasswordTitle": "비밀번호 재설정"
+        "resetPasswordTitle": "비밀번호 재설정",
+        "rememberMe": "로그인 유지"
+    },
+    "Dashboard": {
+        "summary": "요약",
+        "jobDetails": "직무 세부 정보",
+        "personalInfo": "개인 정보",
+        "contact": "연락처",
+        "manager": "매니저",
+        "statements": "명세서",
+        "jobHistory": "직무 이력",
+        "employeeId": "사원 ID",
+        "position": "직위",
+        "timeType": "근무 형태",
+        "location": "위치",
+        "noStatements": "현재 명세서가 없습니다."
+    },
+    "Profile": {
+        "myProfile": "내 프로필",
+        "email": "이메일",
+        "fullName": "성명",
+        "saveChanges": "변경사항 저장",
+        "emailHelper": "이메일은 변경할 수 없습니다",
+        "successUpdate": "프로필이 성공적으로 업데이트되었습니다",
+        "errorUpdate": "프로필 업데이트 실패"
     }
 }

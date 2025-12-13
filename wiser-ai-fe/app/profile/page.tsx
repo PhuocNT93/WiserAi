@@ -14,7 +14,7 @@ import { Alert, CircularProgress } from '@mui/material';
 
 export default function ProfilePage() {
     const { user, refreshProfile } = useAuth();
-    const t = useTranslations('Auth');
+    const t = useTranslations('Profile');
     const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState<string | null>(null);
     const [error, setError] = React.useState<string | null>(null);
@@ -32,10 +32,10 @@ export default function ProfilePage() {
         try {
             await api.patch('/users/profile', payload);
             await refreshProfile();
-            setSuccess('Profile updated successfully');
+            setSuccess(t('successUpdate'));
         } catch (err) {
             console.error(err);
-            setError('Failed to update profile');
+            setError(t('errorUpdate'));
         } finally {
             setLoading(false);
         }
@@ -47,7 +47,7 @@ export default function ProfilePage() {
         <Box sx={{ maxWidth: 800, mx: 'auto', mt: 4 }}>
             <Paper sx={{ p: 4 }}>
                 <Typography variant="h4" gutterBottom>
-                    My Profile
+                    {t('myProfile')}
                 </Typography>
 
                 <Box display="flex" alignItems="center" mb={4}>
@@ -70,15 +70,15 @@ export default function ProfilePage() {
 
                     <TextField
                         fullWidth
-                        label="Email"
+                        label={t('email')}
                         value={user.email}
                         disabled
-                        helperText="Email cannot be changed"
+                        helperText={t('emailHelper')}
                     />
 
                     <TextField
                         fullWidth
-                        label="Full Name"
+                        label={t('fullName')}
                         name="fullName"
                         defaultValue={user.fullName}
                         required
@@ -90,7 +90,7 @@ export default function ProfilePage() {
                         size="large"
                         disabled={loading}
                     >
-                        {loading ? <CircularProgress size={24} /> : 'Save Changes'}
+                        {loading ? <CircularProgress size={24} /> : t('saveChanges')}
                     </Button>
                 </Box>
             </Paper>

@@ -390,7 +390,8 @@ export const ModelName = {
   ConfigData: 'ConfigData',
   Course: 'Course',
   RoleSkillMapping: 'RoleSkillMapping',
-  EmployeeProfile: 'EmployeeProfile'
+  EmployeeProfile: 'EmployeeProfile',
+  CareerPlan: 'CareerPlan'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "refreshToken" | "userSkill" | "configData" | "course" | "roleSkillMapping" | "employeeProfile"
+    modelProps: "user" | "refreshToken" | "userSkill" | "configData" | "course" | "roleSkillMapping" | "employeeProfile" | "careerPlan"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -928,6 +929,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    CareerPlan: {
+      payload: Prisma.$CareerPlanPayload<ExtArgs>
+      fields: Prisma.CareerPlanFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CareerPlanFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CareerPlanPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CareerPlanFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CareerPlanPayload>
+        }
+        findFirst: {
+          args: Prisma.CareerPlanFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CareerPlanPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CareerPlanFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CareerPlanPayload>
+        }
+        findMany: {
+          args: Prisma.CareerPlanFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CareerPlanPayload>[]
+        }
+        create: {
+          args: Prisma.CareerPlanCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CareerPlanPayload>
+        }
+        createMany: {
+          args: Prisma.CareerPlanCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CareerPlanCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CareerPlanPayload>[]
+        }
+        delete: {
+          args: Prisma.CareerPlanDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CareerPlanPayload>
+        }
+        update: {
+          args: Prisma.CareerPlanUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CareerPlanPayload>
+        }
+        deleteMany: {
+          args: Prisma.CareerPlanDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CareerPlanUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CareerPlanUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CareerPlanPayload>[]
+        }
+        upsert: {
+          args: Prisma.CareerPlanUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CareerPlanPayload>
+        }
+        aggregate: {
+          args: Prisma.CareerPlanAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCareerPlan>
+        }
+        groupBy: {
+          args: Prisma.CareerPlanGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CareerPlanGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CareerPlanCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CareerPlanCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1061,12 +1136,48 @@ export const EmployeeProfileScalarFieldEnum = {
 export type EmployeeProfileScalarFieldEnum = (typeof EmployeeProfileScalarFieldEnum)[keyof typeof EmployeeProfileScalarFieldEnum]
 
 
+export const CareerPlanScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  managerId: 'managerId',
+  year: 'year',
+  reviewPeriod: 'reviewPeriod',
+  status: 'status',
+  objectives: 'objectives',
+  achievements: 'achievements',
+  certificates: 'certificates',
+  improvements: 'improvements',
+  expectations: 'expectations',
+  targetLevel: 'targetLevel',
+  careerGoal: 'careerGoal',
+  currentCompetencies: 'currentCompetencies',
+  focusAreas: 'focusAreas',
+  actionPlan: 'actionPlan',
+  supportNeeded: 'supportNeeded',
+  managerComments: 'managerComments',
+  submittedAt: 'submittedAt',
+  confirmedAt: 'confirmedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CareerPlanScalarFieldEnum = (typeof CareerPlanScalarFieldEnum)[keyof typeof CareerPlanScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -1083,6 +1194,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -1151,6 +1271,62 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'ReviewPeriod'
+ */
+export type EnumReviewPeriodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewPeriod'>
+    
+
+
+/**
+ * Reference to a field of type 'ReviewPeriod[]'
+ */
+export type ListEnumReviewPeriodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewPeriod[]'>
+    
+
+
+/**
+ * Reference to a field of type 'GrowthMapStatus'
+ */
+export type EnumGrowthMapStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GrowthMapStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'GrowthMapStatus[]'
+ */
+export type ListEnumGrowthMapStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GrowthMapStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'UserLevel'
+ */
+export type EnumUserLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserLevel'>
+    
+
+
+/**
+ * Reference to a field of type 'UserLevel[]'
+ */
+export type ListEnumUserLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserLevel[]'>
     
 
 
@@ -1269,6 +1445,7 @@ export type GlobalOmitConfig = {
   course?: Prisma.CourseOmit
   roleSkillMapping?: Prisma.RoleSkillMappingOmit
   employeeProfile?: Prisma.EmployeeProfileOmit
+  careerPlan?: Prisma.CareerPlanOmit
 }
 
 /* Types for Logging */

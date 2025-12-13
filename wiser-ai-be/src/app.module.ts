@@ -9,10 +9,18 @@ import { RoleMappingModule } from './role-skill-mapping/role-skill-mapping.modul
 import { EmployeeProfileModule } from './employee-profile/employee-profile.module';
 import { CareerPlanModule } from './career-plan/career-plan.module';
 import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
+    }),
+    PrismaModule,
     AuthModule,
     PrismaModule,
     UserSkillsModule,

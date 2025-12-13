@@ -98,7 +98,7 @@ export default function LandingPage() {
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            label={t('rememberMe')}
           />
           <Button
             type="submit"

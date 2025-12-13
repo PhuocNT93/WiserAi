@@ -87,7 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
             Cookies.set('user', JSON.stringify(userData), { expires: 7 });
             setUser(userData);
-            router.push('/dashboard');
+            router.push('/summary');
         } catch (error) {
             console.error('Login failed', error);
             throw error; // Re-throw to be handled by Login Page
@@ -103,7 +103,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         Cookies.remove('accessToken');
         Cookies.remove('user');
         setUser(null);
-        router.push('/login');
+        router.push('/');
     };
 
     const fetchProfile = async () => {
