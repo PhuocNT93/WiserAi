@@ -1,0 +1,31 @@
+{
+    "Common": {
+        "dashboard": "Bảng điều khiển",
+        "careerPlan": "Kế hoạch sự nghiệp",
+        "ldPlan": "Kế hoạch L&D",
+        "rewardHub": "Trung tâm phần thưởng",
+        "comingSoon": "Sắp ra mắt",
+        "admin": "Quản trị",
+        "createCourse": "Tạo khóa học",
+        "masterData": "Dữ liệu nguồn",
+        "userManagement": "Quản lý người dùng",
+        "login": "Đăng nhập",
+        "logout": "Đăng xuất",
+        "profile": "Hồ sơ",
+        "changePassword": "Đổi mật khẩu",
+        "welcome": "Xin chào",
+        "notifications": "Thông báo"
+    },
+    "Auth": {
+        "loginTitle": "Đăng nhập vào WiserAi",
+        "email": "Địa chỉ Email",
+        "password": "Mật khẩu",
+        "forgotPassword": "Quên mật khẩu?",
+        "signIn": "Đăng nhập",
+        "dontHaveAccount": "Chưa có tài khoản?",
+        "register": "Đăng ký",
+        "sendResetLink": "Gửi liên kết khôi phục",
+        "backToLogin": "Quay lại đăng nhập",
+        "resetPasswordTitle": "Khôi phục mật khẩu"
+    }
+}

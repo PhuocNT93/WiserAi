@@ -6,12 +6,12 @@ services:
       context: ./wiser-ai-be
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "8000:8000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/wiser_ai?schema=public
       - JWT_SECRET=super-secret-key
       - JWT_REFRESH_SECRET=super-secret-refresh-key
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PORT=8000
     depends_on:
       - postgres
     networks:
@@ -24,7 +24,7 @@ services:
     ports:
       - "3001:3001"
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:3000
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api
     networks:
       - wiser-network
 

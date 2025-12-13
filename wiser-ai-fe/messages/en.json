@@ -1,0 +1,31 @@
+{
+  "Common": {
+    "dashboard": "Dashboard",
+    "careerPlan": "Career Plan",
+    "ldPlan": "L&D Plan",
+    "rewardHub": "Reward Hub",
+    "comingSoon": "Coming Soon",
+    "admin": "Admin",
+    "createCourse": "Create Course",
+    "masterData": "Master Data",
+    "userManagement": "User Management",
+    "login": "Login",
+    "logout": "Logout",
+    "profile": "Profile",
+    "changePassword": "Change Password",
+    "welcome": "Welcome",
+    "notifications": "Notifications"
+  },
+  "Auth": {
+    "loginTitle": "Login to WiserAi",
+    "email": "Email Address",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "signIn": "Sign In",
+    "dontHaveAccount": "Don't have an account?",
+    "register": "Register",
+    "sendResetLink": "Send Reset Link",
+    "backToLogin": "Back to Login",
+    "resetPasswordTitle": "Reset Password"
+  }
+}

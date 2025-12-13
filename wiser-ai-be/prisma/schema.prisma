@@ -23,7 +23,11 @@ model User {
   
   skills    UserSkill[]
   refreshTokens RefreshToken[]
-  courses   Course[] // If users can create courses, or relation logic
+  courses   Course[] 
+  
+  managerId Int?
+  manager   User?    @relation("UserManagement", fields: [managerId], references: [id])
+  subordinates User[] @relation("UserManagement")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

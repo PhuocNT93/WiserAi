@@ -1,0 +1,31 @@
+{
+    "Common": {
+        "dashboard": "대시보드",
+        "careerPlan": "경력 계획",
+        "ldPlan": "L&D 계획",
+        "rewardHub": "보상 허브",
+        "comingSoon": "곧 출시 예정",
+        "admin": "관리자",
+        "createCourse": "코스 생성",
+        "masterData": "마스터 데이터",
+        "userManagement": "사용자 관리",
+        "login": "로그인",
+        "logout": "로그아웃",
+        "profile": "프로필",
+        "changePassword": "비밀번호 변경",
+        "welcome": "환영합니다",
+        "notifications": "알림"
+    },
+    "Auth": {
+        "loginTitle": "WiserAi 로그인",
+        "email": "이메일 주소",
+        "password": "비밀번호",
+        "forgotPassword": "비밀번호를 잊으셨나요?",
+        "signIn": "로그인",
+        "dontHaveAccount": "계정이 없으신가요?",
+        "register": "등록",
+        "sendResetLink": "재설정 링크 보내기",
+        "backToLogin": "로그인으로 돌아가기",
+        "resetPasswordTitle": "비밀번호 재설정"
+    }
+}

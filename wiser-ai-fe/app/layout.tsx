@@ -27,19 +27,31 @@ export const viewport = {
   themeColor: '#2196F3',
 };
 
-export default function RootLayout({
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
+
+import { AuthProvider } from '@/context/AuthContext';
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body>
-        <ThemeRegistry>
-          <MainLayout>
-            {children}
-          </MainLayout>
-        </ThemeRegistry>
+        <NextIntlClientProvider messages={messages}>
+          <ThemeRegistry>
+            <AuthProvider>
+              <MainLayout>
+                {children}
+              </MainLayout>
+            </AuthProvider>
+          </ThemeRegistry>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

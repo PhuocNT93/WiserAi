@@ -1,122 +1,126 @@
 'use client';
 
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
-import Chip from '@mui/material/Chip';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { Alert, CircularProgress } from '@mui/material';
 
 export default function LandingPage() {
+  const t = useTranslations('Auth');
+  const { login, user, loading } = useAuth(); // Assuming loading is available
+  const router = useRouter();
+  const [error, setError] = React.useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  React.useEffect(() => {
+    if (user) {
+      router.push('/dashboard');
+    }
+  }, [user, router]);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
+    const data = new FormData(event.currentTarget);
+    const email = data.get('email') as string;
+    const password = data.get('password') as string;
+
+    try {
+      await login({ email, password });
+      // Redirect handled in AuthContext or useEffect, but AuthContext push might race
+    } catch (err: any) {
+      console.error(err);
+      setError('Login failed. Please check your credentials.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (loading || user) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
-    <Box>
-      {/* Header Section */}
-      <Paper sx={{ p: 3, mb: 3, display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Avatar sx={{ width: 80, height: 80 }} src="/static/images/avatar/1.jpg" />
-        <Box>
-          <Typography variant="h4">Logan McNeil</Typography>
-          <Typography variant="subtitle1" color="text.secondary">Human Resources Service Partner</Typography>
-          <Stack direction="row" spacing={1} mt={1}>
-            <Chip label="Chicago" size="small" />
-            <Chip label="Human Resources" size="small" />
-          </Stack>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          {t('loginTitle')}
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label={t('email')}
+            name="email"
+            autoComplete="email"
+            autoFocus
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label={t('password')}
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            disabled={isSubmitting}
+            sx={{ mt: 3, mb: 2 }}
+          >
+            {isSubmitting ? <CircularProgress size={24} /> : t('signIn')}
+          </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+            <Box>
+              <Link href="/forgot-password" variant="body2">
+                {t('forgotPassword')}
+              </Link>
+            </Box>
+            <Box>
+
+            </Box>
+          </Box>
         </Box>
-      </Paper>
-
-      <Grid container spacing={3}>
-        {/* Left Column - Summary / Quick Actions */}
-        <Grid size={{ xs: 12, md: 3 }}>
-          <Card sx={{ mb: 2 }}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>Summary</Typography>
-              <Button fullWidth variant="outlined" sx={{ mb: 1 }}>Job Details</Button>
-              <Button fullWidth variant="outlined" sx={{ mb: 1 }}>Personal Info</Button>
-              <Button fullWidth variant="outlined">Contact</Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>Manager</Typography>
-              <Box display="flex" alignItems="center" gap={2}>
-                <Avatar>JS</Avatar>
-                <Box>
-                  <Typography variant="body1">Joy Song</Typography>
-                  <Typography variant="caption">Manager</Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Right Column - Main Content Cards */}
-        <Grid size={{ xs: 12, md: 9 }}>
-          <Grid container spacing={3}>
-            <Grid size={{ xs: 12, md: 6 }}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>Job Details</Typography>
-                  <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
-                    <Box>
-                      <Typography variant="caption" color="text.secondary">Employee ID</Typography>
-                      <Typography>21557</Typography>
-                    </Box>
-                    <Box>
-                      <Typography variant="caption" color="text.secondary">Position</Typography>
-                      <Typography>Human Resources Service Partner</Typography>
-                    </Box>
-                    <Box>
-                      <Typography variant="caption" color="text.secondary">Time Type</Typography>
-                      <Typography>Full time</Typography>
-                    </Box>
-                    <Box>
-                      <Typography variant="caption" color="text.secondary">Location</Typography>
-                      <Typography>Chicago (Logan McNeil)</Typography>
-                    </Box>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid size={{ xs: 12, md: 6 }}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>Statements</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    No current statements available.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid size={{ xs: 12 }}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>Job History</Typography>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <Box>
-                      <Typography variant="subtitle2">Human Resources Service Partner</Typography>
-                      <Typography variant="caption" color="text.secondary">Human Resources Service Partner (Joy Song) | 01/01/2019 - Present</Typography>
-                    </Box>
-                    <Divider />
-                    <Box>
-                      <Typography variant="subtitle2">HR Generalist</Typography>
-                      <Typography variant="caption" color="text.secondary">Global Modern Services | 02/10/2014 - 12/31/2018</Typography>
-                    </Box>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </Container>
   );
 }
-// Helper component for cleaner code in real implementation
-function Divider() { return <Box sx={{ height: 1, bgcolor: 'divider', my: 1 }} /> }

@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
   },
 };
 
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin();
+
 export default withPWA({
   dest: 'public',
   register: true,
@@ -121,6 +125,6 @@ export default withPWA({
       }
     }
   ]
-})(nextConfig);
+})(withNextIntl(nextConfig));
 
 

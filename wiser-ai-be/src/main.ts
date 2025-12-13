@@ -10,6 +10,7 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap');
 
   app.setGlobalPrefix('api');
+  app.enableCors();
 
   // Global Middleware
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
@@ -26,7 +27,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
-  const port = process.env.PORT || 8080;
+  const port = process.env.PORT || 8000;
   await app.listen(port);
   logger.log(`Application listening on port ${port}`);
   logger.log(`Swagger running on http://localhost:${port}/api/docs`);

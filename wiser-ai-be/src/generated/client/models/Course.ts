@@ -472,14 +472,6 @@ export type CourseUncheckedUpdateManyWithoutAuthorNestedInput = {
   deleteMany?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type CourseCreateWithoutAuthorInput = {
   name: string
   description?: string | null

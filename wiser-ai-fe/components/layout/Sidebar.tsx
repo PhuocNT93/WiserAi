@@ -20,6 +20,7 @@ import MasterDataIcon from '@mui/icons-material/Storage';
 import UserIcon from '@mui/icons-material/People';
 import CreateCourseIcon from '@mui/icons-material/AddCircle';
 import { useRouter, usePathname } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 const drawerWidth = 240;
 
@@ -46,8 +47,8 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps
     const router = useRouter();
     const pathname = usePathname();
 
-    // Mock checking for admin role (should come from auth context)
-    const isAdmin = true;
+    const { user } = useAuth();
+    const isAdminOrManager = user?.role === 'ADMIN' || user?.role === 'MANAGER';
 
     const handleNavigation = (path: string) => {
         router.push(path);
@@ -80,7 +81,7 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps
                     </ListItem>
                 ))}
             </List>
-            {isAdmin && (
+            {isAdminOrManager && (
                 <>
                     <Divider />
                     <List>

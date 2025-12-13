@@ -163,7 +163,11 @@ export class AuthService {
       this.jwtService.signAsync(
         { sub: userId, email, roles },
         {
-          secret: this.configService.get<string>('JWT_SECRET'),
+          secret: (() => {
+            const s = this.configService.get<string>('JWT_SECRET');
+            console.log('AuthService signing with secret:', s);
+            return s;
+          })(),
           expiresIn: '15m',
         },
       ),

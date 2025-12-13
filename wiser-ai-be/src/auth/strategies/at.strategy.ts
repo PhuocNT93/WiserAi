@@ -10,10 +10,11 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             secretOrKey: config.get<string>('JWT_SECRET') || 'secret',
         });
+        console.log('AtStrategy initialized with secret:', config.get<string>('JWT_SECRET'));
     }
 
     validate(payload: any) {
+        console.log('AtStrategy: Validating payload:', payload);
         return payload;
-        // payload contains sub (userId), email, roles
     }
 }
