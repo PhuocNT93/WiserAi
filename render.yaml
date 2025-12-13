@@ -29,17 +29,8 @@ services:
           type: web
           name: wiser-ai-be
           property: url
-          envVarKey: NEXT_PUBLIC_API_URL # Render injects the base URL, we might need to append /api in code or here
-      # NOTE: Next.js builds at compile time. 
-      # If using Docker, we need to ensure NEXT_PUBLIC_API_URL is available at build time OR used dynamically at runtime.
-      # Since we use "validating" client side logic or server components, standard Next.js docker build often bakes in envs.
-      # For Render, it's safer to ensure the backend is up, but circular deploy dependency issues can arise.
-      # The safe bet is updating the front-end env var after backend deploy, or using a Runtime config.
-      # For now, we rely on Render's service discovery injection.
-    plan: free
 
 databases:
   - name: wiser-ai-db
     databaseName: wiser_ai
-    user: postgres
     plan: free
