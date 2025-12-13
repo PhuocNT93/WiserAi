@@ -23,7 +23,9 @@ import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getUserSkills, createUserSkill, updateUserSkill, deleteUserSkill } from '../../lib/api/userSkills';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { getUserSkills, createUserSkill, updateUserSkill, deleteUserSkill, getMyCertificates, uploadCertificate, CertificateResponse } from '../../lib/api/userSkills';
 
 interface SkillData {
     id: number;
@@ -46,6 +48,9 @@ export default function SummaryPage() {
     const [allSkills, setAllSkills] = React.useState<SkillData[]>([]);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState<string | null>(null);
+
+    // User certificates
+    const [certificates, setCertificates] = React.useState<CertificateResponse[]>([]);
 
     // Pinned skills (top 4, set on load/refresh)
     const [pinnedSkillIds, setPinnedSkillIds] = React.useState<number[]>([]);
@@ -80,6 +85,7 @@ export default function SummaryPage() {
     // Load skills from API on mount
     React.useEffect(() => {
         loadSkills();
+        loadCertificates();
 
         // Cleanup function to clear all timers on unmount
         return () => {
@@ -117,6 +123,15 @@ export default function SummaryPage() {
             showToast('Failed to load skills', 'error');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const loadCertificates = async () => {
+        try {
+            const certs = await getMyCertificates();
+            setCertificates(certs);
+        } catch (err) {
+            console.error('Failed to load certificates:', err);
         }
     };
 
@@ -310,6 +325,20 @@ export default function SummaryPage() {
         setTempSkillLevels(prev => ({ ...prev, [skillId]: newValue as number }));
     };
 
+    const handleUploadCert = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        try {
+            await uploadCertificate(file);
+            await loadCertificates(); // Reload certificates
+            showToast('Certificate uploaded successfully!');
+        } catch (error) {
+            console.error('Failed to upload certificate:', error);
+            showToast('Failed to upload certificate', 'error');
+        }
+    };
+
     if (loading) {
         return (
             <Box sx={{ width: '100%', p: { xs: 2, sm: 3, md: 4 }, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
@@ -428,7 +457,7 @@ export default function SummaryPage() {
                                     color: 'primary.main'
                                 }}
                             >
-                                Skill Assessment
+                                Competencies Assessment
                             </Typography>
                             <Button
                                 variant="contained"
@@ -587,6 +616,89 @@ export default function SummaryPage() {
                         </Typography>
                     </Paper>
                 </Grid>
+
+                {/* Certificates Section */}
+                <Grid size={{ xs: 12 }}>
+                    <Paper
+                        elevation={3}
+                        sx={{
+                            p: 3,
+                            borderRadius: 2,
+                            background: 'linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)',
+                        }}
+                    >
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    fontWeight: 600,
+                                    color: 'primary.main'
+                                }}
+                            >
+                                My Certificates
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                component="label"
+                                startIcon={<AddIcon />}
+                                size="small"
+                            >
+                                Upload Certificate
+                                <input
+                                    type="file"
+                                    hidden
+                                    accept="image/*,.pdf"
+                                    onChange={handleUploadCert}
+                                />
+                            </Button>
+                        </Box>
+
+                        {certificates.length === 0 ? (
+                            <Box sx={{ textAlign: 'center', py: 4 }}>
+                                <Typography variant="body2" color="text.secondary">
+                                    No certificates uploaded yet
+                                </Typography>
+                            </Box>
+                        ) : (
+                            <Grid container spacing={2}>
+                                {certificates.map((cert, index) => (
+                                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={`${cert.careerPlanId}-${index}`}>
+                                        <Paper
+                                            elevation={1}
+                                            sx={{
+                                                p: 2,
+                                                borderRadius: 1,
+                                                '&:hover': {
+                                                    elevation: 3,
+                                                    transform: 'translateY(-2px)',
+                                                    transition: 'all 0.2s'
+                                                }
+                                            }}
+                                        >
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                                                <Typography variant="subtitle1" sx={{ fontWeight: 600, wordBreak: 'break-word' }}>
+                                                    {cert.fileName}
+                                                </Typography>
+                                                <Typography variant="caption" color="text.secondary">
+                                                    Uploaded: {new Date(cert.uploadedAt).toLocaleDateString()}
+                                                </Typography>
+                                                <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
+                                                    <Button
+                                                        size="small"
+                                                        variant="outlined"
+                                                        onClick={() => window.open(`http://localhost:8000${cert.fileUrl}`, '_blank')}
+                                                    >
+                                                        View
+                                                    </Button>
+                                                </Box>
+                                            </Box>
+                                        </Paper>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        )}
+                    </Paper>
+                </Grid>
             </Grid>
 
             {/* My Skills Dialog */}
@@ -725,7 +837,7 @@ export default function SummaryPage() {
                                             </Box>
                                         </Box>
                                         {isEditing && (
-                                            <Box sx={{ px: 3, pb: 1 }}>
+                                            <Box sx={{ px: 3, pb: 2 }}>
                                                 <Slider
                                                     value={displayLevel}
                                                     onChange={(_, newValue) => handleTempLevelChange(skill.id, newValue)}
@@ -734,6 +846,7 @@ export default function SummaryPage() {
                                                     step={5}
                                                     valueLabelDisplay="auto"
                                                     size="small"
+                                                    sx={{ mb: 2 }}
                                                 />
                                             </Box>
                                         )}

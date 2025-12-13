@@ -166,16 +166,16 @@ model CareerPlan {
   managerId         Int?
   manager           User?           @relation("ManagerCareerPlans", fields: [managerId], references: [id])
 
-  year              Int
-  reviewPeriod      ReviewPeriod
+  year              Int?
+  reviewPeriod      ReviewPeriod?
   status            GrowthMapStatus @default(DRAFT)
 
   // Step Inputs
-  objectives        String          @db.Text
-  achievements      String          @db.Text
+  objectives        String?         @db.Text
+  achievements      String?         @db.Text
   certificates      Json?           // Array of { name: string, level: string, fileUrl: string }
-  improvements      String          @db.Text
-  expectations      String          @db.Text
+  improvements      String?         @db.Text
+  expectations      String?         @db.Text
 
   // Target Goal
   targetLevel       UserLevel?

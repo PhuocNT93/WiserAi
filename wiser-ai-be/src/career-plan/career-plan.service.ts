@@ -287,4 +287,62 @@ export class CareerPlanService {
             data: { status }
         });
     }
+    async uploadCertificate(userId: number, certificate: { fileName: string; fileUrl: string }) {
+        // Find or create a draft career plan for the user
+        console.log('Uploading certificate for user:', userId, certificate);
+        let careerPlan = await this.prisma.careerPlan.findFirst({
+            where: {
+                userId,
+                status: GrowthMapStatus.DRAFT,
+            },
+        });
+
+        if (!careerPlan) {
+            console.log('No draft career plan found, creating a new one.');
+            // Create a new draft career plan
+            careerPlan = await this.prisma.careerPlan.create({
+                data: {
+                    userId,
+                    status: GrowthMapStatus.DRAFT,
+                    certificates: [certificate],
+                },
+            });
+        } else {
+            console.log('Draft career plan found, updating with new certificate.');
+            // Update existing draft with new certificate
+            const existingCerts = (careerPlan.certificates as any[]) || [];
+            careerPlan = await this.prisma.careerPlan.update({
+                where: { id: careerPlan.id },
+                data: {
+                    certificates: [...existingCerts, certificate],
+                },
+            });
+        }
+
+        return careerPlan;
+    }
+
+    async getMyCertificates(userId: number) {
+        const careerPlans = await this.prisma.careerPlan.findMany({
+            where: { userId },
+            select: {
+                id: true,
+                certificates: true,
+                createdAt: true,
+            },
+            orderBy: { createdAt: 'desc' },
+        });
+
+        // Extract all certificates from all career plans
+        const allCertificates = careerPlans.flatMap(plan => {
+            const certs = (plan.certificates as any[]) || [];
+            return certs.map(cert => ({
+                ...cert,
+                careerPlanId: plan.id,
+                uploadedAt: plan.createdAt,
+            }));
+        });
+
+        return allCertificates;
+    }
 }

@@ -25,6 +25,21 @@ export class CareerPlanController {
         };
     }
 
+    @Post('upload-cert')
+    @UseInterceptors(FileInterceptor('file'))
+    async uploadCert(
+        @Req() req: any,
+        @UploadedFile() file: Express.Multer.File
+    ) {
+        const userId = req.user.id;
+        const fileUrl = `/uploads/certificates/${file.filename}`;
+
+        return this.careerPlanService.uploadCertificate(userId, {
+            fileName: file.originalname,
+            fileUrl
+        });
+    }
+
     @Post('generate-growth-map')
     async generate(@Body() body: any) {
         return this.careerPlanService.generateGrowthMap(body);
@@ -61,5 +76,11 @@ export class CareerPlanController {
     @Patch(':id/status')
     async updateStatus(@Param('id') id: string, @Body('status') status: any) {
         return this.careerPlanService.updateStatus(+id, status);
+    }
+
+    @Get('my-certificates')
+    async getMyCertificates(@Req() req: any) {
+        const userId = req.user.id;
+        return this.careerPlanService.getMyCertificates(userId);
     }
 }

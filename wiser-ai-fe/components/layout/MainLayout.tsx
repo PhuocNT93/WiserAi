@@ -196,10 +196,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
-                                    <MenuItem onClick={handleCloseUserMenu}>
+                                    <MenuItem onClick={() => { handleCloseUserMenu(); router.push('/profile'); }}>
                                         <Typography textAlign="center">Profile</Typography>
                                     </MenuItem>
-                                    <MenuItem onClick={handleCloseUserMenu}>
+                                    <MenuItem onClick={() => { handleCloseUserMenu(); router.push('/change-password'); }}>
                                         <Typography textAlign="center">Change Password</Typography>
                                     </MenuItem>
                                     <MenuItem onClick={handleLogout}>
