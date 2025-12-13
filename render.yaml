@@ -25,10 +25,8 @@ services:
     rootDir: wiser-ai-fe
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        fromService:
-          type: web
-          name: wiser-ai-be
-          property: url
+        value: https://YOUR_BACKEND_SERVICE_NAME.onrender.com/api # Update this manually in Render Dashboard after deploying backend
+        # fromService property 'url' is not supported for web services, so we cannot auto-link the public URL here.
 
 databases:
   - name: wiser-ai-db
