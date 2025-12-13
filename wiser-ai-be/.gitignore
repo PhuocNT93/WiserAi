@@ -15,6 +15,7 @@ lerna-debug.log*
 package-lock.json
 package.json
 .npmrc
+yarn.lock
 
 # OS
 .DS_Store

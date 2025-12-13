@@ -12,6 +12,7 @@
 package-lock.json
 package.json
 .npmrc
+yarn.lock
 
 # testing
 /coverage
