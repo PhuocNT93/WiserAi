@@ -22,6 +22,8 @@ import CreateCourseIcon from '@mui/icons-material/AddCircle';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 
+import { useTranslations } from 'next-intl';
+
 const drawerWidth = 240;
 
 interface SidebarProps {
@@ -29,26 +31,28 @@ interface SidebarProps {
     handleDrawerToggle: () => void;
 }
 
-const MENU_ITEMS = [
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-    { text: 'Career Plan', icon: <CareerIcon />, path: '/career-plan' },
-    { text: 'L&D Plan', icon: <LdIcon />, path: '/ld-plan' },
-    { text: 'Reward Hub', icon: <RewardIcon />, path: '/reward-hub' },
-    { text: 'Coming Soon', icon: <ComingSoonIcon />, path: '/coming-soon' },
-];
-
-const ADMIN_ITEMS = [
-    { text: 'Create Course', icon: <CreateCourseIcon />, path: '/admin/courses' },
-    { text: 'Master Data', icon: <MasterDataIcon />, path: '/admin/master-data' },
-    { text: 'User Management', icon: <UserIcon />, path: '/admin/users' },
-];
-
 export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps) {
     const router = useRouter();
     const pathname = usePathname();
+    const t = useTranslations('Common');
 
     const { user } = useAuth();
     const isAdminOrManager = user?.role === 'ADMIN' || user?.role === 'MANAGER';
+
+    // Move menu items inside component or use keys
+    const menuItems = [
+        { text: t('dashboard'), icon: <DashboardIcon />, path: '/dashboard' },
+        { text: t('careerPlan'), icon: <CareerIcon />, path: '/career-plan' },
+        { text: t('ldPlan'), icon: <LdIcon />, path: '/ld-plan' },
+        { text: t('rewardHub'), icon: <RewardIcon />, path: '/reward-hub' },
+        { text: t('comingSoon'), icon: <ComingSoonIcon />, path: '/coming-soon' },
+    ];
+
+    const adminItems = [
+        { text: t('createCourse'), icon: <CreateCourseIcon />, path: '/admin/courses' },
+        { text: t('masterData'), icon: <MasterDataIcon />, path: '/admin/master-data' },
+        { text: t('userManagement'), icon: <UserIcon />, path: '/admin/users' },
+    ];
 
     const handleNavigation = (path: string) => {
         router.push(path);
@@ -67,8 +71,8 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps
             </Toolbar>
             <Divider />
             <List>
-                {MENU_ITEMS.map((item) => (
-                    <ListItem key={item.text} disablePadding>
+                {menuItems.map((item) => (
+                    <ListItem key={item.path} disablePadding>
                         <ListItemButton
                             selected={pathname === item.path}
                             onClick={() => handleNavigation(item.path)}
@@ -86,10 +90,10 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps
                     <Divider />
                     <List>
                         <ListItem>
-                            <ListItemText primary="Admin" primaryTypographyProps={{ style: { fontWeight: 'bold' } }} />
+                            <ListItemText primary={t('admin')} primaryTypographyProps={{ style: { fontWeight: 'bold' } }} />
                         </ListItem>
-                        {ADMIN_ITEMS.map((item) => (
-                            <ListItem key={item.text} disablePadding>
+                        {adminItems.map((item) => (
+                            <ListItem key={item.path} disablePadding>
                                 <ListItemButton
                                     selected={pathname === item.path}
                                     onClick={() => handleNavigation(item.path)}

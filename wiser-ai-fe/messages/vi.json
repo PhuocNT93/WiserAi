@@ -26,6 +26,30 @@
         "register": "Đăng ký",
         "sendResetLink": "Gửi liên kết khôi phục",
         "backToLogin": "Quay lại đăng nhập",
-        "resetPasswordTitle": "Khôi phục mật khẩu"
+        "resetPasswordTitle": "Khôi phục mật khẩu",
+        "rememberMe": "Ghi nhớ đăng nhập"
+    },
+    "Dashboard": {
+        "summary": "Tóm tắt",
+        "jobDetails": "Chi tiết công việc",
+        "personalInfo": "Thông tin cá nhân",
+        "contact": "Liên hệ",
+        "manager": "Quản lý",
+        "statements": "Sao kê",
+        "jobHistory": "Lịch sử công việc",
+        "employeeId": "Mã nhân viên",
+        "position": "Chức vụ",
+        "timeType": "Loại thời gian",
+        "location": "Địa điểm",
+        "noStatements": "Hiện không có sao kê nào."
+    },
+    "Profile": {
+        "myProfile": "Hồ sơ của tôi",
+        "email": "Email",
+        "fullName": "Họ và tên",
+        "saveChanges": "Lưu thay đổi",
+        "emailHelper": "Không thể thay đổi địa chỉ email",
+        "successUpdate": "Cập nhật hồ sơ thành công",
+        "errorUpdate": "Cập nhật hồ sơ thất bại"
     }
 }

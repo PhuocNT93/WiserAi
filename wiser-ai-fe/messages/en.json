@@ -26,6 +26,30 @@
     "register": "Register",
     "sendResetLink": "Send Reset Link",
     "backToLogin": "Back to Login",
-    "resetPasswordTitle": "Reset Password"
+    "resetPasswordTitle": "Reset Password",
+    "rememberMe": "Remember me"
+  },
+  "Dashboard": {
+    "summary": "Summary",
+    "jobDetails": "Job Details",
+    "personalInfo": "Personal Info",
+    "contact": "Contact",
+    "manager": "Manager",
+    "statements": "Statements",
+    "jobHistory": "Job History",
+    "employeeId": "Employee ID",
+    "position": "Position",
+    "timeType": "Time Type",
+    "location": "Location",
+    "noStatements": "No current statements available."
+  },
+  "Profile": {
+    "myProfile": "My Profile",
+    "email": "Email",
+    "fullName": "Full Name",
+    "saveChanges": "Save Changes",
+    "emailHelper": "Email cannot be changed",
+    "successUpdate": "Profile updated successfully",
+    "errorUpdate": "Failed to update profile"
   }
 }

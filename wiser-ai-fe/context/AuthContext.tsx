@@ -103,7 +103,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         Cookies.remove('accessToken');
         Cookies.remove('user');
         setUser(null);
-        router.push('/login');
+        router.push('/');
     };
 
     const fetchProfile = async () => {
