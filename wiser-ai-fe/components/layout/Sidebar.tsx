@@ -31,6 +31,37 @@ interface SidebarProps {
     handleDrawerToggle: () => void;
 }
 
+const SummaryIcon = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <path d="M12 12L2 22h20L12 12z" />
+    </svg>
+);
+
+const MENU_ITEMS = [
+    { text: 'Summary', icon: <SummaryIcon />, path: '/summary' },
+    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
+    { text: 'Career Plan', icon: <CareerIcon />, path: '/career-plan' },
+    { text: 'L&D Plan', icon: <LdIcon />, path: '/ld-plan' },
+    { text: 'Reward Hub', icon: <RewardIcon />, path: '/reward-hub' },
+    { text: 'Coming Soon', icon: <ComingSoonIcon />, path: '/coming-soon' },
+];
+
+const ADMIN_ITEMS = [
+    { text: 'Create Course', icon: <CreateCourseIcon />, path: '/admin/courses' },
+    { text: 'Master Data', icon: <MasterDataIcon />, path: '/admin/master-data' },
+    { text: 'User Management', icon: <UserIcon />, path: '/admin/users' },
+];
+
 export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps) {
     const router = useRouter();
     const pathname = usePathname();
@@ -41,6 +72,7 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps
 
     // Move menu items inside component or use keys
     const menuItems = [
+        { text: t('summary'), icon: <SummaryIcon />, path: '/summary' },
         { text: t('dashboard'), icon: <DashboardIcon />, path: '/dashboard' },
         { text: t('careerPlan'), icon: <CareerIcon />, path: '/career-plan' },
         { text: t('ldPlan'), icon: <LdIcon />, path: '/ld-plan' },
