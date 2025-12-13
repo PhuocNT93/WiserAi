@@ -14,6 +14,13 @@ enum Role {
   ADMIN
 }
 
+enum UserLevel {
+  FRESHER
+  JUNIOR
+  SENIOR
+  PRINCIPAL
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
@@ -28,6 +35,9 @@ model User {
   managerId Int?
   manager   User?    @relation("UserManagement", fields: [managerId], references: [id])
   subordinates User[] @relation("UserManagement")
+
+  careerPlans   CareerPlan[] @relation("UserCareerPlans")
+  managedPlans  CareerPlan[] @relation("ManagerCareerPlans")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -103,4 +113,58 @@ model MasterData {
   updatedAt   DateTime @updatedAt
 
   @@map("master_data")
+}
+
+enum ReviewPeriod {
+  SIX_MONTHS
+  TWELVE_MONTHS
+}
+
+enum GrowthMapStatus {
+  DRAFT
+  SUBMITTED
+  BACK_TO_SUBMIT
+  SUCCESS
+}
+
+model CareerPlan {
+  id                Int             @id @default(autoincrement())
+  userId            Int
+  user              User            @relation("UserCareerPlans", fields: [userId], references: [id])
+  
+  // Snapshot of who manages this at time of creation/submission
+  managerId         Int?
+  manager           User?           @relation("ManagerCareerPlans", fields: [managerId], references: [id])
+
+  year              Int
+  reviewPeriod      ReviewPeriod
+  status            GrowthMapStatus @default(DRAFT)
+
+  // Step Inputs
+  objectives        String          @db.Text
+  achievements      String          @db.Text
+  certificates      Json?           // Array of { name: string, level: string, fileUrl: string }
+  improvements      String          @db.Text
+  expectations      String          @db.Text
+
+  // Target Goal
+  targetLevel       UserLevel?
+
+  // AI Generated / Result Sections
+  careerGoal        String?         @db.Text
+  currentCompetencies String?       @db.Text
+  focusAreas        Json?           // JSON structure
+  actionPlan        Json?           // JSON structure
+  supportNeeded     Json?           // JSON structure (or String depending on requirements, usually list items)
+
+  // Manager Review
+  managerComments   Json?           // Map of section -> comment
+  
+  submittedAt       DateTime?
+  confirmedAt       DateTime?
+
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@map("career_plans")
 }

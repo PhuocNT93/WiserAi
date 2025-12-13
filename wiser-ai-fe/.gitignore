@@ -9,6 +9,9 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+package-lock.json
+.npmrc
+yarn.lock
 
 # testing
 /coverage
@@ -47,4 +50,7 @@ next-env.d.ts
 /public/sw.js.map
 /public/workbox-*.js.map
 /public/worker-*.js.map
+
+
+
 
