@@ -41,7 +41,8 @@ export type UserMinAggregateOutputType = {
   email: string | null
   password: string | null
   name: string | null
-  managerId: number | null
+  userId: string | null
+  level: string | n  managerId: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -245,6 +246,8 @@ export type UserWhereInput = {
   courses?: Prisma.CourseListRelationFilter
   manager?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   subordinates?: Prisma.UserListRelationFilter
+  careerPlans?: Prisma.CareerPlanListRelationFilter
+  managedPlans?: Prisma.CareerPlanListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -261,6 +264,8 @@ export type UserOrderByWithRelationInput = {
   courses?: Prisma.CourseOrderByRelationAggregateInput
   manager?: Prisma.UserOrderByWithRelationInput
   subordinates?: Prisma.UserOrderByRelationAggregateInput
+  careerPlans?: Prisma.CareerPlanOrderByRelationAggregateInput
+  managedPlans?: Prisma.CareerPlanOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -280,6 +285,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   courses?: Prisma.CourseListRelationFilter
   manager?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   subordinates?: Prisma.UserListRelationFilter
+  careerPlans?: Prisma.CareerPlanListRelationFilter
+  managedPlans?: Prisma.CareerPlanListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -324,6 +331,8 @@ export type UserCreateInput = {
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   manager?: Prisma.UserCreateNestedOneWithoutSubordinatesInput
   subordinates?: Prisma.UserCreateNestedManyWithoutManagerInput
+  careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -339,6 +348,8 @@ export type UserUncheckedCreateInput = {
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   subordinates?: Prisma.UserUncheckedCreateNestedManyWithoutManagerInput
+  careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
 }
 
 export type UserUpdateInput = {
@@ -353,6 +364,8 @@ export type UserUpdateInput = {
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   manager?: Prisma.UserUpdateOneWithoutSubordinatesNestedInput
   subordinates?: Prisma.UserUpdateManyWithoutManagerNestedInput
+  careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -368,6 +381,8 @@ export type UserUncheckedUpdateInput = {
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   subordinates?: Prisma.UserUncheckedUpdateManyWithoutManagerNestedInput
+  careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -609,6 +624,36 @@ export type UserUpdateOneWithoutCoursesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCoursesInput, Prisma.UserUpdateWithoutCoursesInput>, Prisma.UserUncheckedUpdateWithoutCoursesInput>
 }
 
+export type UserCreateNestedOneWithoutCareerPlansInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCareerPlansInput, Prisma.UserUncheckedCreateWithoutCareerPlansInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCareerPlansInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutManagedPlansInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutManagedPlansInput, Prisma.UserUncheckedCreateWithoutManagedPlansInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutManagedPlansInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCareerPlansNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCareerPlansInput, Prisma.UserUncheckedCreateWithoutCareerPlansInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCareerPlansInput
+  upsert?: Prisma.UserUpsertWithoutCareerPlansInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCareerPlansInput, Prisma.UserUpdateWithoutCareerPlansInput>, Prisma.UserUncheckedUpdateWithoutCareerPlansInput>
+}
+
+export type UserUpdateOneWithoutManagedPlansNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutManagedPlansInput, Prisma.UserUncheckedCreateWithoutManagedPlansInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutManagedPlansInput
+  upsert?: Prisma.UserUpsertWithoutManagedPlansInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutManagedPlansInput, Prisma.UserUpdateWithoutManagedPlansInput>, Prisma.UserUncheckedUpdateWithoutManagedPlansInput>
+}
+
 export type UserCreateWithoutSubordinatesInput = {
   email: string
   password: string
@@ -620,6 +665,8 @@ export type UserCreateWithoutSubordinatesInput = {
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   manager?: Prisma.UserCreateNestedOneWithoutSubordinatesInput
+  careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
 }
 
 export type UserUncheckedCreateWithoutSubordinatesInput = {
@@ -634,6 +681,8 @@ export type UserUncheckedCreateWithoutSubordinatesInput = {
   skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
+  careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
 }
 
 export type UserCreateOrConnectWithoutSubordinatesInput = {
@@ -652,6 +701,8 @@ export type UserCreateWithoutManagerInput = {
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   subordinates?: Prisma.UserCreateNestedManyWithoutManagerInput
+  careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
 }
 
 export type UserUncheckedCreateWithoutManagerInput = {
@@ -666,6 +717,8 @@ export type UserUncheckedCreateWithoutManagerInput = {
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   subordinates?: Prisma.UserUncheckedCreateNestedManyWithoutManagerInput
+  careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
 }
 
 export type UserCreateOrConnectWithoutManagerInput = {
@@ -700,6 +753,8 @@ export type UserUpdateWithoutSubordinatesInput = {
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   manager?: Prisma.UserUpdateOneWithoutSubordinatesNestedInput
+  careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubordinatesInput = {
@@ -714,6 +769,8 @@ export type UserUncheckedUpdateWithoutSubordinatesInput = {
   skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
+  careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
 }
 
 export type UserUpsertWithWhereUniqueWithoutManagerInput = {
@@ -757,6 +814,8 @@ export type UserCreateWithoutRefreshTokensInput = {
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   manager?: Prisma.UserCreateNestedOneWithoutSubordinatesInput
   subordinates?: Prisma.UserCreateNestedManyWithoutManagerInput
+  careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
 }
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -771,6 +830,8 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   subordinates?: Prisma.UserUncheckedCreateNestedManyWithoutManagerInput
+  careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
 }
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -800,6 +861,8 @@ export type UserUpdateWithoutRefreshTokensInput = {
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   manager?: Prisma.UserUpdateOneWithoutSubordinatesNestedInput
   subordinates?: Prisma.UserUpdateManyWithoutManagerNestedInput
+  careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -814,6 +877,8 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   subordinates?: Prisma.UserUncheckedUpdateManyWithoutManagerNestedInput
+  careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
 }
 
 export type UserCreateWithoutSkillsInput = {
@@ -827,6 +892,8 @@ export type UserCreateWithoutSkillsInput = {
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   manager?: Prisma.UserCreateNestedOneWithoutSubordinatesInput
   subordinates?: Prisma.UserCreateNestedManyWithoutManagerInput
+  careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
 }
 
 export type UserUncheckedCreateWithoutSkillsInput = {
@@ -841,6 +908,8 @@ export type UserUncheckedCreateWithoutSkillsInput = {
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   subordinates?: Prisma.UserUncheckedCreateNestedManyWithoutManagerInput
+  careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
 }
 
 export type UserCreateOrConnectWithoutSkillsInput = {
@@ -870,6 +939,8 @@ export type UserUpdateWithoutSkillsInput = {
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   manager?: Prisma.UserUpdateOneWithoutSubordinatesNestedInput
   subordinates?: Prisma.UserUpdateManyWithoutManagerNestedInput
+  careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSkillsInput = {
@@ -884,6 +955,8 @@ export type UserUncheckedUpdateWithoutSkillsInput = {
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   subordinates?: Prisma.UserUncheckedUpdateManyWithoutManagerNestedInput
+  careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
 }
 
 export type UserCreateWithoutCoursesInput = {
@@ -897,6 +970,8 @@ export type UserCreateWithoutCoursesInput = {
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   manager?: Prisma.UserCreateNestedOneWithoutSubordinatesInput
   subordinates?: Prisma.UserCreateNestedManyWithoutManagerInput
+  careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
 }
 
 export type UserUncheckedCreateWithoutCoursesInput = {
@@ -911,6 +986,8 @@ export type UserUncheckedCreateWithoutCoursesInput = {
   skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   subordinates?: Prisma.UserUncheckedCreateNestedManyWithoutManagerInput
+  careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
 }
 
 export type UserCreateOrConnectWithoutCoursesInput = {
@@ -940,6 +1017,8 @@ export type UserUpdateWithoutCoursesInput = {
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   manager?: Prisma.UserUpdateOneWithoutSubordinatesNestedInput
   subordinates?: Prisma.UserUpdateManyWithoutManagerNestedInput
+  careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -954,6 +1033,164 @@ export type UserUncheckedUpdateWithoutCoursesInput = {
   skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   subordinates?: Prisma.UserUncheckedUpdateManyWithoutManagerNestedInput
+  careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
+}
+
+export type UserCreateWithoutCareerPlansInput = {
+  email: string
+  password: string
+  name?: string | null
+  roles?: Prisma.UserCreaterolesInput | $Enums.Role[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  skills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
+  manager?: Prisma.UserCreateNestedOneWithoutSubordinatesInput
+  subordinates?: Prisma.UserCreateNestedManyWithoutManagerInput
+  managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
+}
+
+export type UserUncheckedCreateWithoutCareerPlansInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  roles?: Prisma.UserCreaterolesInput | $Enums.Role[]
+  managerId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
+  subordinates?: Prisma.UserUncheckedCreateNestedManyWithoutManagerInput
+  managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
+}
+
+export type UserCreateOrConnectWithoutCareerPlansInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCareerPlansInput, Prisma.UserUncheckedCreateWithoutCareerPlansInput>
+}
+
+export type UserCreateWithoutManagedPlansInput = {
+  email: string
+  password: string
+  name?: string | null
+  roles?: Prisma.UserCreaterolesInput | $Enums.Role[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  skills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
+  manager?: Prisma.UserCreateNestedOneWithoutSubordinatesInput
+  subordinates?: Prisma.UserCreateNestedManyWithoutManagerInput
+  careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutManagedPlansInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  roles?: Prisma.UserCreaterolesInput | $Enums.Role[]
+  managerId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
+  subordinates?: Prisma.UserUncheckedCreateNestedManyWithoutManagerInput
+  careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutManagedPlansInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutManagedPlansInput, Prisma.UserUncheckedCreateWithoutManagedPlansInput>
+}
+
+export type UserUpsertWithoutCareerPlansInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCareerPlansInput, Prisma.UserUncheckedUpdateWithoutCareerPlansInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCareerPlansInput, Prisma.UserUncheckedCreateWithoutCareerPlansInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCareerPlansInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCareerPlansInput, Prisma.UserUncheckedUpdateWithoutCareerPlansInput>
+}
+
+export type UserUpdateWithoutCareerPlansInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.UserUpdaterolesInput | $Enums.Role[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  skills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
+  manager?: Prisma.UserUpdateOneWithoutSubordinatesNestedInput
+  subordinates?: Prisma.UserUpdateManyWithoutManagerNestedInput
+  managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCareerPlansInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.UserUpdaterolesInput | $Enums.Role[]
+  managerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
+  subordinates?: Prisma.UserUncheckedUpdateManyWithoutManagerNestedInput
+  managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
+}
+
+export type UserUpsertWithoutManagedPlansInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutManagedPlansInput, Prisma.UserUncheckedUpdateWithoutManagedPlansInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutManagedPlansInput, Prisma.UserUncheckedCreateWithoutManagedPlansInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutManagedPlansInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutManagedPlansInput, Prisma.UserUncheckedUpdateWithoutManagedPlansInput>
+}
+
+export type UserUpdateWithoutManagedPlansInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.UserUpdaterolesInput | $Enums.Role[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  skills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
+  manager?: Prisma.UserUpdateOneWithoutSubordinatesNestedInput
+  subordinates?: Prisma.UserUpdateManyWithoutManagerNestedInput
+  careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutManagedPlansInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.UserUpdaterolesInput | $Enums.Role[]
+  managerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
+  subordinates?: Prisma.UserUncheckedUpdateManyWithoutManagerNestedInput
+  careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyManagerInput = {
@@ -977,6 +1214,8 @@ export type UserUpdateWithoutManagerInput = {
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   subordinates?: Prisma.UserUpdateManyWithoutManagerNestedInput
+  careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutManagerInput = {
@@ -991,6 +1230,8 @@ export type UserUncheckedUpdateWithoutManagerInput = {
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   subordinates?: Prisma.UserUncheckedUpdateManyWithoutManagerNestedInput
+  careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutManagerInput = {
@@ -1013,6 +1254,8 @@ export type UserCountOutputType = {
   refreshTokens: number
   courses: number
   subordinates: number
+  careerPlans: number
+  managedPlans: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1020,6 +1263,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
   courses?: boolean | UserCountOutputTypeCountCoursesArgs
   subordinates?: boolean | UserCountOutputTypeCountSubordinatesArgs
+  careerPlans?: boolean | UserCountOutputTypeCountCareerPlansArgs
+  managedPlans?: boolean | UserCountOutputTypeCountManagedPlansArgs
 }
 
 /**
@@ -1060,6 +1305,20 @@ export type UserCountOutputTypeCountSubordinatesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.UserWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCareerPlansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CareerPlanWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountManagedPlansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CareerPlanWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1075,6 +1334,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
   manager?: boolean | Prisma.User$managerArgs<ExtArgs>
   subordinates?: boolean | Prisma.User$subordinatesArgs<ExtArgs>
+  careerPlans?: boolean | Prisma.User$careerPlansArgs<ExtArgs>
+  managedPlans?: boolean | Prisma.User$managedPlansArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1120,6 +1381,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
   manager?: boolean | Prisma.User$managerArgs<ExtArgs>
   subordinates?: boolean | Prisma.User$subordinatesArgs<ExtArgs>
+  careerPlans?: boolean | Prisma.User$careerPlansArgs<ExtArgs>
+  managedPlans?: boolean | Prisma.User$managedPlansArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1137,6 +1400,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     courses: Prisma.$CoursePayload<ExtArgs>[]
     manager: Prisma.$UserPayload<ExtArgs> | null
     subordinates: Prisma.$UserPayload<ExtArgs>[]
+    careerPlans: Prisma.$CareerPlanPayload<ExtArgs>[]
+    managedPlans: Prisma.$CareerPlanPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1546,6 +1811,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   courses<T extends Prisma.User$coursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   manager<T extends Prisma.User$managerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managerArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   subordinates<T extends Prisma.User$subordinatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subordinatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  careerPlans<T extends Prisma.User$careerPlansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$careerPlansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CareerPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  managedPlans<T extends Prisma.User$managedPlansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managedPlansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CareerPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1580,238 +1847,7 @@ export interface UserFieldRefs {
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly roles: Prisma.FieldRef<"User", 'Role[]'>
-  readonly managerId: Prisma.FieldRef<"User", 'Int'>
-  readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
-}
-    
-
-// Custom InputTypes
-/**
- * User findUnique
- */
-export type UserFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the User
-   */
-  select?: Prisma.UserSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the User
-   */
-  omit?: Prisma.UserOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  /**
-   * Filter, which User to fetch.
-   */
-  where: Prisma.UserWhereUniqueInput
-}
-
-/**
- * User findUniqueOrThrow
- */
-export type UserFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the User
-   */
-  select?: Prisma.UserSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the User
-   */
-  omit?: Prisma.UserOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  /**
-   * Filter, which User to fetch.
-   */
-  where: Prisma.UserWhereUniqueInput
-}
-
-/**
- * User findFirst
- */
-export type UserFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the User
-   */
-  select?: Prisma.UserSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the User
-   */
-  omit?: Prisma.UserOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  /**
-   * Filter, which User to fetch.
-   */
-  where?: Prisma.UserWhereInput
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-   * 
-   * Determine the order of Users to fetch.
-   */
-  orderBy?: Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[]
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-   * 
-   * Sets the position for searching for Users.
-   */
-  cursor?: Prisma.UserWhereUniqueInput
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-   * 
-   * Take `±n` Users from the position of the cursor.
-   */
-  take?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-   * 
-   * Skip the first `n` Users.
-   */
-  skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of Users.
-   */
-  distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
-}
-
-/**
- * User findFirstOrThrow
- */
-export type UserFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the User
-   */
-  select?: Prisma.UserSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the User
-   */
-  omit?: Prisma.UserOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  /**
-   * Filter, which User to fetch.
-   */
-  where?: Prisma.UserWhereInput
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-   * 
-   * Determine the order of Users to fetch.
-   */
-  orderBy?: Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[]
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-   * 
-   * Sets the position for searching for Users.
-   */
-  cursor?: Prisma.UserWhereUniqueInput
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-   * 
-   * Take `±n` Users from the position of the cursor.
-   */
-  take?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-   * 
-   * Skip the first `n` Users.
-   */
-  skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of Users.
-   */
-  distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
-}
-
-/**
- * User findMany
- */
-export type UserFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the User
-   */
-  select?: Prisma.UserSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the User
-   */
-  omit?: Prisma.UserOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  /**
-   * Filter, which Users to fetch.
-   */
-  where?: Prisma.UserWhereInput
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-   * 
-   * Determine the order of Users to fetch.
-   */
-  orderBy?: Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[]
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-   * 
-   * Sets the position for listing Users.
-   */
-  cursor?: Prisma.UserWhereUniqueInput
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-   * 
-   * Take `±n` Users from the position of the cursor.
-   */
-  take?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-   * 
-   * Skip the first `n` Users.
-   */
-  skip?: number
-  distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
-}
-
-/**
- * User create
- */
-export type UserCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the User
-   */
-  select?: Prisma.UserSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the User
-   */
-  omit?: Prisma.UserOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  /**
-   * The data needed to create a User.
-   */
-  data: Prisma.XOR<Prisma.UserCreateInput, Prisma.UserUncheckedCreateInput>
-}
-
-/**
- * User createMany
- */
-export type UserCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * The data used to create many Users.
-   */
-  data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[]
+serCreateManyInput[]
   skipDuplicates?: boolean
 }
 
@@ -2057,7 +2093,7 @@ export type User$managerArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   /**
    * Select specific fields to fetch from the User
    */
-  select?: Prisma.UserSelect<ExtArgs> | null
+  select?: Prisma.UserSelect<ExtArzgs> | null
   /**
    * Omit specific fields from the User
    */
@@ -2091,6 +2127,54 @@ export type User$subordinatesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
+}
+
+/**
+ * User.careerPlans
+ */
+export type User$careerPlansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CareerPlan
+   */
+  select?: Prisma.CareerPlanSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CareerPlan
+   */
+  omit?: Prisma.CareerPlanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CareerPlanInclude<ExtArgs> | null
+  where?: Prisma.CareerPlanWhereInput
+  orderBy?: Prisma.CareerPlanOrderByWithRelationInput | Prisma.CareerPlanOrderByWithRelationInput[]
+  cursor?: Prisma.CareerPlanWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CareerPlanScalarFieldEnum | Prisma.CareerPlanScalarFieldEnum[]
+}
+
+/**
+ * User.managedPlans
+ */
+export type User$managedPlansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CareerPlan
+   */
+  select?: Prisma.CareerPlanSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CareerPlan
+   */
+  omit?: Prisma.CareerPlanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CareerPlanInclude<ExtArgs> | null
+  where?: Prisma.CareerPlanWhereInput
+  orderBy?: Prisma.CareerPlanOrderByWithRelationInput | Prisma.CareerPlanOrderByWithRelationInput[]
+  cursor?: Prisma.CareerPlanWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CareerPlanScalarFieldEnum | Prisma.CareerPlanScalarFieldEnum[]
 }
 
 /**

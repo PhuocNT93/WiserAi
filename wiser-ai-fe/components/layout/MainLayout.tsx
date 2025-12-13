@@ -208,7 +208,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                             </Box>
                         </>
                     ) : (
-                        <Button color="inherit" onClick={() => router.push('/login')}>Login</Button>
+                        <Button color="inherit" onClick={() => router.push('/')}>Login</Button>
                     )}
                 </Toolbar>
             </AppBar>

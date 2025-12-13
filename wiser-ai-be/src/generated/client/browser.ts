@@ -47,3 +47,8 @@ export type Course = Prisma.CourseModel
  * 
  */
 export type MasterData = Prisma.MasterDataModel
+/**
+ * Model CareerPlan
+ * 
+ */
+export type CareerPlan = Prisma.CareerPlanModel
