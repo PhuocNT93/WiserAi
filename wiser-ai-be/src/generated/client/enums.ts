@@ -17,3 +17,22 @@ export const Role = {
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const Position = {
+  DEV: 'DEV',
+  QC: 'QC',
+  BA: 'BA'
+} as const
+
+export type Position = (typeof Position)[keyof typeof Position]
+
+
+export const Level = {
+  Fresher: 'Fresher',
+  Junior: 'Junior',
+  Senior: 'Senior',
+  Master: 'Master'
+} as const
+
+export type Level = (typeof Level)[keyof typeof Level]

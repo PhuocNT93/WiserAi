@@ -389,7 +389,8 @@ export const ModelName = {
   UserSkill: 'UserSkill',
   ConfigData: 'ConfigData',
   Course: 'Course',
-  MasterData: 'MasterData'
+  RoleSkillMapping: 'RoleSkillMapping',
+  EmployeeProfile: 'EmployeeProfile'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "refreshToken" | "userSkill" | "configData" | "course" | "masterData"
+    modelProps: "user" | "refreshToken" | "userSkill" | "configData" | "course" | "roleSkillMapping" | "employeeProfile"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -779,77 +780,151 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    MasterData: {
-      payload: Prisma.$MasterDataPayload<ExtArgs>
-      fields: Prisma.MasterDataFieldRefs
+    RoleSkillMapping: {
+      payload: Prisma.$RoleSkillMappingPayload<ExtArgs>
+      fields: Prisma.RoleSkillMappingFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.MasterDataFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MasterDataPayload> | null
+          args: Prisma.RoleSkillMappingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleSkillMappingPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.MasterDataFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MasterDataPayload>
+          args: Prisma.RoleSkillMappingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleSkillMappingPayload>
         }
         findFirst: {
-          args: Prisma.MasterDataFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MasterDataPayload> | null
+          args: Prisma.RoleSkillMappingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleSkillMappingPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.MasterDataFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MasterDataPayload>
+          args: Prisma.RoleSkillMappingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleSkillMappingPayload>
         }
         findMany: {
-          args: Prisma.MasterDataFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MasterDataPayload>[]
+          args: Prisma.RoleSkillMappingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleSkillMappingPayload>[]
         }
         create: {
-          args: Prisma.MasterDataCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MasterDataPayload>
+          args: Prisma.RoleSkillMappingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleSkillMappingPayload>
         }
         createMany: {
-          args: Prisma.MasterDataCreateManyArgs<ExtArgs>
+          args: Prisma.RoleSkillMappingCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.MasterDataCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MasterDataPayload>[]
+          args: Prisma.RoleSkillMappingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleSkillMappingPayload>[]
         }
         delete: {
-          args: Prisma.MasterDataDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MasterDataPayload>
+          args: Prisma.RoleSkillMappingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleSkillMappingPayload>
         }
         update: {
-          args: Prisma.MasterDataUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MasterDataPayload>
+          args: Prisma.RoleSkillMappingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleSkillMappingPayload>
         }
         deleteMany: {
-          args: Prisma.MasterDataDeleteManyArgs<ExtArgs>
+          args: Prisma.RoleSkillMappingDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.MasterDataUpdateManyArgs<ExtArgs>
+          args: Prisma.RoleSkillMappingUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.MasterDataUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MasterDataPayload>[]
+          args: Prisma.RoleSkillMappingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleSkillMappingPayload>[]
         }
         upsert: {
-          args: Prisma.MasterDataUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MasterDataPayload>
+          args: Prisma.RoleSkillMappingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleSkillMappingPayload>
         }
         aggregate: {
-          args: Prisma.MasterDataAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateMasterData>
+          args: Prisma.RoleSkillMappingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRoleSkillMapping>
         }
         groupBy: {
-          args: Prisma.MasterDataGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MasterDataGroupByOutputType>[]
+          args: Prisma.RoleSkillMappingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RoleSkillMappingGroupByOutputType>[]
         }
         count: {
-          args: Prisma.MasterDataCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MasterDataCountAggregateOutputType> | number
+          args: Prisma.RoleSkillMappingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RoleSkillMappingCountAggregateOutputType> | number
+        }
+      }
+    }
+    EmployeeProfile: {
+      payload: Prisma.$EmployeeProfilePayload<ExtArgs>
+      fields: Prisma.EmployeeProfileFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EmployeeProfileFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeeProfilePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EmployeeProfileFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeeProfilePayload>
+        }
+        findFirst: {
+          args: Prisma.EmployeeProfileFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeeProfilePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EmployeeProfileFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeeProfilePayload>
+        }
+        findMany: {
+          args: Prisma.EmployeeProfileFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeeProfilePayload>[]
+        }
+        create: {
+          args: Prisma.EmployeeProfileCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeeProfilePayload>
+        }
+        createMany: {
+          args: Prisma.EmployeeProfileCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EmployeeProfileCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeeProfilePayload>[]
+        }
+        delete: {
+          args: Prisma.EmployeeProfileDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeeProfilePayload>
+        }
+        update: {
+          args: Prisma.EmployeeProfileUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeeProfilePayload>
+        }
+        deleteMany: {
+          args: Prisma.EmployeeProfileDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EmployeeProfileUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EmployeeProfileUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeeProfilePayload>[]
+        }
+        upsert: {
+          args: Prisma.EmployeeProfileUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmployeeProfilePayload>
+        }
+        aggregate: {
+          args: Prisma.EmployeeProfileAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEmployeeProfile>
+        }
+        groupBy: {
+          args: Prisma.EmployeeProfileGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EmployeeProfileGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EmployeeProfileCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EmployeeProfileCountAggregateOutputType> | number
         }
       }
     }
@@ -958,18 +1033,32 @@ export const CourseScalarFieldEnum = {
 export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
 
 
-export const MasterDataScalarFieldEnum = {
+export const RoleSkillMappingScalarFieldEnum = {
   id: 'id',
-  category: 'category',
+  position: 'position',
   code: 'code',
   name: 'name',
-  value: 'value',
+  level: 'level',
   description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type MasterDataScalarFieldEnum = (typeof MasterDataScalarFieldEnum)[keyof typeof MasterDataScalarFieldEnum]
+export type RoleSkillMappingScalarFieldEnum = (typeof RoleSkillMappingScalarFieldEnum)[keyof typeof RoleSkillMappingScalarFieldEnum]
+
+
+export const EmployeeProfileScalarFieldEnum = {
+  id: 'id',
+  userEmail: 'userEmail',
+  engName: 'engName',
+  empCode: 'empCode',
+  busUnit: 'busUnit',
+  jobTitle: 'jobTitle',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EmployeeProfileScalarFieldEnum = (typeof EmployeeProfileScalarFieldEnum)[keyof typeof EmployeeProfileScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1178,7 +1267,8 @@ export type GlobalOmitConfig = {
   userSkill?: Prisma.UserSkillOmit
   configData?: Prisma.ConfigDataOmit
   course?: Prisma.CourseOmit
-  masterData?: Prisma.MasterDataOmit
+  roleSkillMapping?: Prisma.RoleSkillMappingOmit
+  employeeProfile?: Prisma.EmployeeProfileOmit
 }
 
 /* Types for Logging */

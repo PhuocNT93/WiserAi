@@ -14,6 +14,19 @@ enum Role {
   ADMIN
 }
 
+enum Position {
+  DEV
+  QC
+  BA
+}
+
+enum Level {
+  Fresher
+  Junior
+  Senior
+  Master
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
@@ -91,16 +104,30 @@ model Course {
   @@map("courses")
 }
 
-model MasterData {
+// Master Data - Dat
+model RoleSkillMapping {
   id          Int      @id @default(autoincrement())
-  category    String   // e.g., "SKILL_CATEGORY", "DEPARTMENT"
+  position    String
   code        String   @unique
   name        String
-  value       String?
+  level       String
   description String?
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@map("master_data")
+  @@map("role_skill_mapping")
+}
+model EmployeeProfile {
+  id             Int      @id @default(autoincrement())
+  userEmail      String
+  engName        String
+  empCode        String   @unique
+  busUnit        String
+  jobTitle       String
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("employee_profile_mapping")
 }
