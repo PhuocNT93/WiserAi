@@ -1126,7 +1126,7 @@ export type RoleSkillMappingScalarFieldEnum = (typeof RoleSkillMappingScalarFiel
 
 export const EmployeeProfileScalarFieldEnum = {
   id: 'id',
-  userEmail: 'userEmail',
+  userId: 'userId',
   engName: 'engName',
   empCode: 'empCode',
   busUnit: 'busUnit',
@@ -1273,6 +1273,20 @@ export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'Position'
+ */
+export type EnumPositionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Position'>
+    
+
+
+/**
+ * Reference to a field of type 'Position[]'
+ */
+export type ListEnumPositionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Position[]'>
     
 
 

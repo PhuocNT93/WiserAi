@@ -258,6 +258,7 @@ export type UserWhereInput = {
   managerId?: Prisma.IntNullableFilter<"User"> | number | null
   careerPlans?: Prisma.CareerPlanListRelationFilter
   managedPlans?: Prisma.CareerPlanListRelationFilter
+  profile?: Prisma.EmployeeProfileListRelationFilter
   skills?: Prisma.UserSkillListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
   courses?: Prisma.CourseListRelationFilter
@@ -278,6 +279,7 @@ export type UserOrderByWithRelationInput = {
   managerId?: Prisma.SortOrderInput | Prisma.SortOrder
   careerPlans?: Prisma.CareerPlanOrderByRelationAggregateInput
   managedPlans?: Prisma.CareerPlanOrderByRelationAggregateInput
+  profile?: Prisma.EmployeeProfileOrderByRelationAggregateInput
   skills?: Prisma.UserSkillOrderByRelationAggregateInput
   refreshTokens?: Prisma.RefreshTokenOrderByRelationAggregateInput
   courses?: Prisma.CourseOrderByRelationAggregateInput
@@ -301,6 +303,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   managerId?: Prisma.IntNullableFilter<"User"> | number | null
   careerPlans?: Prisma.CareerPlanListRelationFilter
   managedPlans?: Prisma.CareerPlanListRelationFilter
+  profile?: Prisma.EmployeeProfileListRelationFilter
   skills?: Prisma.UserSkillListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
   courses?: Prisma.CourseListRelationFilter
@@ -353,6 +356,7 @@ export type UserCreateInput = {
   jobTitle?: string | null
   careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
   managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
@@ -373,6 +377,7 @@ export type UserUncheckedCreateInput = {
   managerId?: number | null
   careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
   managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileUncheckedCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
@@ -390,6 +395,7 @@ export type UserUpdateInput = {
   jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
   managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
@@ -410,6 +416,7 @@ export type UserUncheckedUpdateInput = {
   managerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
   managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUncheckedUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
@@ -667,6 +674,20 @@ export type UserUpdateOneWithoutCoursesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCoursesInput, Prisma.UserUpdateWithoutCoursesInput>, Prisma.UserUncheckedUpdateWithoutCoursesInput>
 }
 
+export type UserCreateNestedOneWithoutProfileInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProfileInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProfileInput
+  upsert?: Prisma.UserUpsertWithoutProfileInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProfileInput, Prisma.UserUpdateWithoutProfileInput>, Prisma.UserUncheckedUpdateWithoutProfileInput>
+}
+
 export type UserCreateNestedOneWithoutCareerPlansInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutCareerPlansInput, Prisma.UserUncheckedCreateWithoutCareerPlansInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutCareerPlansInput
@@ -708,6 +729,7 @@ export type UserCreateWithoutSubordinatesInput = {
   jobTitle?: string | null
   careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
   managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
@@ -727,6 +749,7 @@ export type UserUncheckedCreateWithoutSubordinatesInput = {
   managerId?: number | null
   careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
   managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileUncheckedCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
@@ -748,6 +771,7 @@ export type UserCreateWithoutManagerInput = {
   jobTitle?: string | null
   careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
   managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
@@ -766,6 +790,7 @@ export type UserUncheckedCreateWithoutManagerInput = {
   jobTitle?: string | null
   careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
   managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileUncheckedCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
@@ -804,6 +829,7 @@ export type UserUpdateWithoutSubordinatesInput = {
   jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
   managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
@@ -823,6 +849,7 @@ export type UserUncheckedUpdateWithoutSubordinatesInput = {
   managerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
   managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUncheckedUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
@@ -871,6 +898,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   jobTitle?: string | null
   careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
   managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   manager?: Prisma.UserCreateNestedOneWithoutSubordinatesInput
@@ -890,6 +918,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   managerId?: number | null
   careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
   managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileUncheckedCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   subordinates?: Prisma.UserUncheckedCreateNestedManyWithoutManagerInput
@@ -922,6 +951,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
   managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   manager?: Prisma.UserUpdateOneWithoutSubordinatesNestedInput
@@ -941,6 +971,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   managerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
   managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUncheckedUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   subordinates?: Prisma.UserUncheckedUpdateManyWithoutManagerNestedInput
@@ -957,6 +988,7 @@ export type UserCreateWithoutSkillsInput = {
   jobTitle?: string | null
   careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
   managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   manager?: Prisma.UserCreateNestedOneWithoutSubordinatesInput
@@ -976,6 +1008,7 @@ export type UserUncheckedCreateWithoutSkillsInput = {
   managerId?: number | null
   careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
   managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   subordinates?: Prisma.UserUncheckedCreateNestedManyWithoutManagerInput
@@ -1008,6 +1041,7 @@ export type UserUpdateWithoutSkillsInput = {
   jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
   managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   manager?: Prisma.UserUpdateOneWithoutSubordinatesNestedInput
@@ -1027,6 +1061,7 @@ export type UserUncheckedUpdateWithoutSkillsInput = {
   managerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
   managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   subordinates?: Prisma.UserUncheckedUpdateManyWithoutManagerNestedInput
@@ -1043,6 +1078,7 @@ export type UserCreateWithoutCoursesInput = {
   jobTitle?: string | null
   careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
   managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   manager?: Prisma.UserCreateNestedOneWithoutSubordinatesInput
@@ -1062,6 +1098,7 @@ export type UserUncheckedCreateWithoutCoursesInput = {
   managerId?: number | null
   careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
   managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileUncheckedCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   subordinates?: Prisma.UserUncheckedCreateNestedManyWithoutManagerInput
@@ -1094,6 +1131,7 @@ export type UserUpdateWithoutCoursesInput = {
   jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
   managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   manager?: Prisma.UserUpdateOneWithoutSubordinatesNestedInput
@@ -1113,8 +1151,99 @@ export type UserUncheckedUpdateWithoutCoursesInput = {
   managerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
   managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUncheckedUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  subordinates?: Prisma.UserUncheckedUpdateManyWithoutManagerNestedInput
+}
+
+export type UserCreateWithoutProfileInput = {
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  email: string
+  password: string
+  name: string
+  roles?: Prisma.UserCreaterolesInput | $Enums.Role[]
+  level?: string | null
+  jobTitle?: string | null
+  careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
+  skills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
+  manager?: Prisma.UserCreateNestedOneWithoutSubordinatesInput
+  subordinates?: Prisma.UserCreateNestedManyWithoutManagerInput
+}
+
+export type UserUncheckedCreateWithoutProfileInput = {
+  id?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  email: string
+  password: string
+  name: string
+  roles?: Prisma.UserCreaterolesInput | $Enums.Role[]
+  level?: string | null
+  jobTitle?: string | null
+  managerId?: number | null
+  careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
+  managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
+  skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
+  subordinates?: Prisma.UserUncheckedCreateNestedManyWithoutManagerInput
+}
+
+export type UserCreateOrConnectWithoutProfileInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
+}
+
+export type UserUpsertWithoutProfileInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutProfileInput, Prisma.UserUncheckedUpdateWithoutProfileInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutProfileInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutProfileInput, Prisma.UserUncheckedUpdateWithoutProfileInput>
+}
+
+export type UserUpdateWithoutProfileInput = {
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  roles?: Prisma.UserUpdaterolesInput | $Enums.Role[]
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
+  skills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
+  manager?: Prisma.UserUpdateOneWithoutSubordinatesNestedInput
+  subordinates?: Prisma.UserUpdateManyWithoutManagerNestedInput
+}
+
+export type UserUncheckedUpdateWithoutProfileInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  roles?: Prisma.UserUpdaterolesInput | $Enums.Role[]
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
+  managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
+  skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   subordinates?: Prisma.UserUncheckedUpdateManyWithoutManagerNestedInput
 }
 
@@ -1128,6 +1257,7 @@ export type UserCreateWithoutCareerPlansInput = {
   level?: string | null
   jobTitle?: string | null
   managedPlans?: Prisma.CareerPlanCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
@@ -1147,6 +1277,7 @@ export type UserUncheckedCreateWithoutCareerPlansInput = {
   jobTitle?: string | null
   managerId?: number | null
   managedPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutManagerInput
+  profile?: Prisma.EmployeeProfileUncheckedCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
@@ -1168,6 +1299,7 @@ export type UserCreateWithoutManagedPlansInput = {
   level?: string | null
   jobTitle?: string | null
   careerPlans?: Prisma.CareerPlanCreateNestedManyWithoutUserInput
+  profile?: Prisma.EmployeeProfileCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
@@ -1187,6 +1319,7 @@ export type UserUncheckedCreateWithoutManagedPlansInput = {
   jobTitle?: string | null
   managerId?: number | null
   careerPlans?: Prisma.CareerPlanUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.EmployeeProfileUncheckedCreateNestedManyWithoutUserInput
   skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
@@ -1219,6 +1352,7 @@ export type UserUpdateWithoutCareerPlansInput = {
   level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
@@ -1238,6 +1372,7 @@ export type UserUncheckedUpdateWithoutCareerPlansInput = {
   jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUncheckedUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1265,6 +1400,7 @@ export type UserUpdateWithoutManagedPlansInput = {
   level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
+  profile?: Prisma.EmployeeProfileUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
@@ -1284,6 +1420,7 @@ export type UserUncheckedUpdateWithoutManagedPlansInput = {
   jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.EmployeeProfileUncheckedUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1313,6 +1450,7 @@ export type UserUpdateWithoutManagerInput = {
   jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerPlans?: Prisma.CareerPlanUpdateManyWithoutUserNestedInput
   managedPlans?: Prisma.CareerPlanUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
@@ -1331,6 +1469,7 @@ export type UserUncheckedUpdateWithoutManagerInput = {
   jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   careerPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutUserNestedInput
   managedPlans?: Prisma.CareerPlanUncheckedUpdateManyWithoutManagerNestedInput
+  profile?: Prisma.EmployeeProfileUncheckedUpdateManyWithoutUserNestedInput
   skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1357,6 +1496,7 @@ export type UserUncheckedUpdateManyWithoutManagerInput = {
 export type UserCountOutputType = {
   careerPlans: number
   managedPlans: number
+  profile: number
   skills: number
   refreshTokens: number
   courses: number
@@ -1366,6 +1506,7 @@ export type UserCountOutputType = {
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   careerPlans?: boolean | UserCountOutputTypeCountCareerPlansArgs
   managedPlans?: boolean | UserCountOutputTypeCountManagedPlansArgs
+  profile?: boolean | UserCountOutputTypeCountProfileArgs
   skills?: boolean | UserCountOutputTypeCountSkillsArgs
   refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
   courses?: boolean | UserCountOutputTypeCountCoursesArgs
@@ -1394,6 +1535,13 @@ export type UserCountOutputTypeCountCareerPlansArgs<ExtArgs extends runtime.Type
  */
 export type UserCountOutputTypeCountManagedPlansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CareerPlanWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EmployeeProfileWhereInput
 }
 
 /**
@@ -1438,6 +1586,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   managerId?: boolean
   careerPlans?: boolean | Prisma.User$careerPlansArgs<ExtArgs>
   managedPlans?: boolean | Prisma.User$managedPlansArgs<ExtArgs>
+  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   skills?: boolean | Prisma.User$skillsArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
   courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
@@ -1491,6 +1640,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   careerPlans?: boolean | Prisma.User$careerPlansArgs<ExtArgs>
   managedPlans?: boolean | Prisma.User$managedPlansArgs<ExtArgs>
+  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   skills?: boolean | Prisma.User$skillsArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
   courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
@@ -1510,6 +1660,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     careerPlans: Prisma.$CareerPlanPayload<ExtArgs>[]
     managedPlans: Prisma.$CareerPlanPayload<ExtArgs>[]
+    profile: Prisma.$EmployeeProfilePayload<ExtArgs>[]
     skills: Prisma.$UserSkillPayload<ExtArgs>[]
     refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
     courses: Prisma.$CoursePayload<ExtArgs>[]
@@ -1923,6 +2074,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   careerPlans<T extends Prisma.User$careerPlansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$careerPlansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CareerPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   managedPlans<T extends Prisma.User$managedPlansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managedPlansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CareerPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  profile<T extends Prisma.User$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profileArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmployeeProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   skills<T extends Prisma.User$skillsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$skillsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   refreshTokens<T extends Prisma.User$refreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   courses<T extends Prisma.User$coursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2408,6 +2560,30 @@ export type User$managedPlansArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.CareerPlanScalarFieldEnum | Prisma.CareerPlanScalarFieldEnum[]
+}
+
+/**
+ * User.profile
+ */
+export type User$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EmployeeProfile
+   */
+  select?: Prisma.EmployeeProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EmployeeProfile
+   */
+  omit?: Prisma.EmployeeProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileInclude<ExtArgs> | null
+  where?: Prisma.EmployeeProfileWhereInput
+  orderBy?: Prisma.EmployeeProfileOrderByWithRelationInput | Prisma.EmployeeProfileOrderByWithRelationInput[]
+  cursor?: Prisma.EmployeeProfileWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EmployeeProfileScalarFieldEnum | Prisma.EmployeeProfileScalarFieldEnum[]
 }
 
 /**

@@ -161,7 +161,7 @@ export type RoleSkillMappingScalarFieldEnum = (typeof RoleSkillMappingScalarFiel
 
 export const EmployeeProfileScalarFieldEnum = {
   id: 'id',
-  userEmail: 'userEmail',
+  userId: 'userId',
   engName: 'engName',
   empCode: 'empCode',
   busUnit: 'busUnit',

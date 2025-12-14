@@ -11,7 +11,15 @@ export class RoleSkillMappingService {
     }
 
     async findAll() {
-        return this.prisma.roleSkillMapping.findMany();
+        try {
+            return this.prisma.roleSkillMapping.findMany();
+        } catch (error) {
+             return {
+                status: 500,
+                message: `Can not fetch all rolle-skill mapping. Error detail :${error}`,
+                data: []
+            }
+        }
     }
 
     async findOne(id: number) {

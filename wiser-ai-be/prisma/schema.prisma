@@ -30,8 +30,9 @@ enum UserLevel {
 model User {
   id          Int       @id @default(autoincrement())
 
-  careerPlans   CareerPlan[] @relation("UserCareerPlans")
-  managedPlans  CareerPlan[] @relation("ManagerCareerPlans")
+  careerPlans   CareerPlan[]      @relation("UserCareerPlans")
+  managedPlans  CareerPlan[]      @relation("ManagerCareerPlans")
+  profile       EmployeeProfile[] @relation("UserEmployeeProfile")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -44,13 +45,13 @@ model User {
   level    String?
   jobTitle String?
 
-  skills      UserSkill[]
-  refreshTokens RefreshToken[]
-  courses     Course[] 
-
-  managerId   Int?
-  manager     User?     @relation("UserManagement", fields: [managerId], references: [id])
-  subordinates User[]    @relation("UserManagement")
+  skills                UserSkill[]
+  refreshTokens         RefreshToken[]
+  courses               Course[]
+  
+  managerId             Int?
+  manager               User?            @relation("UserManagement", fields: [managerId], references: [id])
+  subordinates          User[]           @relation("UserManagement")
 
   @@map("users")
 }
@@ -115,7 +116,7 @@ model Course {
 // Master Data - Dat
 model RoleSkillMapping {
   id          Int      @id @default(autoincrement())
-  position    String
+  position    Position
   code        String   @unique
   name        String
   level       String
@@ -128,7 +129,8 @@ model RoleSkillMapping {
 }
 model EmployeeProfile {
   id             Int      @id @default(autoincrement())
-  userEmail      String
+  userId         Int      @unique
+  user           User     @relation("UserEmployeeProfile", fields: [userId], references: [id])
   engName        String
   empCode        String   @unique
   busUnit        String

@@ -1,7 +1,6 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '../generated/client/client';
-import { UsersService } from '../users/users.service';
 import { EmployeeProfileCreateInput } from 'src/generated/client/models';
 
 @Injectable()
@@ -11,20 +10,33 @@ export class EmployeeProfileService {
     async create(data: EmployeeProfileCreateInput) {
         // Check if the user exists by userId
         const userExists = await this.prisma.user.findUnique({
-            where: { email: data.userEmail }
+            where: { id: data.user.connect?.id }
         });
+        console.log(userExists, "TESTING");
         if (!userExists) {
-            throw new Error(`User with ID ${data.userEmail} does not exist`);
+            return {
+                status: 500,
+                message: `User Email ${data.user.connect?.email} not found in the system.`,
+                data: []
+            }
         }
         
         // Proceed with creation if user exists
         return this.prisma.employeeProfile.create({
             data
-        });
+        })
     }
 
     async findAll() {
-        return this.prisma.employeeProfile.findMany();
+        try {
+            return this.prisma.employeeProfile.findMany();
+        } catch (error) {
+            return {
+                status: 500,
+                message: `Can not fetch all employee profiles. Error detail :${error}`,
+                data: []
+            }
+        }
     }
 
     async findOne(id: number) {

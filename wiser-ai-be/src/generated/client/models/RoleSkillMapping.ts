@@ -36,7 +36,7 @@ export type RoleSkillMappingSumAggregateOutputType = {
 
 export type RoleSkillMappingMinAggregateOutputType = {
   id: number | null
-  position: string | null
+  position: $Enums.Position | null
   code: string | null
   name: string | null
   level: string | null
@@ -47,7 +47,7 @@ export type RoleSkillMappingMinAggregateOutputType = {
 
 export type RoleSkillMappingMaxAggregateOutputType = {
   id: number | null
-  position: string | null
+  position: $Enums.Position | null
   code: string | null
   name: string | null
   level: string | null
@@ -199,7 +199,7 @@ export type RoleSkillMappingGroupByArgs<ExtArgs extends runtime.Types.Extensions
 
 export type RoleSkillMappingGroupByOutputType = {
   id: number
-  position: string
+  position: $Enums.Position
   code: string
   name: string
   level: string
@@ -233,7 +233,7 @@ export type RoleSkillMappingWhereInput = {
   OR?: Prisma.RoleSkillMappingWhereInput[]
   NOT?: Prisma.RoleSkillMappingWhereInput | Prisma.RoleSkillMappingWhereInput[]
   id?: Prisma.IntFilter<"RoleSkillMapping"> | number
-  position?: Prisma.StringFilter<"RoleSkillMapping"> | string
+  position?: Prisma.EnumPositionFilter<"RoleSkillMapping"> | $Enums.Position
   code?: Prisma.StringFilter<"RoleSkillMapping"> | string
   name?: Prisma.StringFilter<"RoleSkillMapping"> | string
   level?: Prisma.StringFilter<"RoleSkillMapping"> | string
@@ -259,7 +259,7 @@ export type RoleSkillMappingWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.RoleSkillMappingWhereInput | Prisma.RoleSkillMappingWhereInput[]
   OR?: Prisma.RoleSkillMappingWhereInput[]
   NOT?: Prisma.RoleSkillMappingWhereInput | Prisma.RoleSkillMappingWhereInput[]
-  position?: Prisma.StringFilter<"RoleSkillMapping"> | string
+  position?: Prisma.EnumPositionFilter<"RoleSkillMapping"> | $Enums.Position
   name?: Prisma.StringFilter<"RoleSkillMapping"> | string
   level?: Prisma.StringFilter<"RoleSkillMapping"> | string
   description?: Prisma.StringNullableFilter<"RoleSkillMapping"> | string | null
@@ -288,7 +288,7 @@ export type RoleSkillMappingScalarWhereWithAggregatesInput = {
   OR?: Prisma.RoleSkillMappingScalarWhereWithAggregatesInput[]
   NOT?: Prisma.RoleSkillMappingScalarWhereWithAggregatesInput | Prisma.RoleSkillMappingScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"RoleSkillMapping"> | number
-  position?: Prisma.StringWithAggregatesFilter<"RoleSkillMapping"> | string
+  position?: Prisma.EnumPositionWithAggregatesFilter<"RoleSkillMapping"> | $Enums.Position
   code?: Prisma.StringWithAggregatesFilter<"RoleSkillMapping"> | string
   name?: Prisma.StringWithAggregatesFilter<"RoleSkillMapping"> | string
   level?: Prisma.StringWithAggregatesFilter<"RoleSkillMapping"> | string
@@ -298,7 +298,7 @@ export type RoleSkillMappingScalarWhereWithAggregatesInput = {
 }
 
 export type RoleSkillMappingCreateInput = {
-  position: string
+  position: $Enums.Position
   code: string
   name: string
   level: string
@@ -309,7 +309,7 @@ export type RoleSkillMappingCreateInput = {
 
 export type RoleSkillMappingUncheckedCreateInput = {
   id?: number
-  position: string
+  position: $Enums.Position
   code: string
   name: string
   level: string
@@ -319,7 +319,7 @@ export type RoleSkillMappingUncheckedCreateInput = {
 }
 
 export type RoleSkillMappingUpdateInput = {
-  position?: Prisma.StringFieldUpdateOperationsInput | string
+  position?: Prisma.EnumPositionFieldUpdateOperationsInput | $Enums.Position
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -330,7 +330,7 @@ export type RoleSkillMappingUpdateInput = {
 
 export type RoleSkillMappingUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  position?: Prisma.StringFieldUpdateOperationsInput | string
+  position?: Prisma.EnumPositionFieldUpdateOperationsInput | $Enums.Position
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -341,7 +341,7 @@ export type RoleSkillMappingUncheckedUpdateInput = {
 
 export type RoleSkillMappingCreateManyInput = {
   id?: number
-  position: string
+  position: $Enums.Position
   code: string
   name: string
   level: string
@@ -351,7 +351,7 @@ export type RoleSkillMappingCreateManyInput = {
 }
 
 export type RoleSkillMappingUpdateManyMutationInput = {
-  position?: Prisma.StringFieldUpdateOperationsInput | string
+  position?: Prisma.EnumPositionFieldUpdateOperationsInput | $Enums.Position
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -362,7 +362,7 @@ export type RoleSkillMappingUpdateManyMutationInput = {
 
 export type RoleSkillMappingUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  position?: Prisma.StringFieldUpdateOperationsInput | string
+  position?: Prisma.EnumPositionFieldUpdateOperationsInput | $Enums.Position
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -410,6 +410,10 @@ export type RoleSkillMappingMinOrderByAggregateInput = {
 
 export type RoleSkillMappingSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+}
+
+export type EnumPositionFieldUpdateOperationsInput = {
+  set?: $Enums.Position
 }
 
 
@@ -465,7 +469,7 @@ export type $RoleSkillMappingPayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    position: string
+    position: $Enums.Position
     code: string
     name: string
     level: string
@@ -896,7 +900,7 @@ export interface Prisma__RoleSkillMappingClient<T, Null = never, ExtArgs extends
  */
 export interface RoleSkillMappingFieldRefs {
   readonly id: Prisma.FieldRef<"RoleSkillMapping", 'Int'>
-  readonly position: Prisma.FieldRef<"RoleSkillMapping", 'String'>
+  readonly position: Prisma.FieldRef<"RoleSkillMapping", 'Position'>
   readonly code: Prisma.FieldRef<"RoleSkillMapping", 'String'>
   readonly name: Prisma.FieldRef<"RoleSkillMapping", 'String'>
   readonly level: Prisma.FieldRef<"RoleSkillMapping", 'String'>
