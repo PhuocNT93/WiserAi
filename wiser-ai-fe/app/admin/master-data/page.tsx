@@ -25,8 +25,8 @@ const positions = [
         label: 'DEV'
     },
     {
-        value: 'QA',
-        label: 'QA'
+        value: 'QC',
+        label: 'QC'
     },
     {
         value: 'BA',
@@ -132,6 +132,7 @@ export default function MasterDataPage() {
     ];
     const employeeProfileColumns: GridColDef[] = [
         { field: 'id', headerName: 'ID', width: 90 },
+        { field: 'userName', headerName: 'Employee Name', width: 150 },
         { field: 'userEmail', headerName: 'Employee Email', width: 150 },
         { field: 'engName', headerName: 'English Name', width: 150 },
         { field: 'empCode', headerName: 'Employee Code', width: 200 },
@@ -229,11 +230,33 @@ export default function MasterDataPage() {
 
     const fetchEmployeeProfileData = async () => {
         try {
-            const response = await api.get(apiObject.employee_profile);  // Fixed: Used api.get and correct endpoint
-            setAllEmployeeProfileData(response.data.data);  // Fixed: Correct setter
+            const response = await api.get(apiObject.employee_profile);
+            const handledData: React.SetStateAction<EmployeeProfileMapping[]> | {
+                id: any;
+                userId: any;
+                userName: any;
+                userEmail: any;
+                engName: any;
+                empCode: any;
+                busUnit: any;
+                jobTitle: any;
+            }[] = [];
+            response.data.data.forEach((item: any) => {
+                handledData.push({
+                    id: item.id,
+                    userId: item.userId,
+                    userName: item.user?.name || '',
+                    userEmail: item.user?.email || '',
+                    engName: item.engName,
+                    empCode: item.empCode,
+                    busUnit: item.busUnit,
+                    jobTitle: item.jobTitle,
+                });
+            });
+            setAllEmployeeProfileData(handledData);
         } catch (error) {
             console.error('Error fetching employee profile data:', error);
-            showSnackbar(`Failed to load all employee profile data. Error Detail: ${error}`, 'error');
+            showSnackbar('Failed to load employee profile data.', 'error');  // Simplified message, let showSnackbar handle error details
         }
     };
 
@@ -265,7 +288,7 @@ export default function MasterDataPage() {
             if (_.isEmpty(excelData)) {
                 const newData = {
                     ...roleSkillMappingValues,
-                    updatedAt: new Date().toISOString()
+                    updatedAt: new Date().toISOString(),
                 };
                 console.log('Saving manual data:', newData);
                 if (!isEdit) {
@@ -546,12 +569,11 @@ export default function MasterDataPage() {
                             <Box component="form" sx={{ mt: 1, display: 'flex', flexDirection: 'column', gap: 2, width: 500 }}>
                                 <Select
                                     label="Position"
-                                    value={roleSkillMappingValues.position}
-                                    defaultValue={'0'}
+                                    value={roleSkillMappingValues.position || "none"}
                                     fullWidth
-                                    onChange={(e) => setRoleSkillMappingValues({ ...roleSkillMappingValues, position: e.target.value })}
+                                    onChange={(e) => setRoleSkillMappingValues({ ...roleSkillMappingValues, position: e.target.value !== "none" ? e.target.value : "" })}
                                 >
-                                    <MenuItem value={'0'}>Please select a position</MenuItem>
+                                    <MenuItem value={"none"}>Please select a position</MenuItem>
                                     {positions.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
                                             {option.label}
@@ -572,12 +594,12 @@ export default function MasterDataPage() {
                                 />
                                 <Select
                                     label="Level"
-                                    value={roleSkillMappingValues.level}
+                                    value={roleSkillMappingValues.level || "none"}
                                     fullWidth
                                     defaultValue={'0'}
-                                    onChange={(e) => setRoleSkillMappingValues({ ...roleSkillMappingValues, level: e.target.value })}
+                                    onChange={(e) => setRoleSkillMappingValues({ ...roleSkillMappingValues, level: e.target.value !== "none" ? e.target.value : "" })}
                                 >
-                                    <MenuItem value={'0'}>Please select a level</MenuItem>
+                                    <MenuItem value={"none"}>Please select a level</MenuItem>
                                     {levels.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
                                             {option.label}
