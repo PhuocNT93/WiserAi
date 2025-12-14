@@ -223,22 +223,22 @@ export default function CareerPlanPage() {
     };
 
     const columns: GridColDef[] = [
-        { field: 'no', headerName: t('History.no'), width: 70 },
-        { field: 'year', headerName: t('History.year'), width: 100 },
+        { field: 'no', headerName: tHistory('no'), width: 70 },
+        { field: 'year', headerName: tHistory('year'), width: 100 },
         {
             field: 'careerGoal',
-            headerName: t('History.careerGoal'),
+            headerName: tHistory('careerGoal'),
             width: 250,
             valueGetter: (value: any, row: any) => formatCareerGoal(row)
         },
-        { field: 'status', headerName: t('History.status'), width: 150 },
+        { field: 'status', headerName: tHistory('status'), width: 150 },
         {
             field: 'actions',
-            headerName: t('History.actions'),
+            headerName: tHistory('actions'),
             width: 250,
             renderCell: (params) => (
                 <Box>
-                    <Tooltip title={t('History.view')}>
+                    <Tooltip title={tHistory('view')}>
                         <IconButton
                             color="primary"
                             onClick={() => handleView(params.row)}
@@ -247,7 +247,7 @@ export default function CareerPlanPage() {
                         </IconButton>
                     </Tooltip>
                     {params.row.status === 'SUBMITTED' && (
-                        <Tooltip title={t('History.edit')}>
+                        <Tooltip title={tHistory('edit')}>
                             <IconButton
                                 color="secondary"
                                 onClick={() => handleEdit(params.row)}
@@ -257,14 +257,14 @@ export default function CareerPlanPage() {
                         </Tooltip>
                     )}
                     {params.row.status === 'APPROVED' && (
-                        <Tooltip title={t('History.addToPlan')}>
+                        <Tooltip title={tHistory('addToPlan')}>
                             <IconButton color="primary" onClick={() => handleStatusChange(params.row.id, 'IN_PROGRESS')}>
                                 <AddIcon />
                             </IconButton>
                         </Tooltip>
                     )}
                     {params.row.status === 'IN_PROGRESS' && (
-                        <Tooltip title={t('History.comment')}>
+                        <Tooltip title={tHistory('comment')}>
                             <IconButton color="info" onClick={() => {
                                 setCommentPlanId(params.row.id);
                                 setCommentText(params.row.employeeComments?.general || '');
@@ -280,41 +280,41 @@ export default function CareerPlanPage() {
     ];
 
     const teamColumns: GridColDef[] = [
-        { field: 'no', headerName: t('History.no'), width: 70 },
-        { field: 'userName', headerName: t('History.employeeName'), width: 200, valueGetter: (value: any, row: any) => row.user?.name || 'N/A' },
-        { field: 'userEmail', headerName: t('History.employeeEmail'), width: 250, valueGetter: (value: any, row: any) => row.user?.email || 'N/A' },
-        { field: 'year', headerName: t('History.year'), width: 100 },
+        { field: 'no', headerName: tHistory('no'), width: 70 },
+        { field: 'userName', headerName: tHistory('employeeName'), width: 200, valueGetter: (value: any, row: any) => row.user?.name || 'N/A' },
+        { field: 'userEmail', headerName: tHistory('employeeEmail'), width: 250, valueGetter: (value: any, row: any) => row.user?.email || 'N/A' },
+        { field: 'year', headerName: tHistory('year'), width: 100 },
         {
             field: 'careerGoal',
-            headerName: t('History.careerGoal'),
+            headerName: tHistory('careerGoal'),
             width: 250,
             valueGetter: (value: any, row: any) => formatCareerGoal(row)
         },
-        { field: 'status', headerName: t('History.status'), width: 120 },
+        { field: 'status', headerName: tHistory('status'), width: 120 },
         {
             field: 'actions',
-            headerName: t('History.actions'),
+            headerName: tHistory('actions'),
             width: 250,
             renderCell: (params) => (
                 <Box>
-                    <Tooltip title={t('History.view')}>
+                    <Tooltip title={tHistory('view')}>
                         <IconButton color="primary" onClick={() => handleView(params.row)}>
                             <VisibilityIcon />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title={t('History.visualize')}>
+                    <Tooltip title={tHistory('visualize')}>
                         <IconButton color="secondary" onClick={() => handleVisualize(params.row)}>
                             <VisibilityOutlined />
                         </IconButton>
                     </Tooltip>
                     {params.row.status === 'SUBMITTED' && (
-                        <Tooltip title={t('History.confirm')}>
+                        <Tooltip title={tHistory('confirm')}>
                             <IconButton color="success" onClick={() => handleStatusChange(params.row.id, 'APPROVED')}>
                                 <CheckCircleIcon />
                             </IconButton>
                         </Tooltip>
                     )}
-                    <Tooltip title={t('History.managerComment')}>
+                    <Tooltip title={tHistory('managerComment')}>
                         <IconButton color="info" onClick={() => handleOpenComment(params.row)}>
                             <CommentIcon />
                         </IconButton>
@@ -354,14 +354,14 @@ export default function CareerPlanPage() {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Tooltip title={t('History.view')}>
+                <Tooltip title={tHistory('view')}>
                     <IconButton size="small" onClick={() => handleView(row)}>
                         <VisibilityIcon />
                     </IconButton>
                 </Tooltip>
 
                 {!isTeamView && row.status === 'SUBMITTED' && (
-                    <Tooltip title={t('History.edit')}>
+                    <Tooltip title={tHistory('edit')}>
                         <IconButton size="small" color="secondary" onClick={() => handleEdit(row)}>
                             <EditIcon />
                         </IconButton>
@@ -369,14 +369,14 @@ export default function CareerPlanPage() {
                 )}
 
                 {!isTeamView && row.status === 'APPROVED' && (
-                    <Tooltip title={t('History.addToPlan')}>
+                    <Tooltip title={tHistory('addToPlan')}>
                         <IconButton size="small" color="primary" onClick={() => handleStatusChange(row.id, 'IN_PROGRESS')}>
                             <AddIcon />
                         </IconButton>
                     </Tooltip>
                 )}
                 {!isTeamView && row.status === 'IN_PROGRESS' && (
-                    <Tooltip title={t('History.comment')}>
+                    <Tooltip title={tHistory('comment')}>
                         <IconButton size="small" color="primary" onClick={() => {
                             setCommentPlanId(row.id);
                             setCommentText(row.employeeComments?.general || '');
@@ -388,14 +388,14 @@ export default function CareerPlanPage() {
                 )}
 
                 {isTeamView && row.status === 'SUBMITTED' && (
-                    <Tooltip title={t('History.confirm')}>
+                    <Tooltip title={tHistory('confirm')}>
                         <IconButton size="small" color="success" onClick={() => handleStatusChange(row.id, 'APPROVED')}>
                             <CheckCircleIcon />
                         </IconButton>
                     </Tooltip>
                 )}
                 {isTeamView && (
-                    <Tooltip title={t('History.managerComment')}>
+                    <Tooltip title={tHistory('managerComment')}>
                         <IconButton size="small" onClick={() => handleOpenComment(row)}>
                             <CommentIcon />
                         </IconButton>
@@ -418,8 +418,8 @@ export default function CareerPlanPage() {
                         scrollButtons="auto"
                     >
                         <Tab label={t('result.title')} />
-                        <Tab label={t('History.title')} />
-                        {isAdminOrManager && (<Tab label={t('History.teamGrowthMap')} />)}
+                        <Tab label={tHistory('title')} />
+                        {isAdminOrManager && (<Tab label={tHistory('teamGrowthMap')} />)}
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
@@ -435,7 +435,7 @@ export default function CareerPlanPage() {
                     {isMobile ? (
                         <Box>
                             {plans.map((plan) => renderMobileCard(plan, false))}
-                            {plans.length === 0 && <Typography sx={{ p: 2, textAlign: 'center' }}>{t('History.noPlansFound')}</Typography>}
+                            {plans.length === 0 && <Typography sx={{ p: 2, textAlign: 'center' }}>{tHistory('noPlansFound')}</Typography>}
                         </Box>
                     ) : (
                         <div style={{ height: 400, width: '100%' }}>
@@ -458,7 +458,7 @@ export default function CareerPlanPage() {
                         {isMobile ? (
                             <Box>
                                 {teamPlans.map((plan) => renderMobileCard(plan, true))}
-                                {teamPlans.length === 0 && <Typography sx={{ p: 2, textAlign: 'center' }}>{t('History.noTeamPlansFound')}</Typography>}
+                                {teamPlans.length === 0 && <Typography sx={{ p: 2, textAlign: 'center' }}>{tHistory('noTeamPlansFound')}</Typography>}
                             </Box>
                         ) : (
                             <div style={{ height: 400, width: '100%' }}>
@@ -481,16 +481,16 @@ export default function CareerPlanPage() {
             </Paper >
 
             <Dialog open={openDetail} onClose={handleClose} maxWidth="md" fullWidth>
-                <DialogTitle>{t('History.title')} - {selectedPlan?.year}</DialogTitle>
+                <DialogTitle>{tHistory('title')} - {selectedPlan?.year}</DialogTitle>
                 <DialogContent dividers>
                     {selectedPlan && (
                         <Box>
                             <Typography variant="h6" gutterBottom>{t('result.careerGoal')}</Typography>
-                            <Typography paragraph><strong>{t('History.level')}: </strong>{selectedPlan.targetLevel}</Typography>
+                            <Typography paragraph><strong>{tHistory('level')}: </strong>{selectedPlan.targetLevel}</Typography>
                             {typeof selectedPlan.careerGoal === 'object' && selectedPlan.careerGoal?.title ? (
                                 <>
-                                    <Typography paragraph><strong>{t('History.goal')}: </strong>{selectedPlan.careerGoal.title}</Typography>
-                                    <Typography paragraph><strong>{t('History.timeframe')}: </strong>{selectedPlan.careerGoal.timeframe}</Typography>
+                                    <Typography paragraph><strong>{tHistory('goal')}: </strong>{selectedPlan.careerGoal.title}</Typography>
+                                    <Typography paragraph><strong>{tHistory('timeframe')}: </strong>{selectedPlan.careerGoal.timeframe}</Typography>
                                 </>
                             ) : (
                                 <Typography paragraph>{selectedPlan.careerGoal}</Typography>
@@ -510,14 +510,14 @@ export default function CareerPlanPage() {
                             <Typography variant="h6" gutterBottom>{t('result.focusAreas')}</Typography>
                             {Array.isArray(selectedPlan.focusAreas) && selectedPlan.focusAreas.map((area: any, idx: number) => (
                                 <Paper key={idx} variant="outlined" sx={{ p: 1, mb: 1 }}>
-                                    <Typography variant="subtitle2">{area.name || area.area} ({t('History.priority')}: {area.priority})</Typography>
+                                    <Typography variant="subtitle2">{area.name || area.area} ({tHistory('priority')}: {area.priority})</Typography>
                                     <Typography variant="body2">{area.description || area.suggestion}</Typography>
                                 </Paper>
                             ))}
 
                             {selectedPlan.suggestedCourses && Array.isArray(selectedPlan.suggestedCourses) && (
                                 <>
-                                    <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>{t('History.suggestedCourses')}</Typography>
+                                    <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>{tHistory('suggestedCourses')}</Typography>
                                     {selectedPlan.suggestedCourses.map((course: any, idx: number) => (
                                         <Typography key={idx} paragraph>
                                             {course.name} - {course.progress}%
@@ -530,8 +530,8 @@ export default function CareerPlanPage() {
                             {Array.isArray(selectedPlan.actionPlan) && selectedPlan.actionPlan.map((action: any, idx: number) => (
                                 <Paper key={idx} variant="outlined" sx={{ p: 1, mb: 1 }}>
                                     <Typography variant="subtitle2">{action.action} ({action.timeline})</Typography>
-                                    <Typography variant="body2">{t('History.metrics')}: {action.successMetrics}</Typography>
-                                    <Typography variant="body2">{t('History.support')}: {action.supportNeeded}</Typography>
+                                    <Typography variant="body2">{tHistory('metrics')}: {action.successMetrics}</Typography>
+                                    <Typography variant="body2">{tHistory('support')}: {action.supportNeeded}</Typography>
                                 </Paper>
                             ))}
 
@@ -550,13 +550,13 @@ export default function CareerPlanPage() {
                             {/* Display Comments */}
                             {selectedPlan.managerComments?.general && (
                                 <Box sx={{ mt: 2, p: 2, bgcolor: '#f5f5f5', borderRadius: 1 }}>
-                                    <Typography variant="subtitle2" color="primary">{t('History.managerCommentLabel')}</Typography>
+                                    <Typography variant="subtitle2" color="primary">{tHistory('managerCommentLabel')}</Typography>
                                     <Typography variant="body2">{selectedPlan.managerComments.general}</Typography>
                                 </Box>
                             )}
                             {selectedPlan.employeeComments?.general && (
                                 <Box sx={{ mt: 2, p: 2, bgcolor: '#e3f2fd', borderRadius: 1 }}>
-                                    <Typography variant="subtitle2" color="primary">{t('History.employeeCommentLabel')}</Typography>
+                                    <Typography variant="subtitle2" color="primary">{tHistory('employeeCommentLabel')}</Typography>
                                     <Typography variant="body2">{selectedPlan.employeeComments.general}</Typography>
                                 </Box>
                             )}
@@ -566,54 +566,54 @@ export default function CareerPlanPage() {
                 <DialogActions>
                     {isAdminOrManager && selectedPlan?.status === 'IN_PROGRESS' && (
                         <Button variant="contained" color="success" onClick={() => handleStatusChange(selectedPlan.id, 'COMPLETED')}>
-                            {t('History.completed')}
+                            {tHistory('completed')}
                         </Button>
                     )}
-                    <Button onClick={handleClose}>{t('History.close')}</Button>
+                    <Button onClick={handleClose}>{tHistory('close')}</Button>
                 </DialogActions>
             </Dialog>
 
             <Dialog open={openComment} onClose={() => setOpenComment(false)} maxWidth="sm" fullWidth>
-                <DialogTitle>{t('History.managerComment')}</DialogTitle>
+                <DialogTitle>{tHistory('managerComment')}</DialogTitle>
                 <DialogContent>
                     <textarea
                         style={{ width: '100%', height: '150px', marginTop: '10px', padding: '8px' }}
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
-                        placeholder={t('History.enterFeedback')}
+                        placeholder={tHistory('enterFeedback')}
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpenComment(false)}>{t('History.cancel')}</Button>
-                    <Button onClick={handleSaveComment} variant="contained">{t('History.save')}</Button>
+                    <Button onClick={() => setOpenComment(false)}>{tHistory('cancel')}</Button>
+                    <Button onClick={handleSaveComment} variant="contained">{tHistory('save')}</Button>
                 </DialogActions>
             </Dialog>
 
             <Dialog open={openEmployeeComment} onClose={() => setOpenEmployeeComment(false)} maxWidth="sm" fullWidth>
-                <DialogTitle>{t('History.employeeCommentLabel')}</DialogTitle>
+                <DialogTitle>{tHistory('employeeCommentLabel')}</DialogTitle>
                 <DialogContent>
                     <textarea
                         style={{ width: '100%', height: '150px', marginTop: '10px', padding: '8px' }}
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
-                        placeholder={t('History.updatesOnProgress')}
+                        placeholder={tHistory('updatesOnProgress')}
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpenEmployeeComment(false)}>{t('History.cancel')}</Button>
-                    <Button onClick={handleSaveEmployeeComment} variant="contained">{t('History.save')}</Button>
+                    <Button onClick={() => setOpenEmployeeComment(false)}>{tHistory('cancel')}</Button>
+                    <Button onClick={handleSaveEmployeeComment} variant="contained">{tHistory('save')}</Button>
                 </DialogActions>
             </Dialog>
 
             <Dialog open={openVisualize} onClose={() => setOpenVisualize(false)} maxWidth="lg" fullWidth>
-                <DialogTitle>{t('History.growthMapVisualization')}</DialogTitle>
+                <DialogTitle>{tHistory('growthMapVisualization')}</DialogTitle>
                 <DialogContent dividers>
                     {visualizeData && (
                         <GrowthMapDashboard data={visualizeData} loading={false} />
                     )}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpenVisualize(false)}>{t('History.close')}</Button>
+                    <Button onClick={() => setOpenVisualize(false)}>{tHistory('close')}</Button>
                 </DialogActions>
             </Dialog>
         </Container>
