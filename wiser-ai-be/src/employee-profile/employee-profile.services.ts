@@ -23,7 +23,7 @@ export class EmployeeProfileService {
                             name: true
                         }
                     }
-                } 
+                }
             });
         } catch (error) {
             return {
@@ -48,7 +48,19 @@ export class EmployeeProfileService {
 
     async getProfileByEmail(email: string) {
         return this.prisma.employeeProfile.findFirst({
-            where: { userEmail: email }
+            where: {
+                user: {
+                    email: email
+                }
+            },
+            include: {
+                user: {
+                    select: {
+                        email: true,
+                        name: true
+                    }
+                }
+            }
         });
     }
 

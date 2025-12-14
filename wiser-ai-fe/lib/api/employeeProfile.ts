@@ -2,7 +2,10 @@ import api from '@/utils/api';
 
 export interface EmployeeProfile {
     id: number;
-    userEmail: string;
+    user: {
+        email: string;
+        name: string;
+    };
     engName: string;
     empCode: string;
     busUnit: string;

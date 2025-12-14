@@ -68,7 +68,7 @@ export function transformPlanToGrowthMap(plan: any): GrowthMapData | null {
     try {
         const careerGoal = typeof plan.careerGoal === 'string'
             ? JSON.parse(plan.careerGoal)
-            : plan.careerGoal;
+            : (plan.careerGoal || { title: "Not Set", timeframe: "N/A" });
 
         const focusAreas = typeof plan.focusAreas === 'string'
             ? JSON.parse(plan.focusAreas)
@@ -76,7 +76,7 @@ export function transformPlanToGrowthMap(plan: any): GrowthMapData | null {
 
         const actionPlan = typeof plan.actionPlan === 'string'
             ? JSON.parse(plan.actionPlan)
-            : plan.actionPlan;
+            : (plan.actionPlan || { tasks: [], courses: [], coaching: [] });
 
         const supportNeeded = typeof plan.supportNeeded === 'string'
             ? JSON.parse(plan.supportNeeded)

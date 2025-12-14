@@ -32,7 +32,7 @@ model User {
 
   careerPlans   CareerPlan[]      @relation("UserCareerPlans")
   managedPlans  CareerPlan[]      @relation("ManagerCareerPlans")
-  profile       EmployeeProfile[] @relation("UserEmployeeProfile")
+  profile       EmployeeProfile?  @relation("UserEmployeeProfile")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

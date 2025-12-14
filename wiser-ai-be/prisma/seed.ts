@@ -52,6 +52,18 @@ async function main() {
         },
     });
 
+    const adminProfile = await prisma.employeeProfile.upsert({
+        where: { userId: admin.id },
+        update: {},
+        create: {
+            userId: admin.id,
+            engName: 'Admin User',
+            empCode: 'EMP001',
+            busUnit: 'Technology',
+            jobTitle: 'System Administrator',
+        },
+    });
+
     const employee = await prisma.user.upsert({
         where: { email: employeeEmail },
         update: {},

@@ -406,7 +406,7 @@ export default function SummaryPage() {
                             </Box>
                             <Box>
                                 <Typography variant="caption" color="text.secondary">Email</Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData?.userEmail || 'N/A'}</Typography>
+                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData?.user?.email || 'N/A'}</Typography>
                             </Box>
                             <Box>
                                 <Typography variant="caption" color="text.secondary">Employee Code</Typography>
