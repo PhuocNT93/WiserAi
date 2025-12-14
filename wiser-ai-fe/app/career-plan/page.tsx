@@ -44,6 +44,7 @@ function CustomTabPanel(props: TabPanelProps) {
 
 export default function CareerPlanPage() {
     const t = useTranslations('CareerPlan');
+    const tHistory = useTranslations('History');
     const tCommon = useTranslations('Common');
     const [value, setValue] = useState(0);
     const [plans, setPlans] = useState<any[]>([]);
@@ -416,7 +417,7 @@ export default function CareerPlanPage() {
                         variant={isMobile ? "scrollable" : "standard"}
                         scrollButtons="auto"
                     >
-                        <Tab label={t('CareerPlan.result.title')} />
+                        <Tab label={t('result.title')} />
                         <Tab label={t('History.title')} />
                         {isAdminOrManager && (<Tab label={t('History.teamGrowthMap')} />)}
                     </Tabs>
@@ -484,7 +485,7 @@ export default function CareerPlanPage() {
                 <DialogContent dividers>
                     {selectedPlan && (
                         <Box>
-                            <Typography variant="h6" gutterBottom>{t('CareerPlan.result.careerGoal')}</Typography>
+                            <Typography variant="h6" gutterBottom>{t('result.careerGoal')}</Typography>
                             <Typography paragraph><strong>{t('History.level')}: </strong>{selectedPlan.targetLevel}</Typography>
                             {typeof selectedPlan.careerGoal === 'object' && selectedPlan.careerGoal?.title ? (
                                 <>
@@ -495,7 +496,7 @@ export default function CareerPlanPage() {
                                 <Typography paragraph>{selectedPlan.careerGoal}</Typography>
                             )}
 
-                            <Typography variant="h6" gutterBottom>{t('CareerPlan.result.currentCompetencies')}</Typography>
+                            <Typography variant="h6" gutterBottom>{t('result.currentCompetencies')}</Typography>
                             {Array.isArray(selectedPlan.currentCompetencies) ? (
                                 selectedPlan.currentCompetencies.map((comp: any, idx: number) => (
                                     <Typography key={idx} paragraph>
@@ -506,7 +507,7 @@ export default function CareerPlanPage() {
                                 <Typography paragraph>{selectedPlan.currentCompetencies}</Typography>
                             )}
 
-                            <Typography variant="h6" gutterBottom>{t('CareerPlan.result.focusAreas')}</Typography>
+                            <Typography variant="h6" gutterBottom>{t('result.focusAreas')}</Typography>
                             {Array.isArray(selectedPlan.focusAreas) && selectedPlan.focusAreas.map((area: any, idx: number) => (
                                 <Paper key={idx} variant="outlined" sx={{ p: 1, mb: 1 }}>
                                     <Typography variant="subtitle2">{area.name || area.area} ({t('History.priority')}: {area.priority})</Typography>
@@ -525,7 +526,7 @@ export default function CareerPlanPage() {
                                 </>
                             )}
 
-                            <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>{t('CareerPlan.result.actionPlan')}</Typography>
+                            <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>{t('result.actionPlan')}</Typography>
                             {Array.isArray(selectedPlan.actionPlan) && selectedPlan.actionPlan.map((action: any, idx: number) => (
                                 <Paper key={idx} variant="outlined" sx={{ p: 1, mb: 1 }}>
                                     <Typography variant="subtitle2">{action.action} ({action.timeline})</Typography>
@@ -534,7 +535,7 @@ export default function CareerPlanPage() {
                                 </Paper>
                             ))}
 
-                            <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>{t('CareerPlan.result.supportNeeded')}</Typography>
+                            <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>{t('result.supportNeeded')}</Typography>
                             <ul>
                                 {Array.isArray(selectedPlan.supportNeeded) && selectedPlan.supportNeeded.map((support: any, idx: number) => (
                                     <li key={idx}>
