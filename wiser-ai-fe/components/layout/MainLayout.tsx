@@ -127,7 +127,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                         </IconButton>
                     )}
                     <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-                        WiserAi by Cyberlogitec
+                        WiserAi by CyberLogitec
                     </Typography>
 
                     {/* Language Switcher */}

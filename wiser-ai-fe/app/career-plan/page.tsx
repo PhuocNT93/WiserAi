@@ -14,6 +14,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CommentIcon from '@mui/icons-material/Comment';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import EditIcon from '@mui/icons-material/Edit';
+import { VisibilityOutlined } from '@mui/icons-material';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -245,7 +246,7 @@ export default function CareerPlanPage() {
                         </IconButton>
                     </Tooltip>
                     {params.row.status === 'SUBMITTED' && (
-                        <Tooltip title="Edit">
+                        <Tooltip title={t('History.edit')}>
                             <IconButton
                                 color="secondary"
                                 onClick={() => handleEdit(params.row)}
@@ -255,14 +256,14 @@ export default function CareerPlanPage() {
                         </Tooltip>
                     )}
                     {params.row.status === 'APPROVED' && (
-                        <Tooltip title="Add to Plan">
+                        <Tooltip title={t('History.addToPlan')}>
                             <IconButton color="primary" onClick={() => handleStatusChange(params.row.id, 'IN_PROGRESS')}>
                                 <AddIcon />
                             </IconButton>
                         </Tooltip>
                     )}
                     {params.row.status === 'IN_PROGRESS' && (
-                        <Tooltip title="Comment">
+                        <Tooltip title={t('History.comment')}>
                             <IconButton color="info" onClick={() => {
                                 setCommentPlanId(params.row.id);
                                 setCommentText(params.row.employeeComments?.general || '');
@@ -279,8 +280,8 @@ export default function CareerPlanPage() {
 
     const teamColumns: GridColDef[] = [
         { field: 'no', headerName: t('History.no'), width: 70 },
-        { field: 'userName', headerName: 'Employee Name', width: 200, valueGetter: (value: any, row: any) => row.user?.name || 'N/A' },
-        { field: 'userEmail', headerName: 'Employee Email', width: 250, valueGetter: (value: any, row: any) => row.user?.email || 'N/A' },
+        { field: 'userName', headerName: t('History.employeeName'), width: 200, valueGetter: (value: any, row: any) => row.user?.name || 'N/A' },
+        { field: 'userEmail', headerName: t('History.employeeEmail'), width: 250, valueGetter: (value: any, row: any) => row.user?.email || 'N/A' },
         { field: 'year', headerName: t('History.year'), width: 100 },
         {
             field: 'careerGoal',
@@ -300,14 +301,19 @@ export default function CareerPlanPage() {
                             <VisibilityIcon />
                         </IconButton>
                     </Tooltip>
+                    <Tooltip title={t('History.visualize')}>
+                        <IconButton color="secondary" onClick={() => handleVisualize(params.row)}>
+                            <VisibilityOutlined />
+                        </IconButton>
+                    </Tooltip>
                     {params.row.status === 'SUBMITTED' && (
-                        <Tooltip title="Confirm">
+                        <Tooltip title={t('History.confirm')}>
                             <IconButton color="success" onClick={() => handleStatusChange(params.row.id, 'APPROVED')}>
                                 <CheckCircleIcon />
                             </IconButton>
                         </Tooltip>
                     )}
-                    <Tooltip title="Manager Comment">
+                    <Tooltip title={t('History.managerComment')}>
                         <IconButton color="info" onClick={() => handleOpenComment(params.row)}>
                             <CommentIcon />
                         </IconButton>
@@ -354,7 +360,7 @@ export default function CareerPlanPage() {
                 </Tooltip>
 
                 {!isTeamView && row.status === 'SUBMITTED' && (
-                    <Tooltip title="Edit">
+                    <Tooltip title={t('History.edit')}>
                         <IconButton size="small" color="secondary" onClick={() => handleEdit(row)}>
                             <EditIcon />
                         </IconButton>
@@ -362,14 +368,14 @@ export default function CareerPlanPage() {
                 )}
 
                 {!isTeamView && row.status === 'APPROVED' && (
-                    <Tooltip title="Add to Plan">
+                    <Tooltip title={t('History.addToPlan')}>
                         <IconButton size="small" color="primary" onClick={() => handleStatusChange(row.id, 'IN_PROGRESS')}>
                             <AddIcon />
                         </IconButton>
                     </Tooltip>
                 )}
                 {!isTeamView && row.status === 'IN_PROGRESS' && (
-                    <Tooltip title="Comment">
+                    <Tooltip title={t('History.comment')}>
                         <IconButton size="small" color="primary" onClick={() => {
                             setCommentPlanId(row.id);
                             setCommentText(row.employeeComments?.general || '');
@@ -381,14 +387,14 @@ export default function CareerPlanPage() {
                 )}
 
                 {isTeamView && row.status === 'SUBMITTED' && (
-                    <Tooltip title="Confirm">
+                    <Tooltip title={t('History.confirm')}>
                         <IconButton size="small" color="success" onClick={() => handleStatusChange(row.id, 'APPROVED')}>
                             <CheckCircleIcon />
                         </IconButton>
                     </Tooltip>
                 )}
                 {isTeamView && (
-                    <Tooltip title="Manager Comment">
+                    <Tooltip title={t('History.managerComment')}>
                         <IconButton size="small" onClick={() => handleOpenComment(row)}>
                             <CommentIcon />
                         </IconButton>

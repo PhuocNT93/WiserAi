@@ -304,6 +304,10 @@ export class CareerPlanService {
     async uploadCertificate(userId: number, certificate: { fileName: string; fileUrl: string }) {
         // Find or create a draft career plan for the user
         console.log('Uploading certificate for user:', userId, certificate);
+
+        // Get user to fetch managerId
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+
         let careerPlan = await this.prisma.careerPlan.findFirst({
             where: {
                 userId,
@@ -313,11 +317,18 @@ export class CareerPlanService {
 
         if (!careerPlan) {
             console.log('No draft career plan found, creating a new one.');
-            // Create a new draft career plan
+            // Create a new draft career plan with default values
             careerPlan = await this.prisma.careerPlan.create({
                 data: {
                     userId,
+                    managerId: user?.managerId,
+                    year: new Date().getFullYear(),
+                    reviewPeriod: ReviewPeriod.SIX_MONTHS,
                     status: GrowthMapStatus.DRAFT,
+                    objectives: '',
+                    achievements: '',
+                    improvements: '',
+                    expectations: '',
                     certificates: [certificate],
                 },
             });

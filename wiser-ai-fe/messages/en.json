@@ -107,11 +107,19 @@
     "no": "No.",
     "userEmail": "User Email",
     "managerEmail": "Manager Email",
+    "employeeName": "Employee Name",
+    "employeeEmail": "Employee Email",
     "year": "Year",
     "careerGoal": "Career Goal",
     "status": "Status",
     "actions": "Actions",
     "view": "View",
+    "edit": "Edit",
+    "addToPlan": "Add to Plan",
+    "comment": "Comment",
+    "confirm": "Confirm",
+    "managerComment": "Manager Comment",
+    "visualize": "Visualize",
     "close": "Close"
   }
 }

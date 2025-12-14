@@ -1,5 +1,6 @@
 {
     "Common": {
+        "summary": "요약",
         "dashboard": "대시보드",
         "careerPlan": "경력 계획",
         "ldPlan": "L&D 계획",
@@ -106,11 +107,19 @@
         "no": "번호",
         "userEmail": "사용자 이메일",
         "managerEmail": "매니저 이메일",
+        "employeeName": "직원 이름",
+        "employeeEmail": "직원 이메일",
         "year": "연도",
         "careerGoal": "경력 목표",
         "status": "상태",
         "actions": "작업",
         "view": "보기",
+        "edit": "편집",
+        "addToPlan": "계획에 추가",
+        "comment": "댓글",
+        "confirm": "확인",
+        "managerComment": "매니저 댓글",
+        "visualize": "시각화",
         "close": "닫기"
     }
 }
