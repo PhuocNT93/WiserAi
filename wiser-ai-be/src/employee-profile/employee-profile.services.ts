@@ -23,7 +23,7 @@ export class EmployeeProfileService {
                             name: true
                         }
                     }
-                } 
+                }
             });
         } catch (error) {
             return {
@@ -44,6 +44,24 @@ export class EmployeeProfileService {
 
     async remove(id: number) {
         return this.prisma.employeeProfile.delete({ where: { id } });
+    }
+
+    async getProfileByEmail(email: string) {
+        return this.prisma.employeeProfile.findFirst({
+            where: {
+                user: {
+                    email: email
+                }
+            },
+            include: {
+                user: {
+                    select: {
+                        email: true,
+                        name: true
+                    }
+                }
+            }
+        });
     }
 
     async importFromExcel(file: any) {
