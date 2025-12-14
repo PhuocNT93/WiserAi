@@ -246,6 +246,14 @@ export default function CareerPlanPage() {
                             <VisibilityIcon />
                         </IconButton>
                     </Tooltip>
+                    <Tooltip title={t('History.visualize')}>
+                        <IconButton
+                            color="secondary"
+                            onClick={() => handleVisualize(params.row)}
+                        >
+                            <VisibilityOutlined />
+                        </IconButton>
+                    </Tooltip>
                     {params.row.status === 'SUBMITTED' && (
                         <Tooltip title={tHistory('edit')}>
                             <IconButton
