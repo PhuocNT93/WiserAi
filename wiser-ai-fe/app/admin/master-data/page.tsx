@@ -447,7 +447,6 @@ export default function MasterDataPage() {
                 <Tabs value={panel} onChange={handleChangePanel} aria-label="basic tabs example">
                     <Tab label="Employee Profiles" />
                     <Tab label="Role-Skill Mapping" />
-                    <Tab label="Learning Catalog" />
                 </Tabs>
             </Box>
 
