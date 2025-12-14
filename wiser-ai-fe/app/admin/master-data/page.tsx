@@ -626,13 +626,6 @@ export default function MasterDataPage() {
                 </Paper>
             </CustomTabPanel>
 
-            {/* Tab 3: Learning Catalog */}
-            <CustomTabPanel value={panel} index={2}>
-                <Paper sx={{ p: 3 }}>
-                    <Typography>Learning Catalog content goes here.</Typography>
-                </Paper>
-            </CustomTabPanel>
-
             {/* Confirmation Dialog for Delete */}
             <Dialog open={confirmDeleteOpen} onClose={handleCancelDelete}>
                 <DialogTitle>Confirm Delete</DialogTitle>
