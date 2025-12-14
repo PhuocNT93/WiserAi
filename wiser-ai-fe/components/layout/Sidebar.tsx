@@ -50,7 +50,7 @@ const SummaryIcon = () => (
 const MENU_ITEMS = [
     { text: 'Summary', icon: <SummaryIcon />, path: '/summary' },
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-    { text: 'Career Plan', icon: <CareerIcon />, path: '/career-plan' },
+    { text: 'Growth Map', icon: <CareerIcon />, path: '/career-plan' },
     { text: 'L&D Plan', icon: <LdIcon />, path: '/ld-plan' },
     { text: 'Reward Hub', icon: <RewardIcon />, path: '/reward-hub' },
     { text: 'Coming Soon', icon: <ComingSoonIcon />, path: '/coming-soon' },

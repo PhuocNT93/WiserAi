@@ -1155,6 +1155,7 @@ export const CareerPlanScalarFieldEnum = {
   currentCompetencies: 'currentCompetencies',
   focusAreas: 'focusAreas',
   actionPlan: 'actionPlan',
+  suggestedCourses: 'suggestedCourses',
   supportNeeded: 'supportNeeded',
   managerComments: 'managerComments',
   submittedAt: 'submittedAt',

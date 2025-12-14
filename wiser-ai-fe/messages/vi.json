@@ -51,5 +51,17 @@
         "emailHelper": "Không thể thay đổi địa chỉ email",
         "successUpdate": "Cập nhật hồ sơ thành công",
         "errorUpdate": "Cập nhật hồ sơ thất bại"
+    },
+    "History": {
+        "title": "Lịch sử Kế hoạch",
+        "no": "STT",
+        "userEmail": "Email",
+        "managerEmail": "Email Quản lý",
+        "year": "Năm",
+        "careerGoal": "Mục tiêu",
+        "status": "Trạng thái",
+        "actions": "Thao tác",
+        "view": "Xem",
+        "close": "Đóng"
     }
 }

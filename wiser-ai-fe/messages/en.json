@@ -2,7 +2,7 @@
   "Common": {
     "summary": "Summary",
     "dashboard": "Dashboard",
-    "careerPlan": "Career Plan",
+    "careerPlan": "Growth Map",
     "ldPlan": "L&D Plan",
     "rewardHub": "Reward Hub",
     "comingSoon": "Coming Soon",
@@ -101,5 +101,17 @@
       "actionPlan": "Action Plan",
       "supportNeeded": "Support Needed"
     }
+  },
+  "History": {
+    "title": "Career Plan History",
+    "no": "No.",
+    "userEmail": "User Email",
+    "managerEmail": "Manager Email",
+    "year": "Year",
+    "careerGoal": "Career Goal",
+    "status": "Status",
+    "actions": "Actions",
+    "view": "View",
+    "close": "Close"
   }
 }

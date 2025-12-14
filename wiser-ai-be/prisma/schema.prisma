@@ -178,10 +178,11 @@ model CareerPlan {
   targetLevel       UserLevel?
 
   // AI Generated / Result Sections
-  careerGoal        String?         @db.Text
-  currentCompetencies String?       @db.Text
+  careerGoal        Json?           // { title: string, timeframe: string }
+  currentCompetencies Json?         // Array of { name: string, progress: number }
   focusAreas        Json?           // JSON structure
   actionPlan        Json?           // JSON structure
+  suggestedCourses  Json?           // Array of { name: string, progress: number }
   supportNeeded     Json?           // JSON structure (or String depending on requirements, usually list items)
 
   // Manager Review

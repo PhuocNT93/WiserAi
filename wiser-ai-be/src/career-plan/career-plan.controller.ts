@@ -41,4 +41,15 @@ export class CareerPlanController {
         const userId = req.user.id;
         return this.careerPlanService.findMyPlans(userId);
     }
+
+    @Get('team-plans')
+    async findManagedPlans(@Req() req: any) {
+        const managerId = req.user.id;
+        return this.careerPlanService.findManagedPlans(managerId);
+    }
+
+    @Post(':id/comment')
+    async addComment(@Param('id') id: string, @Body() body: any) {
+        return this.careerPlanService.addManagerComment(+id, body);
+    }
 }

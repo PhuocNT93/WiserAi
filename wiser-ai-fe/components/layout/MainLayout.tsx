@@ -127,7 +127,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                         </IconButton>
                     )}
                     <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-                        WiserAi Platform
+                        WiserAi by Cyberlogitec
                     </Typography>
 
                     {/* Language Switcher */}
@@ -179,6 +179,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                                         <Avatar alt={user ? user.fullName : "User"} src={user?.avatarUrl || "/static/images/avatar/2.jpg"} />
                                     </IconButton>
                                 </Tooltip>
+                                <Typography textAlign="center">{user ? user.fullName : "User"}</Typography>
                                 <Menu
                                     sx={{ mt: '45px' }}
                                     id="menu-appbar"

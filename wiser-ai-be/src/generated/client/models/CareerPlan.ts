@@ -52,8 +52,6 @@ export type CareerPlanMinAggregateOutputType = {
   improvements: string | null
   expectations: string | null
   targetLevel: $Enums.UserLevel | null
-  careerGoal: string | null
-  currentCompetencies: string | null
   submittedAt: Date | null
   confirmedAt: Date | null
   createdAt: Date | null
@@ -72,8 +70,6 @@ export type CareerPlanMaxAggregateOutputType = {
   improvements: string | null
   expectations: string | null
   targetLevel: $Enums.UserLevel | null
-  careerGoal: string | null
-  currentCompetencies: string | null
   submittedAt: Date | null
   confirmedAt: Date | null
   createdAt: Date | null
@@ -97,6 +93,7 @@ export type CareerPlanCountAggregateOutputType = {
   currentCompetencies: number
   focusAreas: number
   actionPlan: number
+  suggestedCourses: number
   supportNeeded: number
   managerComments: number
   submittedAt: number
@@ -133,8 +130,6 @@ export type CareerPlanMinAggregateInputType = {
   improvements?: true
   expectations?: true
   targetLevel?: true
-  careerGoal?: true
-  currentCompetencies?: true
   submittedAt?: true
   confirmedAt?: true
   createdAt?: true
@@ -153,8 +148,6 @@ export type CareerPlanMaxAggregateInputType = {
   improvements?: true
   expectations?: true
   targetLevel?: true
-  careerGoal?: true
-  currentCompetencies?: true
   submittedAt?: true
   confirmedAt?: true
   createdAt?: true
@@ -178,6 +171,7 @@ export type CareerPlanCountAggregateInputType = {
   currentCompetencies?: true
   focusAreas?: true
   actionPlan?: true
+  suggestedCourses?: true
   supportNeeded?: true
   managerComments?: true
   submittedAt?: true
@@ -286,10 +280,11 @@ export type CareerPlanGroupByOutputType = {
   improvements: string
   expectations: string
   targetLevel: $Enums.UserLevel | null
-  careerGoal: string | null
-  currentCompetencies: string | null
+  careerGoal: runtime.JsonValue | null
+  currentCompetencies: runtime.JsonValue | null
   focusAreas: runtime.JsonValue | null
   actionPlan: runtime.JsonValue | null
+  suggestedCourses: runtime.JsonValue | null
   supportNeeded: runtime.JsonValue | null
   managerComments: runtime.JsonValue | null
   submittedAt: Date | null
@@ -334,10 +329,11 @@ export type CareerPlanWhereInput = {
   improvements?: Prisma.StringFilter<"CareerPlan"> | string
   expectations?: Prisma.StringFilter<"CareerPlan"> | string
   targetLevel?: Prisma.EnumUserLevelNullableFilter<"CareerPlan"> | $Enums.UserLevel | null
-  careerGoal?: Prisma.StringNullableFilter<"CareerPlan"> | string | null
-  currentCompetencies?: Prisma.StringNullableFilter<"CareerPlan"> | string | null
+  careerGoal?: Prisma.JsonNullableFilter<"CareerPlan">
+  currentCompetencies?: Prisma.JsonNullableFilter<"CareerPlan">
   focusAreas?: Prisma.JsonNullableFilter<"CareerPlan">
   actionPlan?: Prisma.JsonNullableFilter<"CareerPlan">
+  suggestedCourses?: Prisma.JsonNullableFilter<"CareerPlan">
   supportNeeded?: Prisma.JsonNullableFilter<"CareerPlan">
   managerComments?: Prisma.JsonNullableFilter<"CareerPlan">
   submittedAt?: Prisma.DateTimeNullableFilter<"CareerPlan"> | Date | string | null
@@ -365,6 +361,7 @@ export type CareerPlanOrderByWithRelationInput = {
   currentCompetencies?: Prisma.SortOrderInput | Prisma.SortOrder
   focusAreas?: Prisma.SortOrderInput | Prisma.SortOrder
   actionPlan?: Prisma.SortOrderInput | Prisma.SortOrder
+  suggestedCourses?: Prisma.SortOrderInput | Prisma.SortOrder
   supportNeeded?: Prisma.SortOrderInput | Prisma.SortOrder
   managerComments?: Prisma.SortOrderInput | Prisma.SortOrder
   submittedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -391,10 +388,11 @@ export type CareerPlanWhereUniqueInput = Prisma.AtLeast<{
   improvements?: Prisma.StringFilter<"CareerPlan"> | string
   expectations?: Prisma.StringFilter<"CareerPlan"> | string
   targetLevel?: Prisma.EnumUserLevelNullableFilter<"CareerPlan"> | $Enums.UserLevel | null
-  careerGoal?: Prisma.StringNullableFilter<"CareerPlan"> | string | null
-  currentCompetencies?: Prisma.StringNullableFilter<"CareerPlan"> | string | null
+  careerGoal?: Prisma.JsonNullableFilter<"CareerPlan">
+  currentCompetencies?: Prisma.JsonNullableFilter<"CareerPlan">
   focusAreas?: Prisma.JsonNullableFilter<"CareerPlan">
   actionPlan?: Prisma.JsonNullableFilter<"CareerPlan">
+  suggestedCourses?: Prisma.JsonNullableFilter<"CareerPlan">
   supportNeeded?: Prisma.JsonNullableFilter<"CareerPlan">
   managerComments?: Prisma.JsonNullableFilter<"CareerPlan">
   submittedAt?: Prisma.DateTimeNullableFilter<"CareerPlan"> | Date | string | null
@@ -422,6 +420,7 @@ export type CareerPlanOrderByWithAggregationInput = {
   currentCompetencies?: Prisma.SortOrderInput | Prisma.SortOrder
   focusAreas?: Prisma.SortOrderInput | Prisma.SortOrder
   actionPlan?: Prisma.SortOrderInput | Prisma.SortOrder
+  suggestedCourses?: Prisma.SortOrderInput | Prisma.SortOrder
   supportNeeded?: Prisma.SortOrderInput | Prisma.SortOrder
   managerComments?: Prisma.SortOrderInput | Prisma.SortOrder
   submittedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -451,10 +450,11 @@ export type CareerPlanScalarWhereWithAggregatesInput = {
   improvements?: Prisma.StringWithAggregatesFilter<"CareerPlan"> | string
   expectations?: Prisma.StringWithAggregatesFilter<"CareerPlan"> | string
   targetLevel?: Prisma.EnumUserLevelNullableWithAggregatesFilter<"CareerPlan"> | $Enums.UserLevel | null
-  careerGoal?: Prisma.StringNullableWithAggregatesFilter<"CareerPlan"> | string | null
-  currentCompetencies?: Prisma.StringNullableWithAggregatesFilter<"CareerPlan"> | string | null
+  careerGoal?: Prisma.JsonNullableWithAggregatesFilter<"CareerPlan">
+  currentCompetencies?: Prisma.JsonNullableWithAggregatesFilter<"CareerPlan">
   focusAreas?: Prisma.JsonNullableWithAggregatesFilter<"CareerPlan">
   actionPlan?: Prisma.JsonNullableWithAggregatesFilter<"CareerPlan">
+  suggestedCourses?: Prisma.JsonNullableWithAggregatesFilter<"CareerPlan">
   supportNeeded?: Prisma.JsonNullableWithAggregatesFilter<"CareerPlan">
   managerComments?: Prisma.JsonNullableWithAggregatesFilter<"CareerPlan">
   submittedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CareerPlan"> | Date | string | null
@@ -473,10 +473,11 @@ export type CareerPlanCreateInput = {
   improvements: string
   expectations: string
   targetLevel?: $Enums.UserLevel | null
-  careerGoal?: string | null
-  currentCompetencies?: string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
@@ -500,10 +501,11 @@ export type CareerPlanUncheckedCreateInput = {
   improvements: string
   expectations: string
   targetLevel?: $Enums.UserLevel | null
-  careerGoal?: string | null
-  currentCompetencies?: string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
@@ -522,10 +524,11 @@ export type CareerPlanUpdateInput = {
   improvements?: Prisma.StringFieldUpdateOperationsInput | string
   expectations?: Prisma.StringFieldUpdateOperationsInput | string
   targetLevel?: Prisma.NullableEnumUserLevelFieldUpdateOperationsInput | $Enums.UserLevel | null
-  careerGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  currentCompetencies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -549,10 +552,11 @@ export type CareerPlanUncheckedUpdateInput = {
   improvements?: Prisma.StringFieldUpdateOperationsInput | string
   expectations?: Prisma.StringFieldUpdateOperationsInput | string
   targetLevel?: Prisma.NullableEnumUserLevelFieldUpdateOperationsInput | $Enums.UserLevel | null
-  careerGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  currentCompetencies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -574,10 +578,11 @@ export type CareerPlanCreateManyInput = {
   improvements: string
   expectations: string
   targetLevel?: $Enums.UserLevel | null
-  careerGoal?: string | null
-  currentCompetencies?: string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
@@ -596,10 +601,11 @@ export type CareerPlanUpdateManyMutationInput = {
   improvements?: Prisma.StringFieldUpdateOperationsInput | string
   expectations?: Prisma.StringFieldUpdateOperationsInput | string
   targetLevel?: Prisma.NullableEnumUserLevelFieldUpdateOperationsInput | $Enums.UserLevel | null
-  careerGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  currentCompetencies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -621,10 +627,11 @@ export type CareerPlanUncheckedUpdateManyInput = {
   improvements?: Prisma.StringFieldUpdateOperationsInput | string
   expectations?: Prisma.StringFieldUpdateOperationsInput | string
   targetLevel?: Prisma.NullableEnumUserLevelFieldUpdateOperationsInput | $Enums.UserLevel | null
-  careerGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  currentCompetencies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -660,6 +667,7 @@ export type CareerPlanCountOrderByAggregateInput = {
   currentCompetencies?: Prisma.SortOrder
   focusAreas?: Prisma.SortOrder
   actionPlan?: Prisma.SortOrder
+  suggestedCourses?: Prisma.SortOrder
   supportNeeded?: Prisma.SortOrder
   managerComments?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
@@ -687,8 +695,6 @@ export type CareerPlanMaxOrderByAggregateInput = {
   improvements?: Prisma.SortOrder
   expectations?: Prisma.SortOrder
   targetLevel?: Prisma.SortOrder
-  careerGoal?: Prisma.SortOrder
-  currentCompetencies?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   confirmedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -707,8 +713,6 @@ export type CareerPlanMinOrderByAggregateInput = {
   improvements?: Prisma.SortOrder
   expectations?: Prisma.SortOrder
   targetLevel?: Prisma.SortOrder
-  careerGoal?: Prisma.SortOrder
-  currentCompetencies?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   confirmedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -832,10 +836,11 @@ export type CareerPlanCreateWithoutUserInput = {
   improvements: string
   expectations: string
   targetLevel?: $Enums.UserLevel | null
-  careerGoal?: string | null
-  currentCompetencies?: string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
@@ -857,10 +862,11 @@ export type CareerPlanUncheckedCreateWithoutUserInput = {
   improvements: string
   expectations: string
   targetLevel?: $Enums.UserLevel | null
-  careerGoal?: string | null
-  currentCompetencies?: string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
@@ -889,10 +895,11 @@ export type CareerPlanCreateWithoutManagerInput = {
   improvements: string
   expectations: string
   targetLevel?: $Enums.UserLevel | null
-  careerGoal?: string | null
-  currentCompetencies?: string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
@@ -914,10 +921,11 @@ export type CareerPlanUncheckedCreateWithoutManagerInput = {
   improvements: string
   expectations: string
   targetLevel?: $Enums.UserLevel | null
-  careerGoal?: string | null
-  currentCompetencies?: string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
@@ -968,10 +976,11 @@ export type CareerPlanScalarWhereInput = {
   improvements?: Prisma.StringFilter<"CareerPlan"> | string
   expectations?: Prisma.StringFilter<"CareerPlan"> | string
   targetLevel?: Prisma.EnumUserLevelNullableFilter<"CareerPlan"> | $Enums.UserLevel | null
-  careerGoal?: Prisma.StringNullableFilter<"CareerPlan"> | string | null
-  currentCompetencies?: Prisma.StringNullableFilter<"CareerPlan"> | string | null
+  careerGoal?: Prisma.JsonNullableFilter<"CareerPlan">
+  currentCompetencies?: Prisma.JsonNullableFilter<"CareerPlan">
   focusAreas?: Prisma.JsonNullableFilter<"CareerPlan">
   actionPlan?: Prisma.JsonNullableFilter<"CareerPlan">
+  suggestedCourses?: Prisma.JsonNullableFilter<"CareerPlan">
   supportNeeded?: Prisma.JsonNullableFilter<"CareerPlan">
   managerComments?: Prisma.JsonNullableFilter<"CareerPlan">
   submittedAt?: Prisma.DateTimeNullableFilter<"CareerPlan"> | Date | string | null
@@ -1008,10 +1017,11 @@ export type CareerPlanCreateManyUserInput = {
   improvements: string
   expectations: string
   targetLevel?: $Enums.UserLevel | null
-  careerGoal?: string | null
-  currentCompetencies?: string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
@@ -1032,10 +1042,11 @@ export type CareerPlanCreateManyManagerInput = {
   improvements: string
   expectations: string
   targetLevel?: $Enums.UserLevel | null
-  careerGoal?: string | null
-  currentCompetencies?: string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
@@ -1054,10 +1065,11 @@ export type CareerPlanUpdateWithoutUserInput = {
   improvements?: Prisma.StringFieldUpdateOperationsInput | string
   expectations?: Prisma.StringFieldUpdateOperationsInput | string
   targetLevel?: Prisma.NullableEnumUserLevelFieldUpdateOperationsInput | $Enums.UserLevel | null
-  careerGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  currentCompetencies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1079,10 +1091,11 @@ export type CareerPlanUncheckedUpdateWithoutUserInput = {
   improvements?: Prisma.StringFieldUpdateOperationsInput | string
   expectations?: Prisma.StringFieldUpdateOperationsInput | string
   targetLevel?: Prisma.NullableEnumUserLevelFieldUpdateOperationsInput | $Enums.UserLevel | null
-  careerGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  currentCompetencies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1103,10 +1116,11 @@ export type CareerPlanUncheckedUpdateManyWithoutUserInput = {
   improvements?: Prisma.StringFieldUpdateOperationsInput | string
   expectations?: Prisma.StringFieldUpdateOperationsInput | string
   targetLevel?: Prisma.NullableEnumUserLevelFieldUpdateOperationsInput | $Enums.UserLevel | null
-  careerGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  currentCompetencies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1125,10 +1139,11 @@ export type CareerPlanUpdateWithoutManagerInput = {
   improvements?: Prisma.StringFieldUpdateOperationsInput | string
   expectations?: Prisma.StringFieldUpdateOperationsInput | string
   targetLevel?: Prisma.NullableEnumUserLevelFieldUpdateOperationsInput | $Enums.UserLevel | null
-  careerGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  currentCompetencies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1150,10 +1165,11 @@ export type CareerPlanUncheckedUpdateWithoutManagerInput = {
   improvements?: Prisma.StringFieldUpdateOperationsInput | string
   expectations?: Prisma.StringFieldUpdateOperationsInput | string
   targetLevel?: Prisma.NullableEnumUserLevelFieldUpdateOperationsInput | $Enums.UserLevel | null
-  careerGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  currentCompetencies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1174,10 +1190,11 @@ export type CareerPlanUncheckedUpdateManyWithoutManagerInput = {
   improvements?: Prisma.StringFieldUpdateOperationsInput | string
   expectations?: Prisma.StringFieldUpdateOperationsInput | string
   targetLevel?: Prisma.NullableEnumUserLevelFieldUpdateOperationsInput | $Enums.UserLevel | null
-  careerGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  currentCompetencies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careerGoal?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  currentCompetencies?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   focusAreas?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actionPlan?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1205,6 +1222,7 @@ export type CareerPlanSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   currentCompetencies?: boolean
   focusAreas?: boolean
   actionPlan?: boolean
+  suggestedCourses?: boolean
   supportNeeded?: boolean
   managerComments?: boolean
   submittedAt?: boolean
@@ -1232,6 +1250,7 @@ export type CareerPlanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   currentCompetencies?: boolean
   focusAreas?: boolean
   actionPlan?: boolean
+  suggestedCourses?: boolean
   supportNeeded?: boolean
   managerComments?: boolean
   submittedAt?: boolean
@@ -1259,6 +1278,7 @@ export type CareerPlanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   currentCompetencies?: boolean
   focusAreas?: boolean
   actionPlan?: boolean
+  suggestedCourses?: boolean
   supportNeeded?: boolean
   managerComments?: boolean
   submittedAt?: boolean
@@ -1286,6 +1306,7 @@ export type CareerPlanSelectScalar = {
   currentCompetencies?: boolean
   focusAreas?: boolean
   actionPlan?: boolean
+  suggestedCourses?: boolean
   supportNeeded?: boolean
   managerComments?: boolean
   submittedAt?: boolean
@@ -1294,7 +1315,7 @@ export type CareerPlanSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CareerPlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "managerId" | "year" | "reviewPeriod" | "status" | "objectives" | "achievements" | "certificates" | "improvements" | "expectations" | "targetLevel" | "careerGoal" | "currentCompetencies" | "focusAreas" | "actionPlan" | "supportNeeded" | "managerComments" | "submittedAt" | "confirmedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["careerPlan"]>
+export type CareerPlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "managerId" | "year" | "reviewPeriod" | "status" | "objectives" | "achievements" | "certificates" | "improvements" | "expectations" | "targetLevel" | "careerGoal" | "currentCompetencies" | "focusAreas" | "actionPlan" | "suggestedCourses" | "supportNeeded" | "managerComments" | "submittedAt" | "confirmedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["careerPlan"]>
 export type CareerPlanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   manager?: boolean | Prisma.CareerPlan$managerArgs<ExtArgs>
@@ -1327,10 +1348,11 @@ export type $CareerPlanPayload<ExtArgs extends runtime.Types.Extensions.Internal
     improvements: string
     expectations: string
     targetLevel: $Enums.UserLevel | null
-    careerGoal: string | null
-    currentCompetencies: string | null
+    careerGoal: runtime.JsonValue | null
+    currentCompetencies: runtime.JsonValue | null
     focusAreas: runtime.JsonValue | null
     actionPlan: runtime.JsonValue | null
+    suggestedCourses: runtime.JsonValue | null
     supportNeeded: runtime.JsonValue | null
     managerComments: runtime.JsonValue | null
     submittedAt: Date | null
@@ -1774,10 +1796,11 @@ export interface CareerPlanFieldRefs {
   readonly improvements: Prisma.FieldRef<"CareerPlan", 'String'>
   readonly expectations: Prisma.FieldRef<"CareerPlan", 'String'>
   readonly targetLevel: Prisma.FieldRef<"CareerPlan", 'UserLevel'>
-  readonly careerGoal: Prisma.FieldRef<"CareerPlan", 'String'>
-  readonly currentCompetencies: Prisma.FieldRef<"CareerPlan", 'String'>
+  readonly careerGoal: Prisma.FieldRef<"CareerPlan", 'Json'>
+  readonly currentCompetencies: Prisma.FieldRef<"CareerPlan", 'Json'>
   readonly focusAreas: Prisma.FieldRef<"CareerPlan", 'Json'>
   readonly actionPlan: Prisma.FieldRef<"CareerPlan", 'Json'>
+  readonly suggestedCourses: Prisma.FieldRef<"CareerPlan", 'Json'>
   readonly supportNeeded: Prisma.FieldRef<"CareerPlan", 'Json'>
   readonly managerComments: Prisma.FieldRef<"CareerPlan", 'Json'>
   readonly submittedAt: Prisma.FieldRef<"CareerPlan", 'DateTime'>

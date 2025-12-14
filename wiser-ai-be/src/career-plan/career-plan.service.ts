@@ -1,101 +1,106 @@
+
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma, GrowthMapStatus, ReviewPeriod } from '../generated/client/client';
 
 @Injectable()
 export class CareerPlanService {
-    private readonly openAiApiKey = process.env.OPENAI_API_KEY;
+    private readonly openAiApiKey: string;
 
-    constructor(private prisma: PrismaService) { }
+    constructor(
+        private prisma: PrismaService,
+        private configService: ConfigService
+    ) {
+        this.openAiApiKey = this.configService.get<string>('OPENAI_API_KEY') || '';
+    }
 
     async generateGrowthMap(userProfile: any) {
+        console.log('Generating Growth Map...');
+        console.log('API Key present:', !!this.openAiApiKey);
+        if (this.openAiApiKey) {
+            console.log('API Key length:', this.openAiApiKey.length);
+            console.log('API Key first 5 chars:', this.openAiApiKey.substring(0, 5));
+        }
+
         if (!this.openAiApiKey) {
             console.log('No OpenAI API Key found, returning mock data.');
             return this.getMockGrowthMap();
         }
 
         try {
-            // const prompt = `
-            //     You are a senior career development expert and HR mentor.
+            const prompt = `
+                You are a senior career development expert and HR mentor.
 
-            //     Generate a career growth map that can be rendered directly into a dashboard UI similar to a Growth Map overview.
+                Generate a career growth map that can be rendered directly into a dashboard UI similar to a Growth Map overview.
 
-            //     User Profile:
-            //     ${JSON.stringify({
-            //     ...userProfile,
-            //     targetLevel: userProfile.targetLevel || "Not specified",
-            //     reviewPeriod: userProfile.reviewPeriod || "Not specified"
-            //     })}
+                User Profile:
+                ${JSON.stringify({
+                ...userProfile,
+                targetLevel: userProfile.targetLevel || "Not specified",
+                reviewPeriod: userProfile.reviewPeriod || "Not specified"
+            })}
 
-            //     The response MUST be a valid JSON object following EXACTLY this structure:
+                The response MUST be a valid JSON object following EXACTLY this structure:
 
-            //     {
-            //     "careerGoal": {
-            //         "title": "string",
-            //         "timeframe": "string"
-            //     },
+                {
+                "careerGoal": {
+                    "title": "string",
+                    "timeframe": "string"
+                },
 
-            //     "competencies": [
-            //         {
-            //         "name": "string",
-            //         "progress": number
-            //         }
-            //     ],
+                "competencies": [
+                    {
+                    "name": "string",
+                    "progress": number
+                    }
+                ],
 
-            //     "focusAreas": [
-            //         {
-            //         "name": "string",
-            //         "priority": number,
-            //         "progress": number,
-            //         "description": "string"
-            //         }
-            //     ],
+                "focusAreas": [
+                    {
+                    "name": "string",
+                    "priority": number,
+                    "progress": number,
+                    "description": "string"
+                    }
+                ],
 
-            //     "actionPlan": {
-            //         "tasks": [
-            //         {
-            //             "description": "string"
-            //         }
-            //         ],
-            //         "courses": [
-            //         {
-            //             "name": "string",
-            //             "duration": "string",
-            //             "type": "mandatory | optional"
-            //         }
-            //         ],
-            //         "coaching": [
-            //         {
-            //             "activity": "string"
-            //         }
-            //         ]
-            //     },
+                "actionPlan": [
+                    {
+                    "action": "string",
+                    "timeline": "string",
+                    "successMetrics": "string",
+                    "supportNeeded": "string"
+                    }
+                ],
 
-            //     "suggestedCourses": [
-            //         {
-            //         "name": "string",
-            //         "progress": number
-            //         }
-            //     ],
+                "suggestedCourses": [
+                    {
+                    "name": "string",
+                    "progress": number
+                    }
+                ],
 
-            //     "supportNeeded": [
-            //         {
-            //         "title": "string",
-            //         "description": "string"
-            //         }
-            //     ]
-            //     }
+                "supportNeeded": [
+                    {
+                    "title": "string",
+                    "description": "string"
+                    }
+                ]
+                }
 
-            //     Rules:
-            //     - Progress values must be numbers from 0 to 100.
-            //     - focusAreas MUST be ordered by priority ascending (1 = highest).
-            //     - Action plan tasks should be realistic and measurable.
-            //     - Suggested courses should align with focus areas.
-            //     - Keep text concise and suitable for UI cards.
-            //     - Do NOT include markdown.
-            //     - Return ONLY raw JSON.
-            //     `;
-            const prompt = `You are a career development expert. Generate a detailed career growth map for the user based on their profile. User Profile: ${JSON.stringify({ ...userProfile, targetLevel: userProfile.targetLevel || 'Not specified', reviewPeriod: userProfile.reviewPeriod || 'Not specified' })} The output MUST be a valid JSON object with the following structure: { "careerGoal": "string", "currentCompetencies": "string", "focusAreas": [ { "area": "string", "priority": number, "suggestion": "string" } ], "actionPlan": [ { "action": "string", "timeline": "string", "successMetrics": "string", "supportNeeded": "string" } ], "supportNeeded": ["string"] } Do not include any markdown formatting (like \\\json). Return only the raw JSON string. `;
+                Rules:
+                - Progress values must be numbers from 0 to 100.
+                - focusAreas MUST be ordered by priority ascending (1 = highest).
+                - Action plan tasks should be realistic and measurable.
+                - Suggested courses should align with focus areas.
+                - Keep text concise and suitable for UI cards.
+                - Do NOT include markdown.
+                - Return ONLY raw JSON.
+                `;
+            // const prompt = `You are a career development expert. Generate a detailed career growth map for the user based on their profile. User Profile: ${JSON.stringify({ ...userProfile, targetLevel: userProfile.targetLevel || 'Not specified', reviewPeriod: userProfile.reviewPeriod || 'Not specified' })} The output MUST be a valid JSON object with the following structure: { "careerGoal": "string", "currentCompetencies": "string", "focusAreas": [ { "area": "string", "priority": number, "suggestion": "string" } ], "actionPlan": [ { "action": "string", "timeline": "string", "successMetrics": "string", "supportNeeded": "string" } ], "supportNeeded": ["string"] } Do not include any markdown formatting (like \\\json). Return only the raw JSON string. `;
+
+            console.log('Sending request to OpenAI...');
             const response = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
                 headers: {
@@ -119,10 +124,13 @@ export class CareerPlanService {
             });
 
             if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`OpenAI API Error: ${response.status} ${response.statusText}`, errorText);
                 throw new Error(`OpenAI API Error: ${response.statusText}`);
             }
 
             const data = await response.json();
+            console.log('OpenAI response received');
             const content = data.choices[0].message.content;
 
             // basic cleanup if model adds markdown blocks
@@ -149,47 +157,44 @@ export class CareerPlanService {
             ],
             "focusAreas": [
                 {
-                "name": "Leadership",
-                "priority": 1,
-                "progress": 10,
-                "description": "Improve ownership and team influence"
+                    "name": "Leadership",
+                    "priority": 1,
+                    "progress": 10,
+                    "description": "Improve ownership and team influence"
                 },
                 {
-                "name": "English Communication",
-                "priority": 2,
-                "progress": 60,
-                "description": "Improve presentation and discussion skills"
+                    "name": "English Communication",
+                    "priority": 2,
+                    "progress": 60,
+                    "description": "Improve presentation and discussion skills"
                 },
                 {
-                "name": "System Design",
-                "priority": 3,
-                "progress": 30,
-                "description": "Design scalable backend systems"
+                    "name": "System Design",
+                    "priority": 3,
+                    "progress": 30,
+                    "description": "Design scalable backend systems"
                 }
             ],
-            "actionPlan": {
-                "tasks": [
-                { "description": "Take ownership of at least one feature module" },
-                { "description": "Present progress in sprint reviews" },
-                { "description": "Support junior teammates when possible" }
-                ],
-                "courses": [
+            "actionPlan": [
                 {
-                    "name": "Effective Communication",
-                    "duration": "6 hours",
-                    "type": "mandatory"
+                    "action": "Take ownership of at least one feature module",
+                    "timeline": "3 months",
+                    "successMetrics": "Module delivered with < 5 bugs",
+                    "supportNeeded": "Code review from senior dev"
                 },
                 {
-                    "name": "Intro to Project Planning",
-                    "duration": "Optional",
-                    "type": "optional"
+                    "action": "Complete Public Speaking course",
+                    "timeline": "6 months",
+                    "successMetrics": "Present at 2 team meetings",
+                    "supportNeeded": "Time allocation"
+                },
+                {
+                    "action": "Lead a small feature team",
+                    "timeline": "12 months",
+                    "successMetrics": "Successful feature launch",
+                    "supportNeeded": "Mentorship on leadership"
                 }
-                ],
-                "coaching": [
-                { "activity": "Monthly 1:1 career discussion" },
-                { "activity": "Request feedback after each milestone" }
-                ]
-            },
+            ],
             "suggestedCourses": [
                 { "name": "Public Speaking", "progress": 40 },
                 { "name": "Leadership Fundamental", "progress": 30 },
@@ -197,19 +202,19 @@ export class CareerPlanService {
             ],
             "supportNeeded": [
                 {
-                "title": "Manager Feedback",
-                "description": "Feedback on leadership behaviors"
+                    "title": "Manager Feedback",
+                    "description": "Feedback on leadership behaviors"
                 },
                 {
-                "title": "Mentoring",
-                "description": "Support for decision-making and communication"
+                    "title": "Mentoring",
+                    "description": "Support for decision-making and communication"
                 },
                 {
-                "title": "Learning Time",
-                "description": "Allocated time for completing courses"
+                    "title": "Learning Time",
+                    "description": "Allocated time for completing courses"
                 }
             ]
-            };
+        };
     }
 
     async create(userId: number, data: Prisma.CareerPlanUncheckedCreateInput) {
@@ -233,6 +238,27 @@ export class CareerPlanService {
         return this.prisma.careerPlan.findMany({
             where: { userId },
             orderBy: { year: 'desc' },
+            include: {
+                user: { select: { email: true } },
+                manager: { select: { email: true } }
+            }
+        });
+    }
+
+    async findManagedPlans(managerId: number) {
+        return this.prisma.careerPlan.findMany({
+            where: { managerId },
+            orderBy: { year: 'desc' },
+            include: {
+                user: { select: { email: true, name: true } }
+            }
+        });
+    }
+
+    async addManagerComment(planId: number, comments: any) {
+        return this.prisma.careerPlan.update({
+            where: { id: planId },
+            data: { managerComments: comments }
         });
     }
 }

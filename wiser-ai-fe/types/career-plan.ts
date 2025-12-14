@@ -24,6 +24,41 @@ export interface CareerPlanCertificate {
     file?: File; // Local file object for upload
 }
 
+export interface CareerGoal {
+    title: string;
+    timeframe: string;
+}
+
+export interface Competency {
+    name: string;
+    progress: number;
+}
+
+export interface FocusArea {
+    name: string;
+    priority: number;
+    progress: number;
+    description: string;
+    suggestion?: string; // Keep for backward compatibility if needed, or map 'description' to it
+}
+
+export interface ActionPlanItem {
+    action: string;
+    timeline: string;
+    successMetrics: string;
+    supportNeeded: string;
+}
+
+export interface SuggestedCourse {
+    name: string;
+    progress: number;
+}
+
+export interface SupportNeededItem {
+    title: string;
+    description: string;
+}
+
 export interface CareerPlanData {
     id?: number;
     targetLevel: UserLevel;
@@ -35,11 +70,12 @@ export interface CareerPlanData {
     expectations: string;
 
     // Generated
-    careerGoal?: string;
-    currentCompetencies?: string;
-    focusAreas?: any[];
-    actionPlan?: any[];
-    supportNeeded?: any[];
+    careerGoal?: CareerGoal;
+    currentCompetencies?: Competency[]; // Changed from string
+    focusAreas?: FocusArea[];
+    actionPlan?: ActionPlanItem[];
+    suggestedCourses?: SuggestedCourse[];
+    supportNeeded?: SupportNeededItem[]; // Changed from any[]
 
     status?: GrowthMapStatus;
 }

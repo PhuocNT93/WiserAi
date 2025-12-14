@@ -10,12 +10,8 @@ export default function LandingPage() {
   const router = useRouter();
 
   React.useEffect(() => {
-    if (!loading) {
-      if (user) {
-        router.push('/dashboard');
-      } else {
-        router.push('/login');
-      }
+    if (user) {
+      router.push('/summary');
     }
   }, [user, loading, router]);
 

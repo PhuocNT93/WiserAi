@@ -51,5 +51,17 @@
         "emailHelper": "이메일은 변경할 수 없습니다",
         "successUpdate": "프로필이 성공적으로 업데이트되었습니다",
         "errorUpdate": "프로필 업데이트 실패"
+    },
+    "History": {
+        "title": "계획 이력",
+        "no": "번호",
+        "userEmail": "사용자 이메일",
+        "managerEmail": "매니저 이메일",
+        "year": "연도",
+        "careerGoal": "경력 목표",
+        "status": "상태",
+        "actions": "작업",
+        "view": "보기",
+        "close": "닫기"
     }
 }

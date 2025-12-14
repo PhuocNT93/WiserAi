@@ -7,7 +7,10 @@ import {
     CircularProgress
 } from '@mui/material';
 import { useTranslations } from 'next-intl';
-import { CareerPlanData, ReviewPeriod, UserLevel } from '@/types/career-plan';
+import {
+    CareerPlanData, ReviewPeriod, UserLevel,
+    CareerGoal, Competency, FocusArea, ActionPlanItem, SuggestedCourse, SupportNeededItem
+} from '@/types/career-plan';
 import api from '@/utils/api';
 
 const steps = ['reviewPeriod', 'objectives', 'achievements', 'improvements', 'expectations', 'review'];
@@ -49,9 +52,10 @@ export default function GrowthMapWizard() {
             setFormData(prev => ({
                 ...prev,
                 careerGoal: mapData.careerGoal,
-                currentCompetencies: mapData.currentCompetencies,
+                currentCompetencies: mapData.competencies, // Map API 'competencies' to 'currentCompetencies'
                 focusAreas: mapData.focusAreas || [],
                 actionPlan: mapData.actionPlan || [],
+                suggestedCourses: mapData.suggestedCourses || [],
                 supportNeeded: mapData.supportNeeded || []
             }));
             setGeneratedResult(true); // Logic flag to show result view
@@ -299,51 +303,123 @@ export default function GrowthMapWizard() {
 
                 <Box sx={{ mb: 3 }}>
                     <Typography variant="h6">{t('result.careerGoal')}</Typography>
-                    <TextField
-                        fullWidth
-                        value={formData.careerGoal || ''}
-                        onChange={handleTextChange('careerGoal')}
-                        variant="standard"
-                    />
+                    <Paper variant="outlined" sx={{ p: 2 }}>
+                        <TextField
+                            fullWidth
+                            label="Title"
+                            value={formData.careerGoal?.title || ''}
+                            onChange={(e) => setFormData({
+                                ...formData,
+                                careerGoal: { ...formData.careerGoal!, title: e.target.value }
+                            })}
+                            sx={{ mb: 2 }}
+                        />
+                        <TextField
+                            fullWidth
+                            label="Timeframe"
+                            value={formData.careerGoal?.timeframe || ''}
+                            onChange={(e) => setFormData({
+                                ...formData,
+                                careerGoal: { ...formData.careerGoal!, timeframe: e.target.value }
+                            })}
+                        />
+                    </Paper>
                 </Box>
 
                 <Box sx={{ mb: 3 }}>
                     <Typography variant="h6">{t('result.currentCompetencies')}</Typography>
-                    <TextField
-                        fullWidth multiline rows={3}
-                        value={formData.currentCompetencies || ''}
-                        onChange={handleTextChange('currentCompetencies')}
-                        variant="outlined"
-                    />
+                    {formData.currentCompetencies?.map((comp, idx) => (
+                        <Box key={idx} sx={{ display: 'flex', gap: 2, mb: 1, alignItems: 'center' }}>
+                            <TextField
+                                fullWidth
+                                label="Name"
+                                value={comp.name}
+                                onChange={(e) => {
+                                    const newComps = [...(formData.currentCompetencies || [])];
+                                    newComps[idx].name = e.target.value;
+                                    setFormData({ ...formData, currentCompetencies: newComps });
+                                }}
+                            />
+                            <TextField
+                                type="number"
+                                label="Progress %"
+                                value={comp.progress}
+                                onChange={(e) => {
+                                    const newComps = [...(formData.currentCompetencies || [])];
+                                    newComps[idx].progress = Number(e.target.value);
+                                    setFormData({ ...formData, currentCompetencies: newComps });
+                                }}
+                                sx={{ width: 100 }}
+                            />
+                            <Button
+                                color="error"
+                                onClick={() => {
+                                    const newComps = (formData.currentCompetencies || []).filter((_, i) => i !== idx);
+                                    setFormData({ ...formData, currentCompetencies: newComps });
+                                }}
+                            >
+                                X
+                            </Button>
+                        </Box>
+                    ))}
+                    <Button onClick={() => setFormData({
+                        ...formData,
+                        currentCompetencies: [...(formData.currentCompetencies || []), { name: '', progress: 0 }]
+                    })}>
+                        Add Competency
+                    </Button>
                 </Box>
 
                 <Box sx={{ mb: 3 }}>
                     <Typography variant="h6">{t('result.focusAreas')}</Typography>
-                    {formData.focusAreas?.map((area: any, idx: number) => (
+                    {formData.focusAreas?.map((area, idx) => (
                         <Paper key={idx} variant="outlined" sx={{ p: 2, mb: 2 }}>
+                            <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                                <TextField
+                                    fullWidth
+                                    label="Area Name"
+                                    value={area.name}
+                                    onChange={(e) => {
+                                        const newAreas = [...(formData.focusAreas || [])];
+                                        newAreas[idx].name = e.target.value;
+                                        setFormData({ ...formData, focusAreas: newAreas });
+                                    }}
+                                />
+                                {/* <TextField
+                                    type="number"
+                                    label="Priority"
+                                    value={area.priority}
+                                    onChange={(e) => {
+                                        const newAreas = [...(formData.focusAreas || [])];
+                                        newAreas[idx].priority = Number(e.target.value);
+                                        setFormData({ ...formData, focusAreas: newAreas });
+                                    }}
+                                    sx={{ width: 100 }}
+                                /> */}
+                                <TextField
+                                    type="number"
+                                    label="Progress %"
+                                    value={area.progress}
+                                    onChange={(e) => {
+                                        const newAreas = [...(formData.focusAreas || [])];
+                                        newAreas[idx].progress = Number(e.target.value);
+                                        setFormData({ ...formData, focusAreas: newAreas });
+                                    }}
+                                    sx={{ width: 100 }}
+                                />
+                            </Box>
                             <TextField
                                 fullWidth multiline
-                                label="Area"
-                                value={area.area}
+                                label="Description"
+                                value={area.description}
                                 onChange={(e) => {
                                     const newAreas = [...(formData.focusAreas || [])];
-                                    newAreas[idx].area = e.target.value;
-                                    setFormData({ ...formData, focusAreas: newAreas });
-                                }}
-                                sx={{ mb: 2 }}
-                            />
-                            <TextField
-                                fullWidth multiline minRows={2}
-                                label="Suggestion"
-                                value={area.suggestion}
-                                onChange={(e) => {
-                                    const newAreas = [...(formData.focusAreas || [])];
-                                    newAreas[idx].suggestion = e.target.value;
+                                    newAreas[idx].description = e.target.value;
                                     setFormData({ ...formData, focusAreas: newAreas });
                                 }}
                             />
                             <Button
-                                color="error" size="small"
+                                color="error" size="small" sx={{ mt: 1 }}
                                 onClick={() => {
                                     const newAreas = (formData.focusAreas || []).filter((_, i) => i !== idx);
                                     setFormData({ ...formData, focusAreas: newAreas });
@@ -353,14 +429,17 @@ export default function GrowthMapWizard() {
                             </Button>
                         </Paper>
                     ))}
-                    <Button onClick={() => setFormData({ ...formData, focusAreas: [...(formData.focusAreas || []), { area: '', suggestion: '', priority: 0 }] })}>
+                    <Button onClick={() => setFormData({
+                        ...formData,
+                        focusAreas: [...(formData.focusAreas || []), { name: '', priority: 0, progress: 0, description: '' }]
+                    })}>
                         Add Focus Area
                     </Button>
                 </Box>
 
                 <Box sx={{ mb: 3 }}>
                     <Typography variant="h6">{t('result.actionPlan')}</Typography>
-                    {formData.actionPlan?.map((action: any, idx: number) => (
+                    {formData.actionPlan?.map((action, idx) => (
                         <Paper key={idx} variant="outlined" sx={{ p: 2, mb: 2 }}>
                             <TextField
                                 fullWidth multiline
@@ -373,17 +452,28 @@ export default function GrowthMapWizard() {
                                 }}
                                 sx={{ mb: 2 }}
                             />
-                            <TextField
-                                fullWidth
-                                label="Timeline"
-                                value={action.timeline}
-                                onChange={(e) => {
-                                    const newPlan = [...(formData.actionPlan || [])];
-                                    newPlan[idx].timeline = e.target.value;
-                                    setFormData({ ...formData, actionPlan: newPlan });
-                                }}
-                                sx={{ mb: 2 }}
-                            />
+                            <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                                <TextField
+                                    fullWidth
+                                    label="Timeline"
+                                    value={action.timeline}
+                                    onChange={(e) => {
+                                        const newPlan = [...(formData.actionPlan || [])];
+                                        newPlan[idx].timeline = e.target.value;
+                                        setFormData({ ...formData, actionPlan: newPlan });
+                                    }}
+                                />
+                                <TextField
+                                    fullWidth
+                                    label="Support Needed"
+                                    value={action.supportNeeded}
+                                    onChange={(e) => {
+                                        const newPlan = [...(formData.actionPlan || [])];
+                                        newPlan[idx].supportNeeded = e.target.value;
+                                        setFormData({ ...formData, actionPlan: newPlan });
+                                    }}
+                                />
+                            </Box>
                             <TextField
                                 fullWidth multiline
                                 label="Success Metrics"
@@ -393,21 +483,9 @@ export default function GrowthMapWizard() {
                                     newPlan[idx].successMetrics = e.target.value;
                                     setFormData({ ...formData, actionPlan: newPlan });
                                 }}
-                                sx={{ mb: 2 }}
-                            />
-                            <TextField
-                                fullWidth multiline
-                                label="Support Needed"
-                                value={action.supportNeeded || ''}
-                                onChange={(e) => {
-                                    const newPlan = [...(formData.actionPlan || [])];
-                                    newPlan[idx].supportNeeded = e.target.value;
-                                    setFormData({ ...formData, actionPlan: newPlan });
-                                }}
-                                sx={{ mb: 1 }}
                             />
                             <Button
-                                color="error" size="small"
+                                color="error" size="small" sx={{ mt: 1 }}
                                 onClick={() => {
                                     const newPlan = (formData.actionPlan || []).filter((_, i) => i !== idx);
                                     setFormData({ ...formData, actionPlan: newPlan });
@@ -417,36 +495,98 @@ export default function GrowthMapWizard() {
                             </Button>
                         </Paper>
                     ))}
-                    <Button onClick={() => setFormData({ ...formData, actionPlan: [...(formData.actionPlan || []), { action: '', timeline: '', successMetrics: '' }] })}>
+                    <Button onClick={() => setFormData({
+                        ...formData,
+                        actionPlan: [...(formData.actionPlan || []), { action: '', timeline: '', successMetrics: '', supportNeeded: '' }]
+                    })}>
                         Add Action
                     </Button>
                 </Box>
 
                 <Box sx={{ mb: 3 }}>
-                    <Typography variant="h6">{t('result.supportNeeded')}</Typography>
-                    {formData.supportNeeded?.map((support: string, idx: number) => (
-                        <Box key={idx} sx={{ display: 'flex', mb: 1 }}>
+                    <Typography variant="h6">Suggested Courses</Typography>
+                    {formData.suggestedCourses?.map((course, idx) => (
+                        <Box key={idx} sx={{ display: 'flex', gap: 2, mb: 1, alignItems: 'center' }}>
                             <TextField
-                                fullWidth multiline size="small"
-                                value={support}
+                                fullWidth
+                                label="Course Name"
+                                value={course.name}
                                 onChange={(e) => {
-                                    const newSupport = [...(formData.supportNeeded || [])];
-                                    newSupport[idx] = e.target.value;
-                                    setFormData({ ...formData, supportNeeded: newSupport });
+                                    const newCourses = [...(formData.suggestedCourses || [])];
+                                    newCourses[idx].name = e.target.value;
+                                    setFormData({ ...formData, suggestedCourses: newCourses });
                                 }}
+                            />
+                            <TextField
+                                type="number"
+                                label="Progress %"
+                                value={course.progress}
+                                onChange={(e) => {
+                                    const newCourses = [...(formData.suggestedCourses || [])];
+                                    newCourses[idx].progress = Number(e.target.value);
+                                    setFormData({ ...formData, suggestedCourses: newCourses });
+                                }}
+                                sx={{ width: 100 }}
                             />
                             <Button
                                 color="error"
                                 onClick={() => {
-                                    const newSupport = (formData.supportNeeded || []).filter((_, i) => i !== idx);
-                                    setFormData({ ...formData, supportNeeded: newSupport });
+                                    const newCourses = (formData.suggestedCourses || []).filter((_, i) => i !== idx);
+                                    setFormData({ ...formData, suggestedCourses: newCourses });
                                 }}
                             >
                                 X
                             </Button>
                         </Box>
                     ))}
-                    <Button onClick={() => setFormData({ ...formData, supportNeeded: [...(formData.supportNeeded || []), ''] })}>
+                    <Button onClick={() => setFormData({
+                        ...formData,
+                        suggestedCourses: [...(formData.suggestedCourses || []), { name: '', progress: 0 }]
+                    })}>
+                        Add Course
+                    </Button>
+                </Box>
+
+                <Box sx={{ mb: 3 }}>
+                    <Typography variant="h6">{t('result.supportNeeded')}</Typography>
+                    {formData.supportNeeded?.map((support, idx) => (
+                        <Paper key={idx} variant="outlined" sx={{ p: 2, mb: 2 }}>
+                            <TextField
+                                fullWidth
+                                label="Title"
+                                value={support.title}
+                                onChange={(e) => {
+                                    const newSupport = [...(formData.supportNeeded || [])];
+                                    newSupport[idx].title = e.target.value;
+                                    setFormData({ ...formData, supportNeeded: newSupport });
+                                }}
+                                sx={{ mb: 2 }}
+                            />
+                            <TextField
+                                fullWidth multiline
+                                label="Description"
+                                value={support.description}
+                                onChange={(e) => {
+                                    const newSupport = [...(formData.supportNeeded || [])];
+                                    newSupport[idx].description = e.target.value;
+                                    setFormData({ ...formData, supportNeeded: newSupport });
+                                }}
+                            />
+                            <Button
+                                color="error" size="small" sx={{ mt: 1 }}
+                                onClick={() => {
+                                    const newSupport = (formData.supportNeeded || []).filter((_, i) => i !== idx);
+                                    setFormData({ ...formData, supportNeeded: newSupport });
+                                }}
+                            >
+                                Remove
+                            </Button>
+                        </Paper>
+                    ))}
+                    <Button onClick={() => setFormData({
+                        ...formData,
+                        supportNeeded: [...(formData.supportNeeded || []), { title: '', description: '' }]
+                    })}>
                         Add Support Item
                     </Button>
                 </Box>
