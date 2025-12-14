@@ -281,9 +281,16 @@ export class CareerPlanService {
         });
     }
 
-    async updateStatus(planId: number, status: GrowthMapStatus) {
+    async update(id: number, data: any) {
         return this.prisma.careerPlan.update({
-            where: { id: planId },
+            where: { id },
+            data
+        });
+    }
+
+    async updateStatus(id: number, status: GrowthMapStatus) {
+        return this.prisma.careerPlan.update({
+            where: { id },
             data: { status }
         });
     }

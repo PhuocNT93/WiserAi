@@ -15,6 +15,9 @@ async function main() {
     const managerEmail = 'anh.le@cyberlogitec.com';
     const employeeEmail = 'linh.nguyen@cyberlogitec.com';
 
+    // Clear all career plans first
+    await prisma.careerPlan.deleteMany({});
+
     // Cleanup potential conflicts
     await prisma.user.deleteMany({
         where: {

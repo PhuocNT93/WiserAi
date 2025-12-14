@@ -58,6 +58,11 @@ export class CareerPlanController {
         return this.careerPlanService.addEmployeeComment(+id, body);
     }
 
+    @Patch(':id')
+    async update(@Param('id') id: string, @Body() body: any) {
+        return this.careerPlanService.update(+id, body);
+    }
+
     @Patch(':id/status')
     async updateStatus(@Param('id') id: string, @Body('status') status: any) {
         return this.careerPlanService.updateStatus(+id, status);

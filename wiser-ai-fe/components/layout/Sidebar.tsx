@@ -76,12 +76,12 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }: SidebarProps
         { text: t('dashboard'), icon: <DashboardIcon />, path: '/dashboard' },
         { text: t('careerPlan'), icon: <CareerIcon />, path: '/career-plan' },
         { text: t('ldPlan'), icon: <LdIcon />, path: '/ld-plan' },
-        { text: t('rewardHub'), icon: <RewardIcon />, path: '/reward-hub' },
         { text: t('comingSoon'), icon: <ComingSoonIcon />, path: '/coming-soon' },
+        // { text: t('rewardHub'), icon: <RewardIcon />, path: '/reward-hub' },
     ];
 
     const adminItems = [
-        { text: t('createCourse'), icon: <CreateCourseIcon />, path: '/admin/courses' },
+        // { text: t('createCourse'), icon: <CreateCourseIcon />, path: '/admin/courses' },
         { text: t('masterData'), icon: <MasterDataIcon />, path: '/admin/master-data' },
         { text: t('userManagement'), icon: <UserIcon />, path: '/admin/users' },
     ];

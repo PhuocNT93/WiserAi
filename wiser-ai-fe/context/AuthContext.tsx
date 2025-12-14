@@ -83,7 +83,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             if (roles.includes('ADMIN')) role = 'ADMIN';
             else if (roles.includes('MANAGER')) role = 'MANAGER';
 
-            const userData = { ...user, role };
+            const userData = { ...user, role, fullName: user.name || user.fullName };
 
             Cookies.set('user', JSON.stringify(userData), { expires: 7 });
             setUser(userData);
@@ -115,7 +115,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             if (roles.includes('ADMIN')) role = 'ADMIN';
             else if (roles.includes('MANAGER')) role = 'MANAGER';
 
-            const userData = { ...user, role };
+            const userData = { ...user, role, fullName: user.name || user.fullName };
             Cookies.set('user', JSON.stringify(userData), { expires: 7 });
             setUser(userData);
         } catch (error) {

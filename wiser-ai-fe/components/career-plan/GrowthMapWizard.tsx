@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import {
     Box, Stepper, Step, StepLabel, Button, Typography, Paper,
     Container, TextField, RadioGroup, FormControlLabel, Radio,
-    CircularProgress
+    CircularProgress, Snackbar, Alert
 } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import {
@@ -15,7 +15,12 @@ import api from '@/utils/api';
 
 const steps = ['reviewPeriod', 'objectives', 'achievements', 'improvements', 'expectations', 'review'];
 
-export default function GrowthMapWizard() {
+interface GrowthMapWizardProps {
+    initialData?: any;
+    onSuccess?: () => void;
+}
+
+export default function GrowthMapWizard({ initialData, onSuccess }: GrowthMapWizardProps) {
     const t = useTranslations('CareerPlan');
     const [activeStep, setActiveStep] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -29,6 +34,47 @@ export default function GrowthMapWizard() {
         expectations: ''
     });
     const [generatedResult, setGeneratedResult] = useState<any>(null);
+
+    // Populate form if initialData is provided (Edit Mode)
+    React.useEffect(() => {
+        if (initialData) {
+            setFormData({
+                targetLevel: initialData.targetLevel || UserLevel.JUNIOR,
+                reviewPeriod: initialData.reviewPeriod || ReviewPeriod.SIX_MONTHS,
+                objectives: initialData.objectives || '',
+                achievements: initialData.achievements || '',
+                certificates: initialData.certificates || [],
+                improvements: initialData.improvements || '',
+                expectations: initialData.expectations || '',
+                careerGoal: initialData.careerGoal,
+                currentCompetencies: initialData.currentCompetencies || initialData.competencies,
+                focusAreas: initialData.focusAreas,
+                actionPlan: initialData.actionPlan,
+                suggestedCourses: initialData.suggestedCourses,
+                supportNeeded: initialData.supportNeeded,
+            });
+
+            // If plan has generated content, show result view
+            if (initialData.careerGoal || initialData.focusAreas) {
+                setGeneratedResult(true);
+            }
+        }
+    }, [initialData]);
+
+    // Snackbar State
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        message: '',
+        severity: 'success' as 'success' | 'error' | 'info' | 'warning'
+    });
+
+    const handleCloseSnackbar = () => {
+        setSnackbar({ ...snackbar, open: false });
+    };
+
+    const showMessage = (message: string, severity: 'success' | 'error' = 'success') => {
+        setSnackbar({ open: true, message, severity });
+    };
 
     const handleNext = async () => {
         if (activeStep === steps.length - 1) {
@@ -61,7 +107,7 @@ export default function GrowthMapWizard() {
             setGeneratedResult(true); // Logic flag to show result view
         } catch (error) {
             console.error(error);
-            alert('Failed to generate map');
+            showMessage('Failed to generate map', 'error');
         } finally {
             setLoading(false);
         }
@@ -95,7 +141,7 @@ export default function GrowthMapWizard() {
             }));
         } catch (error) {
             console.error('Upload failed', error);
-            alert('Upload failed');
+            showMessage('Upload failed', 'error');
         }
     };
 
@@ -236,12 +282,20 @@ export default function GrowthMapWizard() {
             // Merge input data with generated result
             const payload: any = { // Relax type check for extra props if any, or strict match
                 ...formData,
-                year: new Date().getFullYear(),
+                year: initialData?.year || new Date().getFullYear(),
                 status: 'SUBMITTED'
             };
 
-            await api.post('/career-plan', payload);
-            alert('Growth Map Submitted successfully!');
+            if (initialData && initialData.id) {
+                // Update existing plan
+                await api.patch(`/career-plan/${initialData.id}`, payload);
+                showMessage('Growth Map Updated successfully!', 'success');
+            } else {
+                // Create new plan
+                await api.post('/career-plan', payload);
+                showMessage('Growth Map Submitted successfully!', 'success');
+            }
+
             setGeneratedResult(null);
             setActiveStep(0);
             setFormData({
@@ -253,9 +307,13 @@ export default function GrowthMapWizard() {
                 improvements: '',
                 expectations: ''
             });
-        } catch (error) {
+
+            if (onSuccess) onSuccess();
+        } catch (error: any) {
             console.error(error);
-            alert('Failed to submit plan');
+            // Extract error message from Axios response if available
+            const msg = error.response?.data?.message || error.message || 'Failed to submit plan';
+            showMessage(msg, 'error');
         } finally {
             setLoading(false);
         }
@@ -344,6 +402,12 @@ export default function GrowthMapWizard() {
                                 type="number"
                                 label="Progress %"
                                 value={comp.progress}
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                        max: 100,
+                                    },
+                                }}
                                 onChange={(e) => {
                                     const newComps = [...(formData.currentCompetencies || [])];
                                     newComps[idx].progress = Number(e.target.value);
@@ -601,6 +665,11 @@ export default function GrowthMapWizard() {
                 >
                     {loading ? <CircularProgress size={24} color="inherit" /> : t('buttons.submit')}
                 </Button>
+                <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                    <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+                        {snackbar.message}
+                    </Alert>
+                </Snackbar>
             </Paper>
         )
     }
@@ -631,6 +700,11 @@ export default function GrowthMapWizard() {
                     {activeStep === steps.length - 1 ? (loading ? <CircularProgress size={24} /> : t('buttons.generate')) : t('buttons.next')}
                 </Button>
             </Box>
+            <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 }

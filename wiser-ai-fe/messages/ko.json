@@ -52,6 +52,55 @@
         "successUpdate": "프로필이 성공적으로 업데이트되었습니다",
         "errorUpdate": "프로필 업데이트 실패"
     },
+    "CareerPlan": {
+        "steps": {
+            "reviewPeriod": "검토 기간",
+            "objectives": "목표",
+            "achievements": "성과",
+            "improvements": "개선 사항",
+            "expectations": "기대 사항",
+            "review": "검토"
+        },
+        "form": {
+            "selectCareerGoal": "경력 목표 선택",
+            "selectReviewPeriod": "검토 기간 선택",
+            "sixMonths": "6개월",
+            "twelveMonths": "12개월",
+            "objectives": "목표",
+            "enterObjectives": "목표를 입력하세요...",
+            "achievements": "성과",
+            "describeAchievements": "성과를 설명하세요...",
+            "certificates": "자격증",
+            "uploadCertificate": "자격증 업로드",
+            "uploaded": "업로드됨",
+            "improvements": "개선 사항",
+            "areasForImprovement": "개선이 필요한 영역...",
+            "expectations": "기대 사항",
+            "yourExpectations": "기대 사항을 입력하세요...",
+            "reviewAndGenerate": "검토 및 생성",
+            "reviewPeriodLabel": "검토 기간",
+            "objectivesLabel": "목표",
+            "achievementsLabel": "성과",
+            "certificatesLabel": "자격증",
+            "improvementsLabel": "개선 영역",
+            "expectationsLabel": "기대 사항",
+            "noCertificates": "업로드된 자격증 없음"
+        },
+        "buttons": {
+            "next": "다음",
+            "back": "뒤로",
+            "generate": "생성",
+            "submit": "매니저에게 제출"
+        },
+        "result": {
+            "title": "성장 지도 계획",
+            "careerGoal": "경력 목표",
+            "currentCompetencies": "현재 역량",
+            "focusAreas": "중점 영역",
+            "actionPlan": "실행 계획",
+            "supportNeeded": "필요한 지원"
+        }
+    },
     "History": {
         "title": "계획 이력",
         "no": "번호",

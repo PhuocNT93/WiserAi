@@ -173,13 +173,15 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                             </IconButton>
 
                             {/* User Profile */}
-                            <Box sx={{ flexGrow: 0 }}>
+                            <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
+                                <Typography variant="subtitle1" sx={{ mr: 2, display: { xs: 'none', sm: 'block' } }}>
+                                    {user.fullName}
+                                </Typography>
                                 <Tooltip title="Open settings">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                         <Avatar alt={user ? user.fullName : "User"} src={user?.avatarUrl || "/static/images/avatar/2.jpg"} />
                                     </IconButton>
                                 </Tooltip>
-                                <Typography textAlign="center">{user ? user.fullName : "User"}</Typography>
                                 <Menu
                                     sx={{ mt: '45px' }}
                                     id="menu-appbar"

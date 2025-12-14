@@ -1,12 +1,17 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Box, Tabs, Tab, Typography, Container, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions, Grid } from '@mui/material';
+import { Box, Tabs, Tab, Typography, Container, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions, Grid, Card, CardContent, CardActions, Chip, useTheme, useMediaQuery, IconButton, Tooltip } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import GrowthMapWizard from '@/components/career-plan/GrowthMapWizard';
 import { useTranslations } from 'next-intl';
 import api from '@/utils/api';
 import { useAuth } from '@/context/AuthContext';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import AddIcon from '@mui/icons-material/Add';
+import CommentIcon from '@mui/icons-material/Comment';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import EditIcon from '@mui/icons-material/Edit';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -27,17 +32,16 @@ function CustomTabPanel(props: TabPanelProps) {
             aria-labelledby={`simple-tab-${index}`}
             {...other}
         >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    {children}
-                </Box>
-            )}
+            <Box sx={{ p: 3 }}>
+                {children}
+            </Box>
         </div>
     );
 }
 
 export default function CareerPlanPage() {
-    const t = useTranslations();
+    const t = useTranslations('CareerPlan');
+    const tCommon = useTranslations('Common');
     const [value, setValue] = useState(0);
     const [plans, setPlans] = useState<any[]>([]);
     const [teamPlans, setTeamPlans] = useState<any[]>([]);
@@ -48,10 +52,16 @@ export default function CareerPlanPage() {
     const [commentPlanId, setCommentPlanId] = useState<number | null>(null);
     const [statusPlanId, setStatusPlanId] = useState<number | null>(null);
     const [openEmployeeComment, setOpenEmployeeComment] = useState(false);
+    const [editPlanData, setEditPlanData] = useState<any>(undefined);
     const { user } = useAuth();
     const isAdminOrManager = user?.role === 'ADMIN' || user?.role === 'MANAGER';
 
     useEffect(() => {
+        // Fetch plans initially or when tab changes if needed.
+        // To keep data fresh but allow persistence, we might want to fetch on mount or specific actions.
+        // For now, let's fetch on mount or when switching to the tab to ensure latest list, 
+        // BUT for the Wizard (index 0), we don't want to re-render/reset it unnecessarily.
+        // However, fetching lists (index 1 & 2) shouldn't affect Wizard state if it's just state updates.
         if (value === 1) {
             fetchPlans();
         } else if (value === 2) {
@@ -66,6 +76,9 @@ export default function CareerPlanPage() {
             const rawData = Array.isArray(res.data) ? res.data : (res.data.data || []);
             // Add 'no' field for index
             const dataWithNo = rawData.map((item: any, index: number) => ({ ...item, no: index + 1 }));
+
+            // Only update if data changed to avoid re-renders? 
+            // setPlans will trigger re-render of DataGrid, not Wizard if they are siblings.
             setPlans(dataWithNo);
         } catch (error) {
             console.error('Failed to fetch plans', error);
@@ -107,12 +120,19 @@ export default function CareerPlanPage() {
         try {
             await api.patch(`/career-plan/${planId}/status`, { status: newStatus });
             alert(`Status updated to ${newStatus}`);
+
+            if (openDetail) setOpenDetail(false);
+
             fetchPlans();
             fetchTeamPlans();
         } catch (error) {
             console.error('Failed to update status', error);
             alert('Failed to update status');
         }
+    };
+
+    const handleConfirm = async (planId: number) => {
+        await handleStatusChange(planId, 'APPROVED');
     };
 
     const handleSaveEmployeeComment = async () => {
@@ -142,45 +162,78 @@ export default function CareerPlanPage() {
         setSelectedPlan(null);
     };
 
+    const handleEdit = (plan: any) => {
+        setEditPlanData(plan);
+        setValue(0); // Switch to Wizard tab
+    };
+
+    const formatCareerGoal = (row: any) => {
+        const goalVal = row.careerGoal;
+        let goalTitle = '';
+
+        if (typeof goalVal === 'object' && goalVal !== null) {
+            goalTitle = goalVal.title || '';
+        } else {
+            goalTitle = String(goalVal || '');
+        }
+
+        if (row.targetLevel) {
+            return `${row.targetLevel} - ${goalTitle}`;
+        }
+        return goalTitle;
+    };
+
     const columns: GridColDef[] = [
         { field: 'no', headerName: t('History.no'), width: 70 },
-        { field: 'userEmail', headerName: t('History.userEmail'), width: 200, valueGetter: (value: any, row: any) => row.user?.email || 'N/A' },
-        { field: 'managerEmail', headerName: t('History.managerEmail'), width: 200, valueGetter: (value: any, row: any) => row.manager?.email || 'N/A' },
         { field: 'year', headerName: t('History.year'), width: 100 },
         {
             field: 'careerGoal',
             headerName: t('History.careerGoal'),
             width: 250,
-            valueGetter: (value: any, row: any) => {
-                if (row.targetLevel && typeof value === 'object' && value?.title) {
-                    return `${row.targetLevel} - ${value.title}`;
-                }
-                return row.targetLevel ? `${row.targetLevel} - ${value?.substring ? value.substring(0, 30) : value}...` : value;
-            }
+            valueGetter: (value: any, row: any) => formatCareerGoal(row)
         },
         { field: 'status', headerName: t('History.status'), width: 150 },
         {
             field: 'actions',
             headerName: t('History.actions'),
-            width: 300,
+            width: 250,
             renderCell: (params) => (
                 <Box>
-                    <Button variant="outlined" size="small" onClick={() => handleView(params.row)} sx={{ mr: 1 }}>
-                        {t('History.view')}
-                    </Button>
+                    <Tooltip title={t('History.view')}>
+                        <IconButton
+                            color="primary"
+                            onClick={() => handleView(params.row)}
+                        >
+                            <VisibilityIcon />
+                        </IconButton>
+                    </Tooltip>
+                    {params.row.status === 'SUBMITTED' && (
+                        <Tooltip title="Edit">
+                            <IconButton
+                                color="secondary"
+                                onClick={() => handleEdit(params.row)}
+                            >
+                                <EditIcon />
+                            </IconButton>
+                        </Tooltip>
+                    )}
                     {params.row.status === 'APPROVED' && (
-                        <Button variant="contained" color="primary" size="small" onClick={() => handleStatusChange(params.row.id, 'IN_PROGRESS')} sx={{ mr: 1 }}>
-                            Add to Plan
-                        </Button>
+                        <Tooltip title="Add to Plan">
+                            <IconButton color="primary" onClick={() => handleStatusChange(params.row.id, 'IN_PROGRESS')}>
+                                <AddIcon />
+                            </IconButton>
+                        </Tooltip>
                     )}
                     {params.row.status === 'IN_PROGRESS' && (
-                        <Button variant="outlined" color="primary" size="small" onClick={() => {
-                            setCommentPlanId(params.row.id);
-                            setCommentText(params.row.employeeComments?.general || '');
-                            setOpenEmployeeComment(true);
-                        }}>
-                            Comment
-                        </Button>
+                        <Tooltip title="Comment">
+                            <IconButton color="info" onClick={() => {
+                                setCommentPlanId(params.row.id);
+                                setCommentText(params.row.employeeComments?.general || '');
+                                setOpenEmployeeComment(true);
+                            }}>
+                                <CommentIcon />
+                            </IconButton>
+                        </Tooltip>
                     )}
                 </Box>
             ),
@@ -196,81 +249,155 @@ export default function CareerPlanPage() {
             field: 'careerGoal',
             headerName: t('History.careerGoal'),
             width: 250,
-            valueGetter: (value: any, row: any) => {
-                if (row.targetLevel && typeof value === 'object' && value?.title) {
-                    return `${row.targetLevel} - ${value.title}`;
-                }
-                return row.targetLevel ? `${row.targetLevel} - ${value?.substring ? value.substring(0, 30) : value}...` : value;
-            }
+            valueGetter: (value: any, row: any) => formatCareerGoal(row)
         },
-        { field: 'status', headerName: t('History.status'), width: 150 },
+        { field: 'status', headerName: t('History.status'), width: 120 },
         {
             field: 'actions',
             headerName: t('History.actions'),
-            width: 400,
+            width: 250,
             renderCell: (params) => (
                 <Box>
-                    <Button variant="outlined" size="small" onClick={() => handleView(params.row)} sx={{ mr: 1 }}>
-                        {t('History.view')}
-                    </Button>
+                    <Tooltip title={t('History.view')}>
+                        <IconButton color="primary" onClick={() => handleView(params.row)}>
+                            <VisibilityIcon />
+                        </IconButton>
+                    </Tooltip>
                     {params.row.status === 'SUBMITTED' && (
-                        <Button variant="contained" color="success" size="small" onClick={() => handleStatusChange(params.row.id, 'APPROVED')} sx={{ mr: 1 }}>
-                            Confirm
-                        </Button>
+                        <Tooltip title="Confirm">
+                            <IconButton color="success" onClick={() => handleStatusChange(params.row.id, 'APPROVED')}>
+                                <CheckCircleIcon />
+                            </IconButton>
+                        </Tooltip>
                     )}
-                    {params.row.status === 'IN_PROGRESS' && (
-                        <>
-                            <Button variant="outlined" color="info" size="small" onClick={() => handleView(params.row)} sx={{ mr: 1 }}>
-                                Done
-                            </Button>
-                            <Button variant="contained" color="success" size="small" onClick={() => handleStatusChange(params.row.id, 'COMPLETED')}>
-                                Completed
-                            </Button>
-                        </>
-                    )}
-                    <Button variant="text" size="small" onClick={() => handleOpenComment(params.row)}>
-                        Manager Comment
-                    </Button>
+                    <Tooltip title="Manager Comment">
+                        <IconButton color="info" onClick={() => handleOpenComment(params.row)}>
+                            <CommentIcon />
+                        </IconButton>
+                    </Tooltip>
                 </Box>
             ),
         },
     ];
 
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const renderMobileCard = (row: any, isTeamView: boolean) => (
+        <Card key={row.id} sx={{ mb: 2, width: '100%' }}>
+            <CardContent>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                    <Typography variant="h6" component="div">
+                        {row.year}
+                    </Typography>
+                    <Chip
+                        label={row.status}
+                        color={
+                            row.status === 'APPROVED' ? 'success' :
+                                row.status === 'IN_PROGRESS' ? 'primary' :
+                                    row.status === 'COMPLETED' ? 'success' : 'default'
+                        }
+                        size="small"
+                    />
+                </Box>
+                {isTeamView && (
+                    <Typography color="text.secondary" gutterBottom>
+                        {row.user?.name || row.user?.email}
+                    </Typography>
+                )}
+                <Typography variant="body2" sx={{ mb: 1 }}>
+                    <strong>Goal:</strong> {formatCareerGoal(row)}
+                </Typography>
+            </CardContent>
+            <CardActions>
+                <Tooltip title={t('History.view')}>
+                    <IconButton size="small" onClick={() => handleView(row)}>
+                        <VisibilityIcon />
+                    </IconButton>
+                </Tooltip>
+
+                {!isTeamView && row.status === 'SUBMITTED' && (
+                    <Tooltip title="Edit">
+                        <IconButton size="small" color="secondary" onClick={() => handleEdit(row)}>
+                            <EditIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
+
+                {!isTeamView && row.status === 'APPROVED' && (
+                    <Tooltip title="Add to Plan">
+                        <IconButton size="small" color="primary" onClick={() => handleStatusChange(row.id, 'IN_PROGRESS')}>
+                            <AddIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
+                {!isTeamView && row.status === 'IN_PROGRESS' && (
+                    <Tooltip title="Comment">
+                        <IconButton size="small" color="primary" onClick={() => {
+                            setCommentPlanId(row.id);
+                            setCommentText(row.employeeComments?.general || '');
+                            setOpenEmployeeComment(true);
+                        }}>
+                            <CommentIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
+
+                {isTeamView && row.status === 'SUBMITTED' && (
+                    <Tooltip title="Confirm">
+                        <IconButton size="small" color="success" onClick={() => handleStatusChange(row.id, 'APPROVED')}>
+                            <CheckCircleIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
+                {isTeamView && (
+                    <Tooltip title="Manager Comment">
+                        <IconButton size="small" onClick={() => handleOpenComment(row)}>
+                            <CommentIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
+            </CardActions>
+        </Card>
+    );
+
     return (
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4, px: isMobile ? 1 : 3 }}>
             <Typography variant="h4" gutterBottom>{t('Common.careerPlan')}</Typography>
             <Paper sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="career plan tabs">
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="career plan tabs"
+                        variant={isMobile ? "scrollable" : "standard"}
+                        scrollButtons="auto"
+                    >
                         <Tab label={t('CareerPlan.result.title')} />
                         <Tab label={t('History.title')} />
-                        <Tab label="Team Growth Map" />
+                        {isAdminOrManager && (<Tab label="Team Growth Map" />)}
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
-                    <GrowthMapWizard />
+                    <GrowthMapWizard
+                        initialData={editPlanData}
+                        onSuccess={() => {
+                            setEditPlanData(undefined);
+                            // Optionally refresh history if needed, but not strictly required as we switch tabs manually
+                        }}
+                    />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
-                    <div style={{ height: 400, width: '100%' }}>
-                        <DataGrid
-                            rows={plans}
-                            columns={columns}
-                            initialState={{
-                                pagination: {
-                                    paginationModel: { page: 0, pageSize: 5 },
-                                },
-                            }}
-                            pageSizeOptions={[5, 10]}
-                            disableRowSelectionOnClick
-                        />
-                    </div>
-                </CustomTabPanel>
-                {isAdminOrManager && (
-                    <CustomTabPanel value={value} index={2}>
+                    {isMobile ? (
+                        <Box>
+                            {plans.map((plan) => renderMobileCard(plan, false))}
+                            {plans.length === 0 && <Typography sx={{ p: 2, textAlign: 'center' }}>No plans found.</Typography>}
+                        </Box>
+                    ) : (
                         <div style={{ height: 400, width: '100%' }}>
                             <DataGrid
-                                rows={teamPlans}
-                                columns={teamColumns}
+                                rows={plans}
+                                columns={columns}
                                 initialState={{
                                     pagination: {
                                         paginationModel: { page: 0, pageSize: 5 },
@@ -280,6 +407,30 @@ export default function CareerPlanPage() {
                                 disableRowSelectionOnClick
                             />
                         </div>
+                    )}
+                </CustomTabPanel>
+                {isAdminOrManager && (
+                    <CustomTabPanel value={value} index={2}>
+                        {isMobile ? (
+                            <Box>
+                                {teamPlans.map((plan) => renderMobileCard(plan, true))}
+                                {teamPlans.length === 0 && <Typography sx={{ p: 2, textAlign: 'center' }}>No team plans found.</Typography>}
+                            </Box>
+                        ) : (
+                            <div style={{ height: 400, width: '100%' }}>
+                                <DataGrid
+                                    rows={teamPlans}
+                                    columns={teamColumns}
+                                    initialState={{
+                                        pagination: {
+                                            paginationModel: { page: 0, pageSize: 5 },
+                                        },
+                                    }}
+                                    pageSizeOptions={[5, 10]}
+                                    disableRowSelectionOnClick
+                                />
+                            </div>
+                        )}
                     </CustomTabPanel>
                 )}
             </Paper>
@@ -368,6 +519,11 @@ export default function CareerPlanPage() {
                     )}
                 </DialogContent>
                 <DialogActions>
+                    {isAdminOrManager && selectedPlan?.status === 'IN_PROGRESS' && (
+                        <Button variant="contained" color="success" onClick={() => handleStatusChange(selectedPlan.id, 'COMPLETED')}>
+                            Completed
+                        </Button>
+                    )}
                     <Button onClick={handleClose}>{t('History.close')}</Button>
                 </DialogActions>
             </Dialog>

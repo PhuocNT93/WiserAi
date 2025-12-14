@@ -52,6 +52,55 @@
         "successUpdate": "Cập nhật hồ sơ thành công",
         "errorUpdate": "Cập nhật hồ sơ thất bại"
     },
+    "CareerPlan": {
+        "steps": {
+            "reviewPeriod": "Chu kỳ đánh giá",
+            "objectives": "Mục tiêu",
+            "achievements": "Thành tích",
+            "improvements": "Cải thiện",
+            "expectations": "Kỳ vọng",
+            "review": "Xem lại"
+        },
+        "form": {
+            "selectCareerGoal": "Chọn mục tiêu nghề nghiệp",
+            "selectReviewPeriod": "Chọn chu kỳ đánh giá",
+            "sixMonths": "6 Tháng",
+            "twelveMonths": "12 Tháng",
+            "objectives": "Mục tiêu",
+            "enterObjectives": "Nhập mục tiêu của bạn...",
+            "achievements": "Thành tích",
+            "describeAchievements": "Mô tả thành tích của bạn...",
+            "certificates": "Chứng chỉ",
+            "uploadCertificate": "Tải chứng chỉ lên",
+            "uploaded": "Đã tải lên",
+            "improvements": "Cải thiện",
+            "areasForImprovement": "Các lĩnh vực cần cải thiện...",
+            "expectations": "Kỳ vọng",
+            "yourExpectations": "Kỳ vọng của bạn...",
+            "reviewAndGenerate": "Xem lại & Tạo",
+            "reviewPeriodLabel": "Chu kỳ đánh giá",
+            "objectivesLabel": "Mục tiêu",
+            "achievementsLabel": "Thành tích",
+            "certificatesLabel": "Chứng chỉ",
+            "improvementsLabel": "Lĩnh vực cần cải thiện",
+            "expectationsLabel": "Kỳ vọng",
+            "noCertificates": "Chưa có chứng chỉ nào"
+        },
+        "buttons": {
+            "next": "Tiếp theo",
+            "back": "Quay lại",
+            "generate": "Tạo",
+            "submit": "Gửi cho Quản lý"
+        },
+        "result": {
+            "title": "Bản đồ tăng trưởng của bạn",
+            "careerGoal": "Mục tiêu nghề nghiệp",
+            "currentCompetencies": "Năng lực hiện tại",
+            "focusAreas": "Lĩnh vực trọng tâm",
+            "actionPlan": "Kế hoạch hành động",
+            "supportNeeded": "Hỗ trợ cần thiết"
+        }
+    },
     "History": {
         "title": "Lịch sử Kế hoạch",
         "no": "STT",
