@@ -246,7 +246,7 @@ export default function CareerPlanPage() {
                             <VisibilityIcon />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title={t('History.visualize')}>
+                    <Tooltip title={tHistory('visualize')}>
                         <IconButton
                             color="secondary"
                             onClick={() => handleVisualize(params.row)}
@@ -394,6 +394,7 @@ export default function CareerPlanPage() {
                         </IconButton>
                     </Tooltip>
                 )}
+
 
                 {isTeamView && row.status === 'SUBMITTED' && (
                     <Tooltip title={tHistory('confirm')}>
