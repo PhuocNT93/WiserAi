@@ -416,7 +416,7 @@ export default function CareerPlanPage() {
 
     return (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4, px: isMobile ? 1 : 3 }}>
-            <Typography variant="h4" gutterBottom>{t('Common.careerPlan')}</Typography>
+            <Typography variant="h4" gutterBottom>{tCommon('careerPlan')}</Typography>
             <Paper sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs
