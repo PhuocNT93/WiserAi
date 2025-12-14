@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { Box, Tabs, Tab, Typography, Container, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions, Grid } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import GrowthMapWizard from '@/components/career-plan/GrowthMapWizard';
+import GrowthMapDashboard from '@/components/career-plan/GrowthMapDashboard';
+import { transformPlanToGrowthMap, GrowthMapData } from '@/lib/api/careerPlan';
 import { useTranslations } from 'next-intl';
 import api from '@/utils/api';
 import { useAuth } from '@/context/AuthContext';
@@ -50,6 +52,8 @@ export default function CareerPlanPage() {
     const [openEmployeeComment, setOpenEmployeeComment] = useState(false);
     const { user } = useAuth();
     const isAdminOrManager = user?.role === 'ADMIN' || user?.role === 'MANAGER';
+    const [openVisualize, setOpenVisualize] = useState(false);
+    const [visualizeData, setVisualizeData] = useState<any>(null);
 
     useEffect(() => {
         if (value === 1) {
@@ -58,6 +62,13 @@ export default function CareerPlanPage() {
             fetchTeamPlans();
         }
     }, [value]);
+
+    const handleVisualize = (plan: any) => {
+        // Convert DB plan to GrowthMapDashboard data format
+        const data = transformPlanToGrowthMap(plan);
+        setVisualizeData(data);
+        setOpenVisualize(true);
+    };
 
     const fetchPlans = async () => {
         try {
@@ -188,11 +199,14 @@ export default function CareerPlanPage() {
         {
             field: 'actions',
             headerName: t('History.actions'),
-            width: 300,
+            width: 400,
             renderCell: (params) => (
                 <Box>
                     <Button variant="outlined" size="small" onClick={() => handleView(params.row)} sx={{ mr: 1 }}>
                         {t('History.view')}
+                    </Button>
+                    <Button variant="contained" color="info" size="small" onClick={() => handleVisualize(params.row)} sx={{ mr: 1 }}>
+                        Visualize
                     </Button>
                     {params.row.status === 'APPROVED' && (
                         <Button variant="contained" color="primary" size="small" onClick={() => handleStatusChange(params.row.id, 'IN_PROGRESS')} sx={{ mr: 1 }}>
@@ -238,6 +252,9 @@ export default function CareerPlanPage() {
                 <Box>
                     <Button variant="outlined" size="small" onClick={() => handleView(params.row)} sx={{ mr: 1 }}>
                         {t('History.view')}
+                    </Button>
+                    <Button variant="contained" color="info" size="small" onClick={() => handleVisualize(params.row)} sx={{ mr: 1 }}>
+                        Visualize
                     </Button>
                     {params.row.status === 'SUBMITTED' && (
                         <Button variant="contained" color="success" size="small" onClick={() => handleStatusChange(params.row.id, 'APPROVED')} sx={{ mr: 1 }}>
@@ -428,6 +445,18 @@ export default function CareerPlanPage() {
                 <DialogActions>
                     <Button onClick={() => setOpenEmployeeComment(false)}>Cancel</Button>
                     <Button onClick={handleSaveEmployeeComment} variant="contained">Save</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openVisualize} onClose={() => setOpenVisualize(false)} maxWidth="lg" fullWidth>
+                <DialogTitle>Growth Map Visualization</DialogTitle>
+                <DialogContent dividers>
+                    {visualizeData && (
+                        <GrowthMapDashboard data={visualizeData} loading={false} />
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenVisualize(false)}>Close</Button>
                 </DialogActions>
             </Dialog>
         </Container>
