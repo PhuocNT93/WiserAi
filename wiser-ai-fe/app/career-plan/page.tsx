@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { Box, Tabs, Tab, Typography, Container, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions, Grid, Card, CardContent, CardActions, Chip, useTheme, useMediaQuery, IconButton, Tooltip } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import GrowthMapWizard from '@/components/career-plan/GrowthMapWizard';
+import GrowthMapDashboard from '@/components/career-plan/GrowthMapDashboard';
+import { transformPlanToGrowthMap, GrowthMapData } from '@/lib/api/careerPlan';
 import { useTranslations } from 'next-intl';
 import api from '@/utils/api';
 import { useAuth } from '@/context/AuthContext';
@@ -55,6 +57,8 @@ export default function CareerPlanPage() {
     const [editPlanData, setEditPlanData] = useState<any>(undefined);
     const { user } = useAuth();
     const isAdminOrManager = user?.role === 'ADMIN' || user?.role === 'MANAGER';
+    const [openVisualize, setOpenVisualize] = useState(false);
+    const [visualizeData, setVisualizeData] = useState<any>(null);
 
     useEffect(() => {
         // Fetch plans initially or when tab changes if needed.
@@ -68,6 +72,13 @@ export default function CareerPlanPage() {
             fetchTeamPlans();
         }
     }, [value]);
+
+    const handleVisualize = (plan: any) => {
+        // Convert DB plan to GrowthMapDashboard data format
+        const data = transformPlanToGrowthMap(plan);
+        setVisualizeData(data);
+        setOpenVisualize(true);
+    };
 
     const fetchPlans = async () => {
         try {
@@ -150,6 +161,32 @@ export default function CareerPlanPage() {
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
+        if (newValue === 1 && plans.length === 0) {
+            fetchPlans();
+        }
+    };
+
+    // const handleViewPlan = (plan: any) => {
+    //     const growthMapData = transformPlanToGrowthMap(plan);
+    //     if (growthMapData) {
+    //         setSelectedPlan(growthMapData);
+    //         setDialogOpen(true);
+    //     }
+    // };
+
+    // const handleCloseDialog = () => {
+    //     setDialogOpen(false);
+    //     setSelectedPlan(null);
+    // };
+
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case 'SUCCESS': return 'success';
+            case 'SUBMITTED': return 'info';
+            case 'DRAFT': return 'default';
+            case 'BACK_TO_SUBMIT': return 'warning';
+            default: return 'default';
+        }
     };
 
     const handleView = (plan: any) => {
@@ -432,8 +469,9 @@ export default function CareerPlanPage() {
                             </div>
                         )}
                     </CustomTabPanel>
-                )}
-            </Paper>
+                )
+                }
+            </Paper >
 
             <Dialog open={openDetail} onClose={handleClose} maxWidth="md" fullWidth>
                 <DialogTitle>{t('History.title')} - {selectedPlan?.year}</DialogTitle>
@@ -557,6 +595,18 @@ export default function CareerPlanPage() {
                 <DialogActions>
                     <Button onClick={() => setOpenEmployeeComment(false)}>Cancel</Button>
                     <Button onClick={handleSaveEmployeeComment} variant="contained">Save</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openVisualize} onClose={() => setOpenVisualize(false)} maxWidth="lg" fullWidth>
+                <DialogTitle>Growth Map Visualization</DialogTitle>
+                <DialogContent dividers>
+                    {visualizeData && (
+                        <GrowthMapDashboard data={visualizeData} loading={false} />
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenVisualize(false)}>Close</Button>
                 </DialogActions>
             </Dialog>
         </Container>

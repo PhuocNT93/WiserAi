@@ -1,4 +1,4 @@
-import { PrismaClient, Role } from '../src/generated/client/client';
+import { PrismaClient, Role, GrowthMapStatus, ReviewPeriod } from '../src/generated/client/client';
 import * as bcrypt from 'bcrypt';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -52,6 +52,18 @@ async function main() {
             name: 'Anh Le',
             password: hashedPassword,
             roles: [Role.MANAGER],
+        },
+    });
+
+    const adminProfile = await prisma.employeeProfile.upsert({
+        where: { userId: admin.id },
+        update: {},
+        create: {
+            userId: admin.id,
+            engName: 'Admin User',
+            empCode: 'EMP001',
+            busUnit: 'Technology',
+            jobTitle: 'System Administrator',
         },
     });
 

@@ -447,7 +447,6 @@ export default function MasterDataPage() {
                 <Tabs value={panel} onChange={handleChangePanel} aria-label="basic tabs example">
                     <Tab label="Employee Profiles" />
                     <Tab label="Role-Skill Mapping" />
-                    <Tab label="Learning Catalog" />
                 </Tabs>
             </Box>
 
@@ -623,13 +622,6 @@ export default function MasterDataPage() {
                             </Button>
                         </DialogActions>
                     </Dialog>
-                </Paper>
-            </CustomTabPanel>
-
-            {/* Tab 3: Learning Catalog */}
-            <CustomTabPanel value={panel} index={2}>
-                <Paper sx={{ p: 3 }}>
-                    <Typography>Learning Catalog content goes here.</Typography>
                 </Paper>
             </CustomTabPanel>
 

@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "career_plans" ALTER COLUMN "year" DROP NOT NULL,
+ALTER COLUMN "reviewPeriod" DROP NOT NULL,
+ALTER COLUMN "objectives" DROP NOT NULL,
+ALTER COLUMN "achievements" DROP NOT NULL,
+ALTER COLUMN "improvements" DROP NOT NULL,
+ALTER COLUMN "expectations" DROP NOT NULL;

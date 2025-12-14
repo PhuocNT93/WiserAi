@@ -10,6 +10,7 @@ export interface UserSkill {
     careerGoal?: string;
     createdAt: string;
     updatedAt: string;
+    certificates?: Certificate[];
 }
 
 export interface CreateUserSkillDto {
@@ -48,4 +49,41 @@ export async function updateUserSkill(id: number, data: UpdateUserSkillDto): Pro
 export async function deleteUserSkill(id: number): Promise<UserSkill> {
     const response = await api.delete(`/user-skills/${id}`);
     return response.data.data;
+}
+
+export interface Certificate {
+    fileName: string;
+    fileUrl: string;
+    careerPlanId?: number;
+    uploadedAt?: string;
+}
+
+export interface CertificateResponse {
+    fileName: string;
+    fileUrl: string;
+    careerPlanId: number;
+    uploadedAt: string;
+}
+
+// GET /career-plan/my-certificates - Get all user certificates
+export async function getMyCertificates(): Promise<CertificateResponse[]> {
+    const response = await api.get('/career-plan/my-certificates');
+    return response.data.data || [];
+}
+
+// POST /career-plan/upload-cert - Upload certificate
+export async function uploadCertificate(file: File): Promise<CertificateResponse> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await api.post('/career-plan/upload-cert', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    return response.data.data;
+}
+
+// DELETE /career-plan/certificates/:id - Delete certificate (if needed)
+export async function deleteCertificate(certId: number): Promise<void> {
+    await api.delete(`/career-plan/certificates/${certId}`);
 }
