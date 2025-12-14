@@ -96,6 +96,7 @@ export type CareerPlanCountAggregateOutputType = {
   suggestedCourses: number
   supportNeeded: number
   managerComments: number
+  employeeComments: number
   submittedAt: number
   confirmedAt: number
   createdAt: number
@@ -174,6 +175,7 @@ export type CareerPlanCountAggregateInputType = {
   suggestedCourses?: true
   supportNeeded?: true
   managerComments?: true
+  employeeComments?: true
   submittedAt?: true
   confirmedAt?: true
   createdAt?: true
@@ -287,6 +289,7 @@ export type CareerPlanGroupByOutputType = {
   suggestedCourses: runtime.JsonValue | null
   supportNeeded: runtime.JsonValue | null
   managerComments: runtime.JsonValue | null
+  employeeComments: runtime.JsonValue | null
   submittedAt: Date | null
   confirmedAt: Date | null
   createdAt: Date
@@ -336,6 +339,7 @@ export type CareerPlanWhereInput = {
   suggestedCourses?: Prisma.JsonNullableFilter<"CareerPlan">
   supportNeeded?: Prisma.JsonNullableFilter<"CareerPlan">
   managerComments?: Prisma.JsonNullableFilter<"CareerPlan">
+  employeeComments?: Prisma.JsonNullableFilter<"CareerPlan">
   submittedAt?: Prisma.DateTimeNullableFilter<"CareerPlan"> | Date | string | null
   confirmedAt?: Prisma.DateTimeNullableFilter<"CareerPlan"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CareerPlan"> | Date | string
@@ -364,6 +368,7 @@ export type CareerPlanOrderByWithRelationInput = {
   suggestedCourses?: Prisma.SortOrderInput | Prisma.SortOrder
   supportNeeded?: Prisma.SortOrderInput | Prisma.SortOrder
   managerComments?: Prisma.SortOrderInput | Prisma.SortOrder
+  employeeComments?: Prisma.SortOrderInput | Prisma.SortOrder
   submittedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   confirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -395,6 +400,7 @@ export type CareerPlanWhereUniqueInput = Prisma.AtLeast<{
   suggestedCourses?: Prisma.JsonNullableFilter<"CareerPlan">
   supportNeeded?: Prisma.JsonNullableFilter<"CareerPlan">
   managerComments?: Prisma.JsonNullableFilter<"CareerPlan">
+  employeeComments?: Prisma.JsonNullableFilter<"CareerPlan">
   submittedAt?: Prisma.DateTimeNullableFilter<"CareerPlan"> | Date | string | null
   confirmedAt?: Prisma.DateTimeNullableFilter<"CareerPlan"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CareerPlan"> | Date | string
@@ -423,6 +429,7 @@ export type CareerPlanOrderByWithAggregationInput = {
   suggestedCourses?: Prisma.SortOrderInput | Prisma.SortOrder
   supportNeeded?: Prisma.SortOrderInput | Prisma.SortOrder
   managerComments?: Prisma.SortOrderInput | Prisma.SortOrder
+  employeeComments?: Prisma.SortOrderInput | Prisma.SortOrder
   submittedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   confirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -457,6 +464,7 @@ export type CareerPlanScalarWhereWithAggregatesInput = {
   suggestedCourses?: Prisma.JsonNullableWithAggregatesFilter<"CareerPlan">
   supportNeeded?: Prisma.JsonNullableWithAggregatesFilter<"CareerPlan">
   managerComments?: Prisma.JsonNullableWithAggregatesFilter<"CareerPlan">
+  employeeComments?: Prisma.JsonNullableWithAggregatesFilter<"CareerPlan">
   submittedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CareerPlan"> | Date | string | null
   confirmedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CareerPlan"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CareerPlan"> | Date | string
@@ -480,6 +488,7 @@ export type CareerPlanCreateInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
@@ -508,6 +517,7 @@ export type CareerPlanUncheckedCreateInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
@@ -531,6 +541,7 @@ export type CareerPlanUpdateInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -559,6 +570,7 @@ export type CareerPlanUncheckedUpdateInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -585,6 +597,7 @@ export type CareerPlanCreateManyInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
@@ -608,6 +621,7 @@ export type CareerPlanUpdateManyMutationInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -634,6 +648,7 @@ export type CareerPlanUncheckedUpdateManyInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -670,6 +685,7 @@ export type CareerPlanCountOrderByAggregateInput = {
   suggestedCourses?: Prisma.SortOrder
   supportNeeded?: Prisma.SortOrder
   managerComments?: Prisma.SortOrder
+  employeeComments?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   confirmedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -843,6 +859,7 @@ export type CareerPlanCreateWithoutUserInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
@@ -869,6 +886,7 @@ export type CareerPlanUncheckedCreateWithoutUserInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
@@ -902,6 +920,7 @@ export type CareerPlanCreateWithoutManagerInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
@@ -928,6 +947,7 @@ export type CareerPlanUncheckedCreateWithoutManagerInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
@@ -983,6 +1003,7 @@ export type CareerPlanScalarWhereInput = {
   suggestedCourses?: Prisma.JsonNullableFilter<"CareerPlan">
   supportNeeded?: Prisma.JsonNullableFilter<"CareerPlan">
   managerComments?: Prisma.JsonNullableFilter<"CareerPlan">
+  employeeComments?: Prisma.JsonNullableFilter<"CareerPlan">
   submittedAt?: Prisma.DateTimeNullableFilter<"CareerPlan"> | Date | string | null
   confirmedAt?: Prisma.DateTimeNullableFilter<"CareerPlan"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CareerPlan"> | Date | string
@@ -1024,6 +1045,7 @@ export type CareerPlanCreateManyUserInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
@@ -1049,6 +1071,7 @@ export type CareerPlanCreateManyManagerInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
@@ -1072,6 +1095,7 @@ export type CareerPlanUpdateWithoutUserInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1098,6 +1122,7 @@ export type CareerPlanUncheckedUpdateWithoutUserInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1123,6 +1148,7 @@ export type CareerPlanUncheckedUpdateManyWithoutUserInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1146,6 +1172,7 @@ export type CareerPlanUpdateWithoutManagerInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1172,6 +1199,7 @@ export type CareerPlanUncheckedUpdateWithoutManagerInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1197,6 +1225,7 @@ export type CareerPlanUncheckedUpdateManyWithoutManagerInput = {
   suggestedCourses?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   supportNeeded?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   managerComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  employeeComments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1225,6 +1254,7 @@ export type CareerPlanSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   suggestedCourses?: boolean
   supportNeeded?: boolean
   managerComments?: boolean
+  employeeComments?: boolean
   submittedAt?: boolean
   confirmedAt?: boolean
   createdAt?: boolean
@@ -1253,6 +1283,7 @@ export type CareerPlanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   suggestedCourses?: boolean
   supportNeeded?: boolean
   managerComments?: boolean
+  employeeComments?: boolean
   submittedAt?: boolean
   confirmedAt?: boolean
   createdAt?: boolean
@@ -1281,6 +1312,7 @@ export type CareerPlanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   suggestedCourses?: boolean
   supportNeeded?: boolean
   managerComments?: boolean
+  employeeComments?: boolean
   submittedAt?: boolean
   confirmedAt?: boolean
   createdAt?: boolean
@@ -1309,13 +1341,14 @@ export type CareerPlanSelectScalar = {
   suggestedCourses?: boolean
   supportNeeded?: boolean
   managerComments?: boolean
+  employeeComments?: boolean
   submittedAt?: boolean
   confirmedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CareerPlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "managerId" | "year" | "reviewPeriod" | "status" | "objectives" | "achievements" | "certificates" | "improvements" | "expectations" | "targetLevel" | "careerGoal" | "currentCompetencies" | "focusAreas" | "actionPlan" | "suggestedCourses" | "supportNeeded" | "managerComments" | "submittedAt" | "confirmedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["careerPlan"]>
+export type CareerPlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "managerId" | "year" | "reviewPeriod" | "status" | "objectives" | "achievements" | "certificates" | "improvements" | "expectations" | "targetLevel" | "careerGoal" | "currentCompetencies" | "focusAreas" | "actionPlan" | "suggestedCourses" | "supportNeeded" | "managerComments" | "employeeComments" | "submittedAt" | "confirmedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["careerPlan"]>
 export type CareerPlanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   manager?: boolean | Prisma.CareerPlan$managerArgs<ExtArgs>
@@ -1355,6 +1388,7 @@ export type $CareerPlanPayload<ExtArgs extends runtime.Types.Extensions.Internal
     suggestedCourses: runtime.JsonValue | null
     supportNeeded: runtime.JsonValue | null
     managerComments: runtime.JsonValue | null
+    employeeComments: runtime.JsonValue | null
     submittedAt: Date | null
     confirmedAt: Date | null
     createdAt: Date
@@ -1803,6 +1837,7 @@ export interface CareerPlanFieldRefs {
   readonly suggestedCourses: Prisma.FieldRef<"CareerPlan", 'Json'>
   readonly supportNeeded: Prisma.FieldRef<"CareerPlan", 'Json'>
   readonly managerComments: Prisma.FieldRef<"CareerPlan", 'Json'>
+  readonly employeeComments: Prisma.FieldRef<"CareerPlan", 'Json'>
   readonly submittedAt: Prisma.FieldRef<"CareerPlan", 'DateTime'>
   readonly confirmedAt: Prisma.FieldRef<"CareerPlan", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"CareerPlan", 'DateTime'>

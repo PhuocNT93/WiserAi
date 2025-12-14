@@ -151,6 +151,9 @@ enum GrowthMapStatus {
   DRAFT
   SUBMITTED
   BACK_TO_SUBMIT
+  APPROVED
+  IN_PROGRESS
+  COMPLETED
   SUCCESS
 }
 
@@ -187,6 +190,7 @@ model CareerPlan {
 
   // Manager Review
   managerComments   Json?           // Map of section -> comment
+  employeeComments  Json?           // Map of section -> comment
   
   submittedAt       DateTime?
   confirmedAt       DateTime?

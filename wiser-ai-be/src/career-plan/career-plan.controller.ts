@@ -52,4 +52,14 @@ export class CareerPlanController {
     async addComment(@Param('id') id: string, @Body() body: any) {
         return this.careerPlanService.addManagerComment(+id, body);
     }
+
+    @Post(':id/employee-comment')
+    async addEmployeeComment(@Param('id') id: string, @Body() body: any) {
+        return this.careerPlanService.addEmployeeComment(+id, body);
+    }
+
+    @Patch(':id/status')
+    async updateStatus(@Param('id') id: string, @Body('status') status: any) {
+        return this.careerPlanService.updateStatus(+id, status);
+    }
 }

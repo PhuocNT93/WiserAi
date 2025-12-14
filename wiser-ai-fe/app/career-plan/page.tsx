@@ -46,6 +46,8 @@ export default function CareerPlanPage() {
     const [openComment, setOpenComment] = useState(false);
     const [commentText, setCommentText] = useState('');
     const [commentPlanId, setCommentPlanId] = useState<number | null>(null);
+    const [statusPlanId, setStatusPlanId] = useState<number | null>(null);
+    const [openEmployeeComment, setOpenEmployeeComment] = useState(false);
     const { user } = useAuth();
     const isAdminOrManager = user?.role === 'ADMIN' || user?.role === 'MANAGER';
 
@@ -101,6 +103,31 @@ export default function CareerPlanPage() {
         }
     };
 
+    const handleStatusChange = async (planId: number, newStatus: string) => {
+        try {
+            await api.patch(`/career-plan/${planId}/status`, { status: newStatus });
+            alert(`Status updated to ${newStatus}`);
+            fetchPlans();
+            fetchTeamPlans();
+        } catch (error) {
+            console.error('Failed to update status', error);
+            alert('Failed to update status');
+        }
+    };
+
+    const handleSaveEmployeeComment = async () => {
+        if (!commentPlanId) return;
+        try {
+            await api.post(`/career-plan/${commentPlanId}/employee-comment`, { general: commentText });
+            alert('Comment saved!');
+            setOpenEmployeeComment(false);
+            fetchPlans();
+        } catch (error) {
+            console.error('Failed to save comment', error);
+            alert('Failed to save comment');
+        }
+    };
+
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
@@ -131,15 +158,31 @@ export default function CareerPlanPage() {
                 return row.targetLevel ? `${row.targetLevel} - ${value?.substring ? value.substring(0, 30) : value}...` : value;
             }
         },
-        { field: 'status', headerName: t('History.status'), width: 120 },
+        { field: 'status', headerName: t('History.status'), width: 150 },
         {
             field: 'actions',
             headerName: t('History.actions'),
-            width: 150,
+            width: 300,
             renderCell: (params) => (
-                <Button variant="outlined" size="small" onClick={() => handleView(params.row)}>
-                    {t('History.view')}
-                </Button>
+                <Box>
+                    <Button variant="outlined" size="small" onClick={() => handleView(params.row)} sx={{ mr: 1 }}>
+                        {t('History.view')}
+                    </Button>
+                    {params.row.status === 'APPROVED' && (
+                        <Button variant="contained" color="primary" size="small" onClick={() => handleStatusChange(params.row.id, 'IN_PROGRESS')} sx={{ mr: 1 }}>
+                            Add to Plan
+                        </Button>
+                    )}
+                    {params.row.status === 'IN_PROGRESS' && (
+                        <Button variant="outlined" color="primary" size="small" onClick={() => {
+                            setCommentPlanId(params.row.id);
+                            setCommentText(params.row.employeeComments?.general || '');
+                            setOpenEmployeeComment(true);
+                        }}>
+                            Comment
+                        </Button>
+                    )}
+                </Box>
             ),
         },
     ];
@@ -160,18 +203,33 @@ export default function CareerPlanPage() {
                 return row.targetLevel ? `${row.targetLevel} - ${value?.substring ? value.substring(0, 30) : value}...` : value;
             }
         },
-        { field: 'status', headerName: t('History.status'), width: 120 },
+        { field: 'status', headerName: t('History.status'), width: 150 },
         {
             field: 'actions',
             headerName: t('History.actions'),
-            width: 250,
+            width: 400,
             renderCell: (params) => (
                 <Box>
                     <Button variant="outlined" size="small" onClick={() => handleView(params.row)} sx={{ mr: 1 }}>
                         {t('History.view')}
                     </Button>
-                    <Button variant="contained" size="small" onClick={() => handleOpenComment(params.row)}>
-                        Comment
+                    {params.row.status === 'SUBMITTED' && (
+                        <Button variant="contained" color="success" size="small" onClick={() => handleStatusChange(params.row.id, 'APPROVED')} sx={{ mr: 1 }}>
+                            Confirm
+                        </Button>
+                    )}
+                    {params.row.status === 'IN_PROGRESS' && (
+                        <>
+                            <Button variant="outlined" color="info" size="small" onClick={() => handleView(params.row)} sx={{ mr: 1 }}>
+                                Done
+                            </Button>
+                            <Button variant="contained" color="success" size="small" onClick={() => handleStatusChange(params.row.id, 'COMPLETED')}>
+                                Completed
+                            </Button>
+                        </>
+                    )}
+                    <Button variant="text" size="small" onClick={() => handleOpenComment(params.row)}>
+                        Manager Comment
                     </Button>
                 </Box>
             ),
@@ -293,6 +351,19 @@ export default function CareerPlanPage() {
                                     </li>
                                 ))}
                             </ul>
+                            {/* Display Comments */}
+                            {selectedPlan.managerComments?.general && (
+                                <Box sx={{ mt: 2, p: 2, bgcolor: '#f5f5f5', borderRadius: 1 }}>
+                                    <Typography variant="subtitle2" color="primary">Manager Comment:</Typography>
+                                    <Typography variant="body2">{selectedPlan.managerComments.general}</Typography>
+                                </Box>
+                            )}
+                            {selectedPlan.employeeComments?.general && (
+                                <Box sx={{ mt: 2, p: 2, bgcolor: '#e3f2fd', borderRadius: 1 }}>
+                                    <Typography variant="subtitle2" color="primary">Employee Comment:</Typography>
+                                    <Typography variant="body2">{selectedPlan.employeeComments.general}</Typography>
+                                </Box>
+                            )}
                         </Box>
                     )}
                 </DialogContent>
@@ -314,6 +385,22 @@ export default function CareerPlanPage() {
                 <DialogActions>
                     <Button onClick={() => setOpenComment(false)}>Cancel</Button>
                     <Button onClick={handleSaveComment} variant="contained">Save</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openEmployeeComment} onClose={() => setOpenEmployeeComment(false)} maxWidth="sm" fullWidth>
+                <DialogTitle>Employee Comment</DialogTitle>
+                <DialogContent>
+                    <textarea
+                        style={{ width: '100%', height: '150px', marginTop: '10px', padding: '8px' }}
+                        value={commentText}
+                        onChange={(e) => setCommentText(e.target.value)}
+                        placeholder="Updates on your progress..."
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenEmployeeComment(false)}>Cancel</Button>
+                    <Button onClick={handleSaveEmployeeComment} variant="contained">Save</Button>
                 </DialogActions>
             </Dialog>
         </Container>

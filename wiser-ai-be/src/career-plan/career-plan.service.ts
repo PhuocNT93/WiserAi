@@ -218,6 +218,18 @@ export class CareerPlanService {
     }
 
     async create(userId: number, data: Prisma.CareerPlanUncheckedCreateInput) {
+        // Enforce Max 2 Plans Limit per Year
+        const existingPlansCount = await this.prisma.careerPlan.count({
+            where: {
+                userId,
+                year: data.year
+            }
+        });
+
+        if (existingPlansCount >= 2) {
+            throw new Error('Maximum 2 career plans allowed per year.');
+        }
+
         // Normally managerId would be fetched from User's current manager
         // For now we trust the input or fetch user to get managerId
         const user = await this.prisma.user.findUnique({ where: { id: userId } });
@@ -259,6 +271,20 @@ export class CareerPlanService {
         return this.prisma.careerPlan.update({
             where: { id: planId },
             data: { managerComments: comments }
+        });
+    }
+
+    async addEmployeeComment(planId: number, comments: any) {
+        return this.prisma.careerPlan.update({
+            where: { id: planId },
+            data: { employeeComments: comments }
+        });
+    }
+
+    async updateStatus(planId: number, status: GrowthMapStatus) {
+        return this.prisma.careerPlan.update({
+            where: { id: planId },
+            data: { status }
         });
     }
 }

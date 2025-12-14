@@ -193,6 +193,7 @@ export const CareerPlanScalarFieldEnum = {
   suggestedCourses: 'suggestedCourses',
   supportNeeded: 'supportNeeded',
   managerComments: 'managerComments',
+  employeeComments: 'employeeComments',
   submittedAt: 'submittedAt',
   confirmedAt: 'confirmedAt',
   createdAt: 'createdAt',
