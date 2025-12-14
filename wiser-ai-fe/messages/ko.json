@@ -120,6 +120,24 @@
         "confirm": "확인",
         "managerComment": "매니저 댓글",
         "visualize": "시각화",
-        "close": "닫기"
+        "close": "닫기",
+        "teamGrowthMap": "팀 성장 지도",
+        "noPlansFound": "계획을 찾을 수 없습니다.",
+        "noTeamPlansFound": "팀 계획을 찾을 수 없습니다.",
+        "level": "레벨",
+        "goal": "목표",
+        "timeframe": "기간",
+        "priority": "우선순위",
+        "metrics": "지표",
+        "support": "지원",
+        "suggestedCourses": "추천 코스",
+        "managerCommentLabel": "매니저 댓글:",
+        "employeeCommentLabel": "직원 댓글:",
+        "completed": "완료",
+        "cancel": "취소",
+        "save": "저장",
+        "enterFeedback": "피드백을 입력하세요...",
+        "updatesOnProgress": "진행 상황 업데이트...",
+        "growthMapVisualization": "성장 지도 시각화"
     }
 }

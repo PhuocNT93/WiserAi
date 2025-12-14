@@ -120,6 +120,24 @@
     "confirm": "Confirm",
     "managerComment": "Manager Comment",
     "visualize": "Visualize",
-    "close": "Close"
+    "close": "Close",
+    "teamGrowthMap": "Team Growth Map",
+    "noPlansFound": "No plans found.",
+    "noTeamPlansFound": "No team plans found.",
+    "level": "Level",
+    "goal": "Goal",
+    "timeframe": "Timeframe",
+    "priority": "Priority",
+    "metrics": "Metrics",
+    "support": "Support",
+    "suggestedCourses": "Suggested Courses",
+    "managerCommentLabel": "Manager Comment:",
+    "employeeCommentLabel": "Employee Comment:",
+    "completed": "Completed",
+    "cancel": "Cancel",
+    "save": "Save",
+    "enterFeedback": "Enter your feedback...",
+    "updatesOnProgress": "Updates on your progress...",
+    "growthMapVisualization": "Growth Map Visualization"
   }
 }

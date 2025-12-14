@@ -120,6 +120,24 @@
         "confirm": "Xác nhận",
         "managerComment": "Bình luận của Quản lý",
         "visualize": "Trực quan hóa",
-        "close": "Đóng"
+        "close": "Đóng",
+        "teamGrowthMap": "Bản đồ tăng trưởng nhóm",
+        "noPlansFound": "Không tìm thấy kế hoạch nào.",
+        "noTeamPlansFound": "Không tìm thấy kế hoạch nhóm nào.",
+        "level": "Cấp độ",
+        "goal": "Mục tiêu",
+        "timeframe": "Khung thời gian",
+        "priority": "Ưu tiên",
+        "metrics": "Chỉ số",
+        "support": "Hỗ trợ",
+        "suggestedCourses": "Khóa học đề xuất",
+        "managerCommentLabel": "Bình luận của Quản lý:",
+        "employeeCommentLabel": "Bình luận của Nhân viên:",
+        "completed": "Hoàn thành",
+        "cancel": "Hủy",
+        "save": "Lưu",
+        "enterFeedback": "Nhập phản hồi của bạn...",
+        "updatesOnProgress": "Cập nhật tiến độ của bạn...",
+        "growthMapVisualization": "Trực quan hóa bản đồ tăng trưởng"
     }
 }

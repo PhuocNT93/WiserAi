@@ -418,7 +418,7 @@ export default function CareerPlanPage() {
                     >
                         <Tab label={t('CareerPlan.result.title')} />
                         <Tab label={t('History.title')} />
-                        {isAdminOrManager && (<Tab label="Team Growth Map" />)}
+                        {isAdminOrManager && (<Tab label={t('History.teamGrowthMap')} />)}
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
@@ -434,7 +434,7 @@ export default function CareerPlanPage() {
                     {isMobile ? (
                         <Box>
                             {plans.map((plan) => renderMobileCard(plan, false))}
-                            {plans.length === 0 && <Typography sx={{ p: 2, textAlign: 'center' }}>No plans found.</Typography>}
+                            {plans.length === 0 && <Typography sx={{ p: 2, textAlign: 'center' }}>{t('History.noPlansFound')}</Typography>}
                         </Box>
                     ) : (
                         <div style={{ height: 400, width: '100%' }}>
@@ -457,7 +457,7 @@ export default function CareerPlanPage() {
                         {isMobile ? (
                             <Box>
                                 {teamPlans.map((plan) => renderMobileCard(plan, true))}
-                                {teamPlans.length === 0 && <Typography sx={{ p: 2, textAlign: 'center' }}>No team plans found.</Typography>}
+                                {teamPlans.length === 0 && <Typography sx={{ p: 2, textAlign: 'center' }}>{t('History.noTeamPlansFound')}</Typography>}
                             </Box>
                         ) : (
                             <div style={{ height: 400, width: '100%' }}>
@@ -485,11 +485,11 @@ export default function CareerPlanPage() {
                     {selectedPlan && (
                         <Box>
                             <Typography variant="h6" gutterBottom>{t('CareerPlan.result.careerGoal')}</Typography>
-                            <Typography paragraph><strong>Level: </strong>{selectedPlan.targetLevel}</Typography>
+                            <Typography paragraph><strong>{t('History.level')}: </strong>{selectedPlan.targetLevel}</Typography>
                             {typeof selectedPlan.careerGoal === 'object' && selectedPlan.careerGoal?.title ? (
                                 <>
-                                    <Typography paragraph><strong>Goal: </strong>{selectedPlan.careerGoal.title}</Typography>
-                                    <Typography paragraph><strong>Timeframe: </strong>{selectedPlan.careerGoal.timeframe}</Typography>
+                                    <Typography paragraph><strong>{t('History.goal')}: </strong>{selectedPlan.careerGoal.title}</Typography>
+                                    <Typography paragraph><strong>{t('History.timeframe')}: </strong>{selectedPlan.careerGoal.timeframe}</Typography>
                                 </>
                             ) : (
                                 <Typography paragraph>{selectedPlan.careerGoal}</Typography>
@@ -509,14 +509,14 @@ export default function CareerPlanPage() {
                             <Typography variant="h6" gutterBottom>{t('CareerPlan.result.focusAreas')}</Typography>
                             {Array.isArray(selectedPlan.focusAreas) && selectedPlan.focusAreas.map((area: any, idx: number) => (
                                 <Paper key={idx} variant="outlined" sx={{ p: 1, mb: 1 }}>
-                                    <Typography variant="subtitle2">{area.name || area.area} (Priority: {area.priority})</Typography>
+                                    <Typography variant="subtitle2">{area.name || area.area} ({t('History.priority')}: {area.priority})</Typography>
                                     <Typography variant="body2">{area.description || area.suggestion}</Typography>
                                 </Paper>
                             ))}
 
                             {selectedPlan.suggestedCourses && Array.isArray(selectedPlan.suggestedCourses) && (
                                 <>
-                                    <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>Suggested Courses</Typography>
+                                    <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>{t('History.suggestedCourses')}</Typography>
                                     {selectedPlan.suggestedCourses.map((course: any, idx: number) => (
                                         <Typography key={idx} paragraph>
                                             {course.name} - {course.progress}%
@@ -529,8 +529,8 @@ export default function CareerPlanPage() {
                             {Array.isArray(selectedPlan.actionPlan) && selectedPlan.actionPlan.map((action: any, idx: number) => (
                                 <Paper key={idx} variant="outlined" sx={{ p: 1, mb: 1 }}>
                                     <Typography variant="subtitle2">{action.action} ({action.timeline})</Typography>
-                                    <Typography variant="body2">Metrics: {action.successMetrics}</Typography>
-                                    <Typography variant="body2">Support: {action.supportNeeded}</Typography>
+                                    <Typography variant="body2">{t('History.metrics')}: {action.successMetrics}</Typography>
+                                    <Typography variant="body2">{t('History.support')}: {action.supportNeeded}</Typography>
                                 </Paper>
                             ))}
 
@@ -549,13 +549,13 @@ export default function CareerPlanPage() {
                             {/* Display Comments */}
                             {selectedPlan.managerComments?.general && (
                                 <Box sx={{ mt: 2, p: 2, bgcolor: '#f5f5f5', borderRadius: 1 }}>
-                                    <Typography variant="subtitle2" color="primary">Manager Comment:</Typography>
+                                    <Typography variant="subtitle2" color="primary">{t('History.managerCommentLabel')}</Typography>
                                     <Typography variant="body2">{selectedPlan.managerComments.general}</Typography>
                                 </Box>
                             )}
                             {selectedPlan.employeeComments?.general && (
                                 <Box sx={{ mt: 2, p: 2, bgcolor: '#e3f2fd', borderRadius: 1 }}>
-                                    <Typography variant="subtitle2" color="primary">Employee Comment:</Typography>
+                                    <Typography variant="subtitle2" color="primary">{t('History.employeeCommentLabel')}</Typography>
                                     <Typography variant="body2">{selectedPlan.employeeComments.general}</Typography>
                                 </Box>
                             )}
@@ -565,7 +565,7 @@ export default function CareerPlanPage() {
                 <DialogActions>
                     {isAdminOrManager && selectedPlan?.status === 'IN_PROGRESS' && (
                         <Button variant="contained" color="success" onClick={() => handleStatusChange(selectedPlan.id, 'COMPLETED')}>
-                            Completed
+                            {t('History.completed')}
                         </Button>
                     )}
                     <Button onClick={handleClose}>{t('History.close')}</Button>
@@ -573,46 +573,46 @@ export default function CareerPlanPage() {
             </Dialog>
 
             <Dialog open={openComment} onClose={() => setOpenComment(false)} maxWidth="sm" fullWidth>
-                <DialogTitle>Manager Comment</DialogTitle>
+                <DialogTitle>{t('History.managerComment')}</DialogTitle>
                 <DialogContent>
                     <textarea
                         style={{ width: '100%', height: '150px', marginTop: '10px', padding: '8px' }}
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
-                        placeholder="Enter your feedback..."
+                        placeholder={t('History.enterFeedback')}
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpenComment(false)}>Cancel</Button>
-                    <Button onClick={handleSaveComment} variant="contained">Save</Button>
+                    <Button onClick={() => setOpenComment(false)}>{t('History.cancel')}</Button>
+                    <Button onClick={handleSaveComment} variant="contained">{t('History.save')}</Button>
                 </DialogActions>
             </Dialog>
 
             <Dialog open={openEmployeeComment} onClose={() => setOpenEmployeeComment(false)} maxWidth="sm" fullWidth>
-                <DialogTitle>Employee Comment</DialogTitle>
+                <DialogTitle>{t('History.employeeCommentLabel')}</DialogTitle>
                 <DialogContent>
                     <textarea
                         style={{ width: '100%', height: '150px', marginTop: '10px', padding: '8px' }}
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
-                        placeholder="Updates on your progress..."
+                        placeholder={t('History.updatesOnProgress')}
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpenEmployeeComment(false)}>Cancel</Button>
-                    <Button onClick={handleSaveEmployeeComment} variant="contained">Save</Button>
+                    <Button onClick={() => setOpenEmployeeComment(false)}>{t('History.cancel')}</Button>
+                    <Button onClick={handleSaveEmployeeComment} variant="contained">{t('History.save')}</Button>
                 </DialogActions>
             </Dialog>
 
             <Dialog open={openVisualize} onClose={() => setOpenVisualize(false)} maxWidth="lg" fullWidth>
-                <DialogTitle>Growth Map Visualization</DialogTitle>
+                <DialogTitle>{t('History.growthMapVisualization')}</DialogTitle>
                 <DialogContent dividers>
                     {visualizeData && (
                         <GrowthMapDashboard data={visualizeData} loading={false} />
                     )}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpenVisualize(false)}>Close</Button>
+                    <Button onClick={() => setOpenVisualize(false)}>{t('History.close')}</Button>
                 </DialogActions>
             </Dialog>
         </Container>
