@@ -8,28 +8,23 @@ export class EmployeeProfileService {
     constructor(private prisma: PrismaService) { }
 
     async create(data: EmployeeProfileCreateInput) {
-        // Check if the user exists by userId
-        const userExists = await this.prisma.user.findUnique({
-            where: { id: data.user.connect?.id }
-        });
-        console.log(userExists, "TESTING");
-        if (!userExists) {
-            return {
-                status: 500,
-                message: `User Email ${data.user.connect?.email} not found in the system.`,
-                data: []
-            }
-        }
-        
-        // Proceed with creation if user exists
         return this.prisma.employeeProfile.create({
             data
-        })
+        });
     }
 
     async findAll() {
         try {
-            return this.prisma.employeeProfile.findMany();
+            return this.prisma.employeeProfile.findMany({
+                include: {
+                    user: {
+                        select: {
+                            email: true,
+                            name: true
+                        }
+                    }
+                } 
+            });
         } catch (error) {
             return {
                 status: 500,
