@@ -25,7 +25,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { getUserSkills, createUserSkill, updateUserSkill, deleteUserSkill, getMyCertificates, uploadCertificate, CertificateResponse } from '../../lib/api/userSkills';
+import { getUserSkills, createUserSkill, updateUserSkill, deleteUserSkill, getMyCertificates, uploadCertificate, deleteCertificate, CertificateResponse } from '../../lib/api/userSkills';
 import { getMyProfile, EmployeeProfile } from '../../lib/api/employeeProfile';
 
 interface SkillData {
@@ -675,6 +675,18 @@ export default function SummaryPage() {
                                                         onClick={() => window.open(`http://localhost:8000${cert.fileUrl}`, '_blank')}
                                                     >
                                                         View
+                                                    </Button>
+                                                    <Button
+                                                        size="small"
+                                                        variant="outlined"
+                                                        color="error"
+                                                        onClick={async () => {
+                                                            await deleteCertificate(cert.careerPlanId);
+                                                            await loadCertificates();
+                                                            showToast('Certificate deleted!');
+                                                        }}
+                                                    >
+                                                        Delete
                                                     </Button>
                                                 </Box>
                                             </Box>

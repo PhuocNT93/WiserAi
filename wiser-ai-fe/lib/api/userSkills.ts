@@ -84,6 +84,6 @@ export async function uploadCertificate(file: File): Promise<CertificateResponse
 }
 
 // DELETE /career-plan/certificates/:id - Delete certificate (if needed)
-export async function deleteCertificate(certId: number): Promise<void> {
-    await api.delete(`/career-plan/certificates/${certId}`);
+export async function deleteCertificate(certId: number) {
+    await api.delete(`/career-plan/delete-cert/${certId}`);
 }

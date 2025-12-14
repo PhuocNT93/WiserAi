@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, UseInterceptors, UploadedFile, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, UseInterceptors, UploadedFile, Req, UseGuards, Delete } from '@nestjs/common';
 import { CareerPlanService } from './career-plan.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
@@ -92,5 +92,11 @@ export class CareerPlanController {
     async getMyCertificates(@Req() req: any) {
         const userId = req.user.id;
         return this.careerPlanService.getMyCertificates(userId);
+    }
+
+    @Delete('delete-cert/:certId')
+    @UseGuards(JwtAuthGuard)
+    async deleteCertificate(@Req() req, @Param('certId') certId: number) {
+        return this.careerPlanService.deleteCertificate(req.user.userId, certId);
     }
 }

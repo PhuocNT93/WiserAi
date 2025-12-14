@@ -1,4 +1,3 @@
-
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
@@ -369,5 +368,17 @@ export class CareerPlanService {
         });
 
         return allCertificates;
+    }
+
+    async deleteCertificate(userId: number, certId: number) {
+        // Tìm draft plan của user
+        const draftPlan = await this.prisma.careerPlan.findFirst({
+            where: { userId, status: 'DRAFT' }
+        });
+        if (!draftPlan) throw new Error('No draft plan found');
+
+        // Xoá plan luôn (nếu chỉ lưu cert ở draft)
+        await this.prisma.careerPlan.delete({ where: { id: draftPlan.id } });
+        return { success: true };
     }
 }
