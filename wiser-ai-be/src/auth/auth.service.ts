@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -14,7 +18,7 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
     private prisma: PrismaService,
-  ) { }
+  ) {}
 
   async register(dto: CreateAuthDto) {
     const userExists = await this.usersService.findByEmail(dto.email);
@@ -26,7 +30,11 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    const tokens = await this.getTokens(newUser.id, newUser.email, newUser.roles);
+    const tokens = await this.getTokens(
+      newUser.id,
+      newUser.email,
+      newUser.roles,
+    );
     await this.updateRefreshToken(newUser.id, tokens.refreshToken);
     return tokens;
   }
@@ -47,7 +55,7 @@ export class AuthService {
     // Invalidate refresh tokens for user (or specific token if we track it)
     // For simplicity, revoke all or just delete from DB if we track one per device.
     // Our schema allows multiple refresh tokens.
-    // Here we might just want to delete the cookie or token from client, 
+    // Here we might just want to delete the cookie or token from client,
     // but in DB we should mark them revoked or delete.
     // For this implementation, let's delete all refresh tokens for the user or just updated `revoked` status?
     // The requirement says "Lưu refresh token đã mã hoá trong database".
@@ -55,16 +63,16 @@ export class AuthService {
     // Let's delete all active refresh tokens for the user for now to "Logout everywhere"
     // or just the current one if we had the refresh token passed.
     // Since logout usually comes with Access Token, we might not have the Refresh Token string unless passed.
-    // We will just revoke all tokens for this user for simplicity in this MVP step, 
+    // We will just revoke all tokens for this user for simplicity in this MVP step,
     // OR we could require passing the refresh token to revoke a specific one.
 
-    // Let's assume logout means invalidating the current session. 
+    // Let's assume logout means invalidating the current session.
     // But without the RT passed, we can't key it.
     // Simplified: revoke all.
     await this.prisma.refreshToken.updateMany({
       where: {
         userId,
-        revoked: false
+        revoked: false,
       },
       data: { revoked: true },
     });
@@ -79,8 +87,8 @@ export class AuthService {
     // We need to match the stored hash or the token itself if stored plaintext.
     // Requirement says "Lưu refresh token đã mã hoá trong database".
 
-    // So we iterate or find match. 
-    // Actually, storing hashed RT means we can't find it easily unless we iterate 
+    // So we iterate or find match.
+    // Actually, storing hashed RT means we can't find it easily unless we iterate
     // OR we store a hash of the RT and compare.
     // Let's assume we store the hash.
 
@@ -99,9 +107,9 @@ export class AuthService {
 
       // Find stored token that matches (we need to compare hashes?)
       // To make this efficient, we can store the `jti` or just use the token string if encrypted reversibly.
-      // But requirement says "hashed". 
+      // But requirement says "hashed".
       // Best practice: Store (id, hashedToken).
-      // On refresh, we get `rt`. We verify signature. 
+      // On refresh, we get `rt`. We verify signature.
       // Then we check if this user has this token (hashed) in DB.
 
       // Since we can't search by hash, we usually just store it.
@@ -134,7 +142,6 @@ export class AuthService {
       const newTokens = await this.getTokens(user.id, user.email, user.roles);
       await this.updateRefreshToken(user.id, newTokens.refreshToken);
       return newTokens;
-
     } catch (error) {
       throw new ForbiddenException('Access Denied');
     }

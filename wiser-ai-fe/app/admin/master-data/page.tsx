@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
-import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, IconButton, Paper, Tabs, Tab, MenuItem, Select } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, IconButton, Paper, Tabs, Tab, MenuItem, Select, Snackbar, Alert, FormControl, InputLabel } from '@mui/material';
 import _ from 'lodash';
 import { Delete, OpenInNew } from '@mui/icons-material';
 import api from '@/utils/api';  // Assuming this is an axios instance
@@ -69,11 +69,17 @@ type RoleSkillMapping = {
 
 type EmployeeProfileMapping = {
     id: number;
-    userEmail: string;
+    userId: number;
+    user?: User;
     engName: string;
     empCode: string;
     busUnit: string;
     jobTitle: string;
+};
+type User = {
+    id: number;
+    name: string;
+    email: string;
 };
 
 function CustomTabPanel(props: TabPanelProps) {
@@ -161,6 +167,7 @@ export default function MasterDataPage() {
     const [deleteId, setDeleteId] = React.useState<number | null>(null);
     const [allRoleSkillData, setAllRoleSkillData] = React.useState<RoleSkillMapping[]>([]);
     const [allEmployeeProfileData, setAllEmployeeProfileData] = React.useState<EmployeeProfileMapping[]>([]);
+    const [allUsers, setAllUsers] = React.useState<User[]>([]);  // New: For user selection
     const [isEdit, setIsEdit] = React.useState(false);
     const [editId, setEditId] = React.useState<number | null>(null);
     const [roleSkillMappingValues, setRoleSkillMappingValues] = React.useState<Omit<RoleSkillMapping, 'id'>>({
@@ -171,13 +178,19 @@ export default function MasterDataPage() {
         description: ''
     });
     const [employeeProfileValues, setEmployeeProfileValues] = React.useState<Omit<EmployeeProfileMapping, 'id'>>({
-        userEmail: '',
+        userId: 0,
         engName: '',
         empCode: '',
         busUnit: '',
         jobTitle: ''
     });
-    const [loading, setLoading] = React.useState(true);  // Added: For loading state
+    const [loading, setLoading] = React.useState(true);
+    const [errors, setErrors] = React.useState({ userId: '' });
+    const [snackbar, setSnackbar] = React.useState({
+        open: false,
+        message: '',
+        severity: 'error' as 'error' | 'warning' | 'info' | 'success'  // Default to error for backend issues
+    });
     /** END OF REACT STATE */
 
     /** REACT useEffect CONTROL */
@@ -188,10 +201,20 @@ export default function MasterDataPage() {
         setEditId(null);
     };
     const resetEmployeeProfileForm = () => {
-        setEmployeeProfileValues({ userEmail: '', engName: '', empCode: '', busUnit: '', jobTitle: '' });
+        setEmployeeProfileValues({ userId: 0, engName: '', empCode: '', busUnit: '', jobTitle: '' });
         setOpen(false);
         setIsEdit(false);
         setEditId(null);
+    };
+
+    const fetchUsers = async () => {
+        try {
+            const response = await api.get(apiObject.users);
+            setAllUsers(response.data.data);
+        } catch (error) {
+            console.error('Error fetching users:', error);
+            showSnackbar(`Failed to load users`, 'error');
+        }
     };
 
     const fetchRoleSkillData = async () => {
@@ -200,6 +223,7 @@ export default function MasterDataPage() {
             setAllRoleSkillData(response.data.data);
         } catch (error) {
             console.error('Error fetching role-skill data:', error);
+            showSnackbar(`Failed to load all role-skill data. Error Detail: ${error}`, 'error');
         }
     };
 
@@ -209,13 +233,14 @@ export default function MasterDataPage() {
             setAllEmployeeProfileData(response.data.data);  // Fixed: Correct setter
         } catch (error) {
             console.error('Error fetching employee profile data:', error);
+            showSnackbar(`Failed to load all employee profile data. Error Detail: ${error}`, 'error');
         }
     };
 
     React.useEffect(() => {
         const loadData = async () => {
             setLoading(true);
-            await Promise.all([fetchRoleSkillData(), fetchEmployeeProfileData()]);
+            await Promise.all([fetchUsers(), fetchRoleSkillData(), fetchEmployeeProfileData()]);
             setLoading(false);
         };
         loadData();
@@ -270,6 +295,11 @@ export default function MasterDataPage() {
     };
     const handleSaveEmployeeProfile = async (excelData: RoleSkillMapping[]) => {  // Fixed: Correct type
         try {
+            const userIdError = employeeProfileValues.userId != 0 ? '' : '* User is required';
+            if (userIdError) {
+                setErrors({ ...errors, userId: userIdError });
+                return;
+            }
             if (_.isEmpty(excelData)) {
                 const newData = {
                     ...employeeProfileValues,
@@ -277,9 +307,13 @@ export default function MasterDataPage() {
                 };
                 console.log('Saving manual data:', newData);
                 if (!isEdit) {
-                    await api.post(apiObject.employee_profile, newData);  // Fixed: Correct API call
-                    resetEmployeeProfileForm();
-                    await fetchEmployeeProfileData();  // Re-fetch
+                    const response = await api.post(apiObject.employee_profile, newData);
+                    if (response.data.data.status === 500) {
+                        showSnackbar(response.data.data.message, 'error');
+                    } else {
+                        resetEmployeeProfileForm();
+                        await fetchEmployeeProfileData();
+                    }
                 } else {
                     if (!editId) {
                         console.error('No editId for patch');
@@ -287,7 +321,7 @@ export default function MasterDataPage() {
                     }
                     const updatedData = { id: editId, ...employeeProfileValues, updatedAt: new Date().toISOString() };
                     console.log('Patching manual data:', updatedData);
-                    await api.patch(`${apiObject.employee_profile}/${editId}`, updatedData);  // Fixed: Correct API call
+                    await api.patch(`${apiObject.employee_profile}/${editId}`, updatedData);
                     resetEmployeeProfileForm();
                     await fetchEmployeeProfileData();  // Re-fetch
                 }
@@ -318,7 +352,7 @@ export default function MasterDataPage() {
         setIsEdit(true);
         setEditId(row.id);
         setEmployeeProfileValues({  // Fixed: Correct setter
-            userEmail: row.userEmail,
+            userId: row.userId,
             engName: row.engName,
             empCode: row.empCode,
             busUnit: row.busUnit,
@@ -356,10 +390,35 @@ export default function MasterDataPage() {
     };
     /** END OF MAIN HANDLERS */
 
-    if (loading) return <div>Loading...</div>;  // Added: Loading state
+    /** VALIDATION START  */
+    const showSnackbar = (message: string, severity: 'error' | 'warning' | 'info' | 'success' = 'error') => {
+        setSnackbar({ open: true, message, severity });
+    };
+    const handleCloseSnackbar = () => {
+        setSnackbar({ ...snackbar, open: false });
+    };
+    const validateEmail = (email: string) => {
+        // Basic email regex: checks for @ and . with no spaces
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email) return 'Email is required';
+        if (!emailRegex.test(email)) return 'Invalid email format (e.g., example@domain.com)';
+        return '';  // No error
+    };
+    /** END OF VALIDATION */
 
+    if (loading) return <div>Loading...</div>;
     return (
         <Box sx={{ height: 600, width: '100%' }}>
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={5000}  // Auto-close after 6 seconds (adjust as needed)
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}  // Position: bottom-center
+            >
+                <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
             <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="h5">Master Data Management</Typography>
                 <Tabs value={panel} onChange={handleChangePanel} aria-label="basic tabs example">
@@ -398,17 +457,24 @@ export default function MasterDataPage() {
                         getRowId={(row) => row.id}
                     />
 
-                    <Dialog open={open} onClose={() => setOpen(false)}>
+                    <Dialog open={open} onClose={() => resetEmployeeProfileForm()}>
                         <DialogTitle>{isEdit ? 'Edit Employee Profile' : 'Add Employee Profile'}</DialogTitle>
                         <DialogContent>
                             <Box component="form" sx={{ mt: 1, display: 'flex', flexDirection: 'column', gap: 2, width: 500 }}>
-                                <TextField
-                                    label="User Email"
-                                    type='email'
-                                    value={employeeProfileValues.userEmail}
-                                    fullWidth
-                                    onChange={(e) => setEmployeeProfileValues({ ...employeeProfileValues, userEmail: e.target.value })}
-                                />
+                                <FormControl fullWidth error={!!errors.userId}>
+                                    <Select
+                                        value={employeeProfileValues.userId || 0}
+                                        onChange={(e) => setEmployeeProfileValues({ ...employeeProfileValues, userId: Number(e.target.value) })}
+                                    >
+                                        <MenuItem value={0}><em>Select a user</em></MenuItem>
+                                        {allUsers.map((user) => (
+                                            <MenuItem key={user.id} value={user.id}>
+                                                {user.name} ({user.email})
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    {errors.userId && <Typography variant="caption" color="error">{errors.userId}</Typography>}
+                                </FormControl>
                                 <TextField
                                     label="Employee Code"
                                     value={employeeProfileValues.empCode}
@@ -474,7 +540,7 @@ export default function MasterDataPage() {
                         getRowId={(row) => row.id}
                     />
 
-                    <Dialog open={open} onClose={() => setOpen(false)}>
+                    <Dialog open={open} onClose={() => resetEmployeeProfileForm()}>
                         <DialogTitle>{isEdit ? 'Edit Role-Skill Mapping' : 'Add Role-Skill Mapping'}</DialogTitle>
                         <DialogContent>
                             <Box component="form" sx={{ mt: 1, display: 'flex', flexDirection: 'column', gap: 2, width: 500 }}>

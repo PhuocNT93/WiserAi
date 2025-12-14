@@ -28,8 +28,9 @@ import { join } from 'path';
     RoleMappingModule,
     EmployeeProfileModule,
     CareerPlanModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

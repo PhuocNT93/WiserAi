@@ -1,5 +1,16 @@
-import { Controller, Get, Body, Patch, Param, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  Body,
+  Param,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import type { Request } from 'express';
@@ -24,5 +35,37 @@ export class UsersController {
   updateProfile(@Req() req: Request, @Body() updateUserDto: UpdateUserDto) {
     const user = req.user as any;
     return this.usersService.update(user.sub, updateUserDto);
+  }
+
+
+  // ---------------- Users management ----------------
+  @ApiOperation({ summary: 'Get all users' })
+  @Get()
+  findAll() {
+    return this.usersService.findAll();
+  }
+
+  @ApiOperation({ summary: 'Get user by id' })
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.usersService.findOne(Number(id));
+  }
+
+  @ApiOperation({ summary: 'Create a new user' })
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto);
+  }
+
+  @ApiOperation({ summary: 'Update user by id' })
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(Number(id), updateUserDto);
+  }
+
+  @ApiOperation({ summary: 'Delete user by id' })
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+     return this.usersService.remove(Number(id));
   }
 }

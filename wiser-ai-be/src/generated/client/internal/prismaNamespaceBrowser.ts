@@ -79,13 +79,15 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const UserScalarFieldEnum = {
   id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   email: 'email',
   password: 'password',
   name: 'name',
   roles: 'roles',
-  managerId: 'managerId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  level: 'level',
+  jobTitle: 'jobTitle',
+  managerId: 'managerId'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -159,7 +161,7 @@ export type RoleSkillMappingScalarFieldEnum = (typeof RoleSkillMappingScalarFiel
 
 export const EmployeeProfileScalarFieldEnum = {
   id: 'id',
-  userEmail: 'userEmail',
+  userId: 'userId',
   engName: 'engName',
   empCode: 'empCode',
   busUnit: 'busUnit',

@@ -28,15 +28,17 @@ export type AggregateEmployeeProfile = {
 
 export type EmployeeProfileAvgAggregateOutputType = {
   id: number | null
+  userId: number | null
 }
 
 export type EmployeeProfileSumAggregateOutputType = {
   id: number | null
+  userId: number | null
 }
 
 export type EmployeeProfileMinAggregateOutputType = {
   id: number | null
-  userEmail: string | null
+  userId: number | null
   engName: string | null
   empCode: string | null
   busUnit: string | null
@@ -47,7 +49,7 @@ export type EmployeeProfileMinAggregateOutputType = {
 
 export type EmployeeProfileMaxAggregateOutputType = {
   id: number | null
-  userEmail: string | null
+  userId: number | null
   engName: string | null
   empCode: string | null
   busUnit: string | null
@@ -58,7 +60,7 @@ export type EmployeeProfileMaxAggregateOutputType = {
 
 export type EmployeeProfileCountAggregateOutputType = {
   id: number
-  userEmail: number
+  userId: number
   engName: number
   empCode: number
   busUnit: number
@@ -71,15 +73,17 @@ export type EmployeeProfileCountAggregateOutputType = {
 
 export type EmployeeProfileAvgAggregateInputType = {
   id?: true
+  userId?: true
 }
 
 export type EmployeeProfileSumAggregateInputType = {
   id?: true
+  userId?: true
 }
 
 export type EmployeeProfileMinAggregateInputType = {
   id?: true
-  userEmail?: true
+  userId?: true
   engName?: true
   empCode?: true
   busUnit?: true
@@ -90,7 +94,7 @@ export type EmployeeProfileMinAggregateInputType = {
 
 export type EmployeeProfileMaxAggregateInputType = {
   id?: true
-  userEmail?: true
+  userId?: true
   engName?: true
   empCode?: true
   busUnit?: true
@@ -101,7 +105,7 @@ export type EmployeeProfileMaxAggregateInputType = {
 
 export type EmployeeProfileCountAggregateInputType = {
   id?: true
-  userEmail?: true
+  userId?: true
   engName?: true
   empCode?: true
   busUnit?: true
@@ -199,7 +203,7 @@ export type EmployeeProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type EmployeeProfileGroupByOutputType = {
   id: number
-  userEmail: string
+  userId: number
   engName: string
   empCode: string
   busUnit: string
@@ -233,43 +237,46 @@ export type EmployeeProfileWhereInput = {
   OR?: Prisma.EmployeeProfileWhereInput[]
   NOT?: Prisma.EmployeeProfileWhereInput | Prisma.EmployeeProfileWhereInput[]
   id?: Prisma.IntFilter<"EmployeeProfile"> | number
-  userEmail?: Prisma.StringFilter<"EmployeeProfile"> | string
+  userId?: Prisma.IntFilter<"EmployeeProfile"> | number
   engName?: Prisma.StringFilter<"EmployeeProfile"> | string
   empCode?: Prisma.StringFilter<"EmployeeProfile"> | string
   busUnit?: Prisma.StringFilter<"EmployeeProfile"> | string
   jobTitle?: Prisma.StringFilter<"EmployeeProfile"> | string
   createdAt?: Prisma.DateTimeFilter<"EmployeeProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EmployeeProfile"> | Date | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type EmployeeProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userEmail?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   engName?: Prisma.SortOrder
   empCode?: Prisma.SortOrder
   busUnit?: Prisma.SortOrder
   jobTitle?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type EmployeeProfileWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  userId?: number
   empCode?: string
   AND?: Prisma.EmployeeProfileWhereInput | Prisma.EmployeeProfileWhereInput[]
   OR?: Prisma.EmployeeProfileWhereInput[]
   NOT?: Prisma.EmployeeProfileWhereInput | Prisma.EmployeeProfileWhereInput[]
-  userEmail?: Prisma.StringFilter<"EmployeeProfile"> | string
   engName?: Prisma.StringFilter<"EmployeeProfile"> | string
   busUnit?: Prisma.StringFilter<"EmployeeProfile"> | string
   jobTitle?: Prisma.StringFilter<"EmployeeProfile"> | string
   createdAt?: Prisma.DateTimeFilter<"EmployeeProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EmployeeProfile"> | Date | string
-}, "id" | "empCode">
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+}, "id" | "userId" | "empCode">
 
 export type EmployeeProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userEmail?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   engName?: Prisma.SortOrder
   empCode?: Prisma.SortOrder
   busUnit?: Prisma.SortOrder
@@ -288,7 +295,7 @@ export type EmployeeProfileScalarWhereWithAggregatesInput = {
   OR?: Prisma.EmployeeProfileScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EmployeeProfileScalarWhereWithAggregatesInput | Prisma.EmployeeProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"EmployeeProfile"> | number
-  userEmail?: Prisma.StringWithAggregatesFilter<"EmployeeProfile"> | string
+  userId?: Prisma.IntWithAggregatesFilter<"EmployeeProfile"> | number
   engName?: Prisma.StringWithAggregatesFilter<"EmployeeProfile"> | string
   empCode?: Prisma.StringWithAggregatesFilter<"EmployeeProfile"> | string
   busUnit?: Prisma.StringWithAggregatesFilter<"EmployeeProfile"> | string
@@ -298,18 +305,18 @@ export type EmployeeProfileScalarWhereWithAggregatesInput = {
 }
 
 export type EmployeeProfileCreateInput = {
-  userEmail: string
   engName: string
   empCode: string
   busUnit: string
   jobTitle: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutProfileInput
 }
 
 export type EmployeeProfileUncheckedCreateInput = {
   id?: number
-  userEmail: string
+  userId: number
   engName: string
   empCode: string
   busUnit: string
@@ -319,18 +326,18 @@ export type EmployeeProfileUncheckedCreateInput = {
 }
 
 export type EmployeeProfileUpdateInput = {
-  userEmail?: Prisma.StringFieldUpdateOperationsInput | string
   engName?: Prisma.StringFieldUpdateOperationsInput | string
   empCode?: Prisma.StringFieldUpdateOperationsInput | string
   busUnit?: Prisma.StringFieldUpdateOperationsInput | string
   jobTitle?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutProfileNestedInput
 }
 
 export type EmployeeProfileUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userEmail?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
   engName?: Prisma.StringFieldUpdateOperationsInput | string
   empCode?: Prisma.StringFieldUpdateOperationsInput | string
   busUnit?: Prisma.StringFieldUpdateOperationsInput | string
@@ -341,7 +348,7 @@ export type EmployeeProfileUncheckedUpdateInput = {
 
 export type EmployeeProfileCreateManyInput = {
   id?: number
-  userEmail: string
+  userId: number
   engName: string
   empCode: string
   busUnit: string
@@ -351,7 +358,6 @@ export type EmployeeProfileCreateManyInput = {
 }
 
 export type EmployeeProfileUpdateManyMutationInput = {
-  userEmail?: Prisma.StringFieldUpdateOperationsInput | string
   engName?: Prisma.StringFieldUpdateOperationsInput | string
   empCode?: Prisma.StringFieldUpdateOperationsInput | string
   busUnit?: Prisma.StringFieldUpdateOperationsInput | string
@@ -362,7 +368,7 @@ export type EmployeeProfileUpdateManyMutationInput = {
 
 export type EmployeeProfileUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userEmail?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
   engName?: Prisma.StringFieldUpdateOperationsInput | string
   empCode?: Prisma.StringFieldUpdateOperationsInput | string
   busUnit?: Prisma.StringFieldUpdateOperationsInput | string
@@ -371,9 +377,19 @@ export type EmployeeProfileUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type EmployeeProfileListRelationFilter = {
+  every?: Prisma.EmployeeProfileWhereInput
+  some?: Prisma.EmployeeProfileWhereInput
+  none?: Prisma.EmployeeProfileWhereInput
+}
+
+export type EmployeeProfileOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type EmployeeProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userEmail?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   engName?: Prisma.SortOrder
   empCode?: Prisma.SortOrder
   busUnit?: Prisma.SortOrder
@@ -384,11 +400,12 @@ export type EmployeeProfileCountOrderByAggregateInput = {
 
 export type EmployeeProfileAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type EmployeeProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userEmail?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   engName?: Prisma.SortOrder
   empCode?: Prisma.SortOrder
   busUnit?: Prisma.SortOrder
@@ -399,7 +416,7 @@ export type EmployeeProfileMaxOrderByAggregateInput = {
 
 export type EmployeeProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userEmail?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   engName?: Prisma.SortOrder
   empCode?: Prisma.SortOrder
   busUnit?: Prisma.SortOrder
@@ -410,46 +427,190 @@ export type EmployeeProfileMinOrderByAggregateInput = {
 
 export type EmployeeProfileSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+}
+
+export type EmployeeProfileCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.EmployeeProfileCreateWithoutUserInput, Prisma.EmployeeProfileUncheckedCreateWithoutUserInput> | Prisma.EmployeeProfileCreateWithoutUserInput[] | Prisma.EmployeeProfileUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.EmployeeProfileCreateOrConnectWithoutUserInput | Prisma.EmployeeProfileCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.EmployeeProfileCreateManyUserInputEnvelope
+  connect?: Prisma.EmployeeProfileWhereUniqueInput | Prisma.EmployeeProfileWhereUniqueInput[]
+}
+
+export type EmployeeProfileUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.EmployeeProfileCreateWithoutUserInput, Prisma.EmployeeProfileUncheckedCreateWithoutUserInput> | Prisma.EmployeeProfileCreateWithoutUserInput[] | Prisma.EmployeeProfileUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.EmployeeProfileCreateOrConnectWithoutUserInput | Prisma.EmployeeProfileCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.EmployeeProfileCreateManyUserInputEnvelope
+  connect?: Prisma.EmployeeProfileWhereUniqueInput | Prisma.EmployeeProfileWhereUniqueInput[]
+}
+
+export type EmployeeProfileUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.EmployeeProfileCreateWithoutUserInput, Prisma.EmployeeProfileUncheckedCreateWithoutUserInput> | Prisma.EmployeeProfileCreateWithoutUserInput[] | Prisma.EmployeeProfileUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.EmployeeProfileCreateOrConnectWithoutUserInput | Prisma.EmployeeProfileCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.EmployeeProfileUpsertWithWhereUniqueWithoutUserInput | Prisma.EmployeeProfileUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.EmployeeProfileCreateManyUserInputEnvelope
+  set?: Prisma.EmployeeProfileWhereUniqueInput | Prisma.EmployeeProfileWhereUniqueInput[]
+  disconnect?: Prisma.EmployeeProfileWhereUniqueInput | Prisma.EmployeeProfileWhereUniqueInput[]
+  delete?: Prisma.EmployeeProfileWhereUniqueInput | Prisma.EmployeeProfileWhereUniqueInput[]
+  connect?: Prisma.EmployeeProfileWhereUniqueInput | Prisma.EmployeeProfileWhereUniqueInput[]
+  update?: Prisma.EmployeeProfileUpdateWithWhereUniqueWithoutUserInput | Prisma.EmployeeProfileUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.EmployeeProfileUpdateManyWithWhereWithoutUserInput | Prisma.EmployeeProfileUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.EmployeeProfileScalarWhereInput | Prisma.EmployeeProfileScalarWhereInput[]
+}
+
+export type EmployeeProfileUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.EmployeeProfileCreateWithoutUserInput, Prisma.EmployeeProfileUncheckedCreateWithoutUserInput> | Prisma.EmployeeProfileCreateWithoutUserInput[] | Prisma.EmployeeProfileUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.EmployeeProfileCreateOrConnectWithoutUserInput | Prisma.EmployeeProfileCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.EmployeeProfileUpsertWithWhereUniqueWithoutUserInput | Prisma.EmployeeProfileUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.EmployeeProfileCreateManyUserInputEnvelope
+  set?: Prisma.EmployeeProfileWhereUniqueInput | Prisma.EmployeeProfileWhereUniqueInput[]
+  disconnect?: Prisma.EmployeeProfileWhereUniqueInput | Prisma.EmployeeProfileWhereUniqueInput[]
+  delete?: Prisma.EmployeeProfileWhereUniqueInput | Prisma.EmployeeProfileWhereUniqueInput[]
+  connect?: Prisma.EmployeeProfileWhereUniqueInput | Prisma.EmployeeProfileWhereUniqueInput[]
+  update?: Prisma.EmployeeProfileUpdateWithWhereUniqueWithoutUserInput | Prisma.EmployeeProfileUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.EmployeeProfileUpdateManyWithWhereWithoutUserInput | Prisma.EmployeeProfileUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.EmployeeProfileScalarWhereInput | Prisma.EmployeeProfileScalarWhereInput[]
+}
+
+export type EmployeeProfileCreateWithoutUserInput = {
+  engName: string
+  empCode: string
+  busUnit: string
+  jobTitle: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type EmployeeProfileUncheckedCreateWithoutUserInput = {
+  id?: number
+  engName: string
+  empCode: string
+  busUnit: string
+  jobTitle: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type EmployeeProfileCreateOrConnectWithoutUserInput = {
+  where: Prisma.EmployeeProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.EmployeeProfileCreateWithoutUserInput, Prisma.EmployeeProfileUncheckedCreateWithoutUserInput>
+}
+
+export type EmployeeProfileCreateManyUserInputEnvelope = {
+  data: Prisma.EmployeeProfileCreateManyUserInput | Prisma.EmployeeProfileCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type EmployeeProfileUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.EmployeeProfileWhereUniqueInput
+  update: Prisma.XOR<Prisma.EmployeeProfileUpdateWithoutUserInput, Prisma.EmployeeProfileUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.EmployeeProfileCreateWithoutUserInput, Prisma.EmployeeProfileUncheckedCreateWithoutUserInput>
+}
+
+export type EmployeeProfileUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.EmployeeProfileWhereUniqueInput
+  data: Prisma.XOR<Prisma.EmployeeProfileUpdateWithoutUserInput, Prisma.EmployeeProfileUncheckedUpdateWithoutUserInput>
+}
+
+export type EmployeeProfileUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.EmployeeProfileScalarWhereInput
+  data: Prisma.XOR<Prisma.EmployeeProfileUpdateManyMutationInput, Prisma.EmployeeProfileUncheckedUpdateManyWithoutUserInput>
+}
+
+export type EmployeeProfileScalarWhereInput = {
+  AND?: Prisma.EmployeeProfileScalarWhereInput | Prisma.EmployeeProfileScalarWhereInput[]
+  OR?: Prisma.EmployeeProfileScalarWhereInput[]
+  NOT?: Prisma.EmployeeProfileScalarWhereInput | Prisma.EmployeeProfileScalarWhereInput[]
+  id?: Prisma.IntFilter<"EmployeeProfile"> | number
+  userId?: Prisma.IntFilter<"EmployeeProfile"> | number
+  engName?: Prisma.StringFilter<"EmployeeProfile"> | string
+  empCode?: Prisma.StringFilter<"EmployeeProfile"> | string
+  busUnit?: Prisma.StringFilter<"EmployeeProfile"> | string
+  jobTitle?: Prisma.StringFilter<"EmployeeProfile"> | string
+  createdAt?: Prisma.DateTimeFilter<"EmployeeProfile"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"EmployeeProfile"> | Date | string
+}
+
+export type EmployeeProfileCreateManyUserInput = {
+  id?: number
+  engName: string
+  empCode: string
+  busUnit: string
+  jobTitle: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type EmployeeProfileUpdateWithoutUserInput = {
+  engName?: Prisma.StringFieldUpdateOperationsInput | string
+  empCode?: Prisma.StringFieldUpdateOperationsInput | string
+  busUnit?: Prisma.StringFieldUpdateOperationsInput | string
+  jobTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type EmployeeProfileUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  engName?: Prisma.StringFieldUpdateOperationsInput | string
+  empCode?: Prisma.StringFieldUpdateOperationsInput | string
+  busUnit?: Prisma.StringFieldUpdateOperationsInput | string
+  jobTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type EmployeeProfileUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  engName?: Prisma.StringFieldUpdateOperationsInput | string
+  empCode?: Prisma.StringFieldUpdateOperationsInput | string
+  busUnit?: Prisma.StringFieldUpdateOperationsInput | string
+  jobTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
 
 export type EmployeeProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userEmail?: boolean
+  userId?: boolean
   engName?: boolean
   empCode?: boolean
   busUnit?: boolean
   jobTitle?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["employeeProfile"]>
 
 export type EmployeeProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userEmail?: boolean
+  userId?: boolean
   engName?: boolean
   empCode?: boolean
   busUnit?: boolean
   jobTitle?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["employeeProfile"]>
 
 export type EmployeeProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userEmail?: boolean
+  userId?: boolean
   engName?: boolean
   empCode?: boolean
   busUnit?: boolean
   jobTitle?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["employeeProfile"]>
 
 export type EmployeeProfileSelectScalar = {
   id?: boolean
-  userEmail?: boolean
+  userId?: boolean
   engName?: boolean
   empCode?: boolean
   busUnit?: boolean
@@ -458,14 +619,25 @@ export type EmployeeProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type EmployeeProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userEmail" | "engName" | "empCode" | "busUnit" | "jobTitle" | "createdAt" | "updatedAt", ExtArgs["result"]["employeeProfile"]>
+export type EmployeeProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "engName" | "empCode" | "busUnit" | "jobTitle" | "createdAt" | "updatedAt", ExtArgs["result"]["employeeProfile"]>
+export type EmployeeProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type EmployeeProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type EmployeeProfileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $EmployeeProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "EmployeeProfile"
-  objects: {}
+  objects: {
+    user: Prisma.$UserPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    userEmail: string
+    userId: number
     engName: string
     empCode: string
     busUnit: string
@@ -866,6 +1038,7 @@ readonly fields: EmployeeProfileFieldRefs;
  */
 export interface Prisma__EmployeeProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -896,7 +1069,7 @@ export interface Prisma__EmployeeProfileClient<T, Null = never, ExtArgs extends 
  */
 export interface EmployeeProfileFieldRefs {
   readonly id: Prisma.FieldRef<"EmployeeProfile", 'Int'>
-  readonly userEmail: Prisma.FieldRef<"EmployeeProfile", 'String'>
+  readonly userId: Prisma.FieldRef<"EmployeeProfile", 'Int'>
   readonly engName: Prisma.FieldRef<"EmployeeProfile", 'String'>
   readonly empCode: Prisma.FieldRef<"EmployeeProfile", 'String'>
   readonly busUnit: Prisma.FieldRef<"EmployeeProfile", 'String'>
@@ -920,6 +1093,10 @@ export type EmployeeProfileFindUniqueArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.EmployeeProfileOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileInclude<ExtArgs> | null
+  /**
    * Filter, which EmployeeProfile to fetch.
    */
   where: Prisma.EmployeeProfileWhereUniqueInput
@@ -938,6 +1115,10 @@ export type EmployeeProfileFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.EmployeeProfileOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileInclude<ExtArgs> | null
+  /**
    * Filter, which EmployeeProfile to fetch.
    */
   where: Prisma.EmployeeProfileWhereUniqueInput
@@ -955,6 +1136,10 @@ export type EmployeeProfileFindFirstArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the EmployeeProfile
    */
   omit?: Prisma.EmployeeProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileInclude<ExtArgs> | null
   /**
    * Filter, which EmployeeProfile to fetch.
    */
@@ -1004,6 +1189,10 @@ export type EmployeeProfileFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.EmployeeProfileOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileInclude<ExtArgs> | null
+  /**
    * Filter, which EmployeeProfile to fetch.
    */
   where?: Prisma.EmployeeProfileWhereInput
@@ -1052,6 +1241,10 @@ export type EmployeeProfileFindManyArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.EmployeeProfileOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileInclude<ExtArgs> | null
+  /**
    * Filter, which EmployeeProfiles to fetch.
    */
   where?: Prisma.EmployeeProfileWhereInput
@@ -1095,6 +1288,10 @@ export type EmployeeProfileCreateArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.EmployeeProfileOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileInclude<ExtArgs> | null
+  /**
    * The data needed to create a EmployeeProfile.
    */
   data: Prisma.XOR<Prisma.EmployeeProfileCreateInput, Prisma.EmployeeProfileUncheckedCreateInput>
@@ -1128,6 +1325,10 @@ export type EmployeeProfileCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    */
   data: Prisma.EmployeeProfileCreateManyInput | Prisma.EmployeeProfileCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1142,6 +1343,10 @@ export type EmployeeProfileUpdateArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the EmployeeProfile
    */
   omit?: Prisma.EmployeeProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileInclude<ExtArgs> | null
   /**
    * The data needed to update a EmployeeProfile.
    */
@@ -1194,6 +1399,10 @@ export type EmployeeProfileUpdateManyAndReturnArgs<ExtArgs extends runtime.Types
    * Limit how many EmployeeProfiles to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1208,6 +1417,10 @@ export type EmployeeProfileUpsertArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the EmployeeProfile
    */
   omit?: Prisma.EmployeeProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileInclude<ExtArgs> | null
   /**
    * The filter to search for the EmployeeProfile to update in case it exists.
    */
@@ -1234,6 +1447,10 @@ export type EmployeeProfileDeleteArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the EmployeeProfile
    */
   omit?: Prisma.EmployeeProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileInclude<ExtArgs> | null
   /**
    * Filter which EmployeeProfile to delete.
    */
@@ -1266,4 +1483,8 @@ export type EmployeeProfileDefaultArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the EmployeeProfile
    */
   omit?: Prisma.EmployeeProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmployeeProfileInclude<ExtArgs> | null
 }
