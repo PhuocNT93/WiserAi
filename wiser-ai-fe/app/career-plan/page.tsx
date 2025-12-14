@@ -130,6 +130,32 @@ export default function CareerPlanPage() {
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
+        if (newValue === 1 && plans.length === 0) {
+            fetchPlans();
+        }
+    };
+
+    // const handleViewPlan = (plan: any) => {
+    //     const growthMapData = transformPlanToGrowthMap(plan);
+    //     if (growthMapData) {
+    //         setSelectedPlan(growthMapData);
+    //         setDialogOpen(true);
+    //     }
+    // };
+
+    // const handleCloseDialog = () => {
+    //     setDialogOpen(false);
+    //     setSelectedPlan(null);
+    // };
+
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case 'SUCCESS': return 'success';
+            case 'SUBMITTED': return 'info';
+            case 'DRAFT': return 'default';
+            case 'BACK_TO_SUBMIT': return 'warning';
+            default: return 'default';
+        }
     };
 
     const handleView = (plan: any) => {
@@ -264,7 +290,7 @@ export default function CareerPlanPage() {
                             disableRowSelectionOnClick
                         />
                     </div>
-                </CustomTabPanel>
+                </CustomTabPanel >
                 {isAdminOrManager && (
                     <CustomTabPanel value={value} index={2}>
                         <div style={{ height: 400, width: '100%' }}>
@@ -281,8 +307,9 @@ export default function CareerPlanPage() {
                             />
                         </div>
                     </CustomTabPanel>
-                )}
-            </Paper>
+                )
+                }
+            </Paper >
 
             <Dialog open={openDetail} onClose={handleClose} maxWidth="md" fullWidth>
                 <DialogTitle>{t('History.title')} - {selectedPlan?.year}</DialogTitle>

@@ -11,11 +11,38 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { useTranslations } from 'next-intl';
+import { getMyProfile, EmployeeProfile } from '../../lib/api/employeeProfile';
 
 export default function ProfilePage() {
     const t = useTranslations('Dashboard');
+    const [profileData, setProfileData] = React.useState<EmployeeProfile | null>(null);
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        loadProfile();
+    }, []);
+
+    const loadProfile = async () => {
+        try {
+            const profile = await getMyProfile();
+            setProfileData(profile);
+        } catch (err) {
+            console.error('Failed to load profile:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
 
     return (
         <Box>
@@ -23,11 +50,11 @@ export default function ProfilePage() {
             <Paper sx={{ p: 3, mb: 3, display: 'flex', alignItems: 'center', gap: 2 }}>
                 <Avatar sx={{ width: 80, height: 80 }} src="/static/images/avatar/1.jpg" />
                 <Box>
-                    <Typography variant="h4">Logan McNeil</Typography>
-                    <Typography variant="subtitle1" color="text.secondary">Human Resources Service Partner</Typography>
+                    <Typography variant="h4">{profileData?.engName || 'User'}</Typography>
+                    <Typography variant="subtitle1" color="text.secondary">{profileData?.jobTitle || 'N/A'}</Typography>
                     <Stack direction="row" spacing={1} mt={1}>
-                        <Chip label="Chicago" size="small" />
-                        <Chip label="Human Resources" size="small" />
+                        <Chip label={profileData?.busUnit || 'N/A'} size="small" />
+                        <Chip label={profileData?.empCode || 'N/A'} size="small" />
                     </Stack>
                 </Box>
             </Paper>

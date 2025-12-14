@@ -77,6 +77,11 @@ export class CareerPlanController {
     async updateStatus(@Param('id') id: string, @Body('status') status: any) {
         return this.careerPlanService.updateStatus(+id, status);
     }
+    @Get('latest-plan')
+    async getLatestPlan(@Req() req: any) {
+        const userId = req.user.id;
+        return this.careerPlanService.getLatestPlan(userId);
+    }
 
     @Get('my-certificates')
     async getMyCertificates(@Req() req: any) {

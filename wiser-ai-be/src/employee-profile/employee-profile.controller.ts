@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Req, UseGuards } from '@nestjs/common';
 import { EmployeeProfileService } from './employee-profile.services';
 import { Prisma } from '../generated/client/client';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 // Note: FileInterceptor logic requires @nestjs/platform-express and handling multer, 
 // keeping it simple for now or adding if requested.
 
+@UseGuards(JwtAuthGuard)
 @Controller('employee-profile')
 export class EmployeeProfileController {
     constructor(private readonly employeeProfileController: EmployeeProfileService) { }
@@ -16,6 +18,12 @@ export class EmployeeProfileController {
     @Get()
     findAll() {
         return this.employeeProfileController.findAll();
+    }
+
+    @Get('my-profile')
+    getMyProfile(@Req() req: any) {
+        const userEmail = req.user.email;
+        return this.employeeProfileController.getProfileByEmail(userEmail);
     }
 
     @Get(':id')

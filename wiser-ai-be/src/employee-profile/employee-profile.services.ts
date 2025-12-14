@@ -46,6 +46,12 @@ export class EmployeeProfileService {
         return this.prisma.employeeProfile.delete({ where: { id } });
     }
 
+    async getProfileByEmail(email: string) {
+        return this.prisma.employeeProfile.findFirst({
+            where: { userEmail: email }
+        });
+    }
+
     async importFromExcel(file: any) {
         // This is a placeholder for actual Excel parsing logic
         // Implementation would depend on 'xlsx' or similar library

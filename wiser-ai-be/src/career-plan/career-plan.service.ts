@@ -267,6 +267,13 @@ export class CareerPlanService {
         });
     }
 
+    async getLatestPlan(userId: number) {
+        return this.prisma.careerPlan.findFirst({
+            where: { userId },
+            orderBy: { createdAt: 'desc' },
+        });
+    }
+
     async addManagerComment(planId: number, comments: any) {
         return this.prisma.careerPlan.update({
             where: { id: planId },

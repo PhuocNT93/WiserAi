@@ -26,21 +26,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { getUserSkills, createUserSkill, updateUserSkill, deleteUserSkill, getMyCertificates, uploadCertificate, CertificateResponse } from '../../lib/api/userSkills';
+import { getMyProfile, EmployeeProfile } from '../../lib/api/employeeProfile';
 
 interface SkillData {
     id: number;
     name: string;
     level: number;
-}
-
-interface ProfileData {
-    fullName: string;
-    email: string;
-    employeeCode: string;
-    businessUnit: string;
-    jobTitle: string;
-    leader: string;
-    manager: string;
 }
 
 export default function SummaryPage() {
@@ -72,20 +63,14 @@ export default function SummaryPage() {
     // Debounce timer for auto-save
     const saveTimerRef = React.useRef<Record<number, NodeJS.Timeout>>({});
 
-    const profileData: ProfileData = {
-        fullName: 'Logan McNeil',
-        email: 'logan.mcneil@example.com',
-        employeeCode: '21557',
-        businessUnit: 'Human Resources',
-        jobTitle: 'Human Resources Service Partner',
-        leader: 'Joy Song',
-        manager: 'Joy Song'
-    };
+    // Employee profile state
+    const [profileData, setProfileData] = React.useState<EmployeeProfile | null>(null);
 
     // Load skills from API on mount
     React.useEffect(() => {
         loadSkills();
         loadCertificates();
+        loadProfile();
 
         // Cleanup function to clear all timers on unmount
         return () => {
@@ -132,6 +117,15 @@ export default function SummaryPage() {
             setCertificates(certs);
         } catch (err) {
             console.error('Failed to load certificates:', err);
+        }
+    };
+
+    const loadProfile = async () => {
+        try {
+            const profile = await getMyProfile();
+            setProfileData(profile);
+        } catch (err) {
+            console.error('Failed to load profile:', err);
         }
     };
 
@@ -408,31 +402,23 @@ export default function SummaryPage() {
                         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 3 }}>
                             <Box>
                                 <Typography variant="caption" color="text.secondary">Full Name</Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData.fullName}</Typography>
+                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData?.engName || 'N/A'}</Typography>
                             </Box>
                             <Box>
                                 <Typography variant="caption" color="text.secondary">Email</Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData.email}</Typography>
+                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData?.userEmail || 'N/A'}</Typography>
                             </Box>
                             <Box>
                                 <Typography variant="caption" color="text.secondary">Employee Code</Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData.employeeCode}</Typography>
+                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData?.empCode || 'N/A'}</Typography>
                             </Box>
                             <Box>
                                 <Typography variant="caption" color="text.secondary">Business Unit</Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData.businessUnit}</Typography>
-                            </Box>
-                            <Box>
-                                <Typography variant="caption" color="text.secondary">Job Title</Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData.jobTitle}</Typography>
-                            </Box>
-                            <Box>
-                                <Typography variant="caption" color="text.secondary">Leader</Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData.leader}</Typography>
+                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData?.busUnit || 'N/A'}</Typography>
                             </Box>
                             <Box sx={{ gridColumn: { xs: '1', sm: '1 / -1' } }}>
-                                <Typography variant="caption" color="text.secondary">Manager</Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData.manager}</Typography>
+                                <Typography variant="caption" color="text.secondary">Job Title</Typography>
+                                <Typography variant="body1" sx={{ fontWeight: 500 }}>{profileData?.jobTitle || 'N/A'}</Typography>
                             </Box>
                         </Box>
                     </Paper>
@@ -676,8 +662,8 @@ export default function SummaryPage() {
                                             }}
                                         >
                                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                                                <Typography variant="subtitle1" sx={{ fontWeight: 600, wordBreak: 'break-word' }}>
-                                                    {cert.fileName}
+                                                <Typography variant="subtitle1" sx={{ fontWeight: 600, wordBreak: 'break-word' }} title={cert.fileName}>
+                                                    {cert.fileName.length > 30 ? cert.fileName.substring(0, 27) + '...' : cert.fileName}
                                                 </Typography>
                                                 <Typography variant="caption" color="text.secondary">
                                                     Uploaded: {new Date(cert.uploadedAt).toLocaleDateString()}
